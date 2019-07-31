@@ -1,0 +1,799 @@
+@import 'variables.sass';
+@import 'fonts.sass'
+
+	
+/* Кнопки начало*/	
+	
+button
+	border: 0
+	transition: .3s
+	cursor: pointer
+
+.btn-plus 
+	width: 1em
+	height: 1em
+	line-height: 1em
+	background-image: $purpleGradR
+	color: #fff
+	border-radius: 50%
+	font-size: 2.5em
+.report-buttons
+	height: 2em
+	display: flex
+	align-items: center
+	overflow: hidden
+	border-radius: 1em
+	width: fit-content
+.report-btn
+	margin: 0
+	width: 6em
+	height: 100%
+	color: $textDark
+	border: 1px solid $lightGray
+	background-color: $btnBG
+	&:last-child
+		border-radius: 0 1em 1em 0
+	&:first-child
+		border-radius: 1em 0 0 1em
+	&.active
+		color: #fff
+		background-image: $orangeGrad
+.content-item__buttons
+	display: flex
+	align-items: center
+
+.btn-yes, .btn-no
+	border-radius: 4px
+	width: 3.1em
+	text-transform: uppercase
+	color: #fff
+	margin: 0 .3em
+	height: 2em
+	line-height: 1em
+	&:hover
+		box-shadow: none
+
+.btn-yes
+	box-shadow: 0 2px 11px 1px rgba(229, 29, 29, 0.27)
+	background-image: linear-gradient(to top, #f53b3b 0%, #df4443 100%)
+
+.btn-no
+	box-shadow: 0 2px 11px 1px rgba(0, 0, 0, 0.27)
+	background-color: #4a4a4a
+
+.btn-remove
+	display: flex
+	margin-left: 0.3em
+	width: 2em
+	height: 2em
+	border-radius: 50%
+	background-image: linear-gradient(to top, #de2727 0%, #f53c3c 100%)
+	img
+		width: 100%
+
+
+.btn-default
+	background-image: $orangeGrad
+	border: 1px solid $lightGray
+	border-radius: 1em
+	color: #fff
+	height: 2em
+	line-height: 1.8em
+	padding: 0 2em
+	text-transform: uppercase
+	&:hover
+		background-image: $orangeGradHov
+	&.big
+		height: 2.85em
+		line-height: 2.5em
+		text-transform: none
+		padding: 0 3.5em
+		border-radius: 1.5em
+	&.medium
+		height: 2.18em
+		padding: 0 2.5em
+		border-radius: 1.3em
+		text-transform: none
+	&.purple
+		background-image: linear-gradient(to top, #d53eff 0%, #f37fd9 100%)
+		&:hover
+			background-image: linear-gradient(to top, lighten(#d53eff, 15%) 0%, lighten(#f37fd9, 5%) 100%)
+	&.purple-orange
+		background-image: $purpleGradR
+		&:hover
+			background-image: $purpleGradRHov
+	&.green
+		background-image: linear-gradient(to top, #279715 0%, #33db21 100%)
+		&:hover
+			background-image: linear-gradient(to top, lighten(#279715, 5%) 0%, lighten(#33db21, 5%) 100%)
+	&.yellow
+		background-image: linear-gradient(to top, #ffda0f 0%, #fffc00 100%)
+		color: $textDark
+		&:hover
+			background-image: linear-gradient(to top, lighten(#ffda0f, 10%) 0%, lighten(#fffc00, 10%) 100%)
+	&.gray
+		background-color: $btnBG
+		background-image: none
+		color: $textDark
+		&:hover
+			background-color: darken($btnBG, 2%)
+.profile-menu
+	display: flex
+	justify-content: flex-start
+	align-items: center
+	.btn-default
+		margin: 0 .2em
+		&.active
+			background-image: $orangeGrad
+			color: #fff
+			&:hover
+				background-image: $orangeGradHov
+
+.profile_save-changes
+	display: flex
+	align-items: center
+	.btn-default 
+		padding: 0 1.8em
+		margin: 0 .2em
+		&.purple-orange
+			box-shadow: 0 10px 20px rgba(243, 31, 121, 0.3)
+			&:hover
+				box-shadow: none
+
+
+.catalog-header
+	span
+		font-weight: 700
+		font-size: 1.2em
+		margin-right: 0.3em
+.catalog-btn 
+	height: 1.9em
+	width: 8em
+	border-radius: 3px
+	background-color: $darkGray
+	line-height: 1.8em
+	&:hover
+		background-color: lighten($darkGray, 3%)
+	&.active
+		background-color: $orange
+		color: #ffffff
+
+
+.write-off_btn
+	font-size: 0.7em
+	border-radius: 5px
+	background-image: linear-gradient(to bottom, #ff2e2e 0%, #ff4e4e 100%)
+	color: #fff
+	min-width: 6em
+	display: block
+	&:hover
+		background-image: linear-gradient(to bottom, lighten(#ff2e2e, 10%) 0%, lighten(#ff4e4e, 10%) 100%)
+
+.personal-data__photo-btn
+  width: 100%
+  background-color: $btnBG
+  border: 1px solid $lightGray
+  border-radius: 3px  
+/* Кнопки конец*/	
+
+
+/* Свитчер начало */
+
+.swither 
+	position: relative
+	width: 7em
+	height: 2.5em
+	border: 1px solid $lightGray
+	border-radius: 1em
+	span
+		width: 50%
+		height: 100%
+		display: flex
+		align-items: center
+		justify-content: center
+		color: #666666
+		&:first-child
+			border-radius: 1em 0 0 1em 
+			color: #fff
+			box-shadow: 0 10px 20px rgba(243, 31, 121, 0.3)
+			background-image: $purpleGradL
+		&:last-child
+			border-radius: 0 1em 1em 0
+.checkbox 
+	position: relative
+	width: 100%
+	height: 100%
+	padding: 0
+	margin: 0
+	opacity: 0
+	cursor: pointer
+	z-index: 3
+
+.knobs
+	display: flex
+	align-items: center
+	justify-content: space-between
+	position: absolute
+	left: 0
+	top: 0 
+	margin: 0
+	width: 100%
+	height: 100%
+	z-index: 2
+
+
+.swither .checkbox:checked + .knobs span:first-child
+	color: #666666
+	background-image: none
+	box-shadow: none
+.swither .checkbox:checked + .knobs span:last-child
+	color: #ffffff
+	box-shadow: 0 10px 20px rgba(243, 31, 121, 0.3)
+	background-image: $purpleGradR
+
+/* Свитчер конец*/
+
+/* Блоки начало*/
+
+.social-box
+	margin-bottom: 1.8em
+	&__title
+		font-weight: 700
+		color: $textDark
+		margin-bottom: 1em
+	&__link
+		color: #878787
+		font-weight: 300
+		.unactive-link + .social-box__link-btn
+			display: inline 
+	&__link-btn
+		display: none
+		border: 1px solid $lightGray
+		background-color: $btnBG
+		color: #36b9d8
+		padding: 0 .7em
+		&:hover
+			color: lighten(#36b9d8, 10%)
+
+
+.profile-card
+	box-shadow: $blockShadow
+	border-radius: 3px
+	background-color: #ffffff
+	width: 22em
+	text-align: center
+	padding: 1.5em
+.profile-avatar
+	width: 11em
+	height: 11em
+	position: relative
+	margin-left: auto
+	margin-right: auto
+	border-radius: 50%
+	background-clip: padding-box
+	border: solid 8px transparent
+	z-index: 1
+	margin-bottom: .5em
+	&_container 
+		position: relative
+		width: 100%
+		height: 100%
+		border-radius: 50%
+		overflow: hidden
+	&__value
+		position: absolute
+		z-index: 2
+		top: 70%
+		left: 50%
+		font-weight: 600
+		transform: translateX(-50%)
+		color: #fff
+		font-size: 1.5em
+	img
+		width: 100%
+		position: absolute
+		top: 0
+		bottom: 0
+		left: 0
+		right: 0
+	&::before
+		content: ''
+		position: absolute
+		left: 0
+		top: 0
+		bottom: 0
+		right: 0
+		z-index: -1
+		margin: -8px
+		border-radius: inherit
+		background-image: $purpleGradT
+
+.profile-name
+	color: $textDark
+	font-size: 1.2em
+	font-weight: 600
+	line-height: 1.7
+.profile-city
+	color: #858585
+	font-size: 1.2em
+
+
+.requestion
+	&-box
+		padding: 1.5em 2em
+		width: fit-content
+		border-radius: 3px
+		box-shadow: $blockShadow
+		background-color: #ffffff
+		display: inline-block
+		position: relative
+		&.opened
+			display: flex
+			width: 90em // Опционально!
+		&.remove-overlay
+			&:before, &:after
+				position: absolute
+				content: ''
+				width: 100%
+				height: 100%
+				left: 0
+				top: 0
+				z-index: 1
+			&:before
+				background-color: #e3e3e3
+				opacity: 0.87
+			&:after
+				background-image: url(/img/icons/trash_black.svg)
+				background-size: 35%
+				background-repeat: no-repeat
+				background-position: center
+				z-index: 2
+		&__photo
+			width: 10em
+			height: auto
+		&__close
+			position: absolute
+			top: 1em
+			right: 1em
+			width: 1.5em
+			height: 1.5em
+			border-radius: 50%
+			text-align: center
+			line-height: 1.3em
+			color: #fff
+			cursor: pointer
+			font-weight: 600
+			background-image: $purpleGradR
+		&__col
+			min-width: 20%
+			margin-right: 2em
+			&:last-child
+				margin-right: 0
+		p
+			line-height: 1.8
+		button
+			margin-top: 1em
+	&-title
+		font-weight: 700
+		font-size: 1.3em
+		margin-bottom: .8em
+.requestion-modal, .auth-modal
+  position: relative
+  background-color: #fff
+  padding: 4.5em 3.2em
+  width: 40em
+  box-shadow: $blockShadow
+  &__title
+    margin-bottom: 2em
+    font-size: 1.25em
+    text-transform: uppercase
+    font-weight: 700
+  &__input
+    display: block
+    width: 100%
+    margin: .5em 0
+    padding: .9em 1.5em
+    background-color: $btnBG
+    border: 1px solid $lightGray
+  .btn-default 
+    margin-top: 2em
+.remove-request__btn
+	color: #ff4444
+	margin-left: 8%
+	text-decoration: none
+	&:hover
+		color: darken(#ff4444, 30%)
+.cancel-remove
+	text-decoration: none
+	color: inherit
+	line-height: 1
+	transition: .3s
+	&:hover
+		color: darken($textLight, 30%) 
+
+.auth-modal
+	top: 50%
+	left: 50%
+	position: absolute
+	transform: translate(-50%, -50%)
+.remove-requestion
+	p
+		margin-top: 0.4em
+		line-height: 1
+		width: fit-content
+		border-bottom: 1px solid $textLight
+	&__input
+		line-height: 1
+		border: 0
+		padding: 0
+		background-color: transparent
+		color: inherit
+		transition: .3s
+		&:hover
+			color: darken($textLight, 30%) 
+
+
+.catalog-item
+	width: 10em
+	&__image-box
+		background-color: #eee
+		height: 10em
+		position: relative
+		margin-bottom: 0.5em
+	&__count, &__edit-item, &__add
+		position: absolute
+	&__count
+		left: .5em
+		top: .5em
+		font-size: 1.2em
+		background-color: #ed832c
+		width: 1.5em
+		height: 1.5em
+		line-height: 1.5em
+		text-align: center
+		border-radius: 50%
+		font-weight: 600
+		opacity: .7
+	&__add
+		bottom: 0
+		padding: .5em
+		width: 100%
+		display: flex
+		justify-content: space-between
+		align-items: center
+	&__full-price
+		color: $textDark
+		font-weight: 600
+	p
+		line-height: 1.4
+		color: #666
+
+.edit-item-btn
+	width: 1.5em
+	height: 1.5em
+	font-size: 1.2em
+	line-height: 1.4em
+	text-align: center
+	border-radius: 50%
+	margin: 0 .1em
+	background-color: $darkGray
+	opacity: .7
+	&:hover
+		opacity: 1
+
+
+.add-item
+	&-panel
+		width: 90em // Опционально!
+		box-shadow: $blockShadow
+		border-radius: 3px
+		background-color: #ffffff 
+		padding: 1.5em 3em
+		color: $textDark
+		form
+			display: flex
+			justify-content: space-between
+		.flex-col
+			display: flex
+			flex-direction: column
+			.add-item__input
+				width: auto
+	&__title
+		font-weight: 700
+		font-size: 1.15em
+		padding-bottom: .7em
+		border-bottom: 1px solid $lightGray
+		margin-bottom: 1em
+		span
+			color: #ffffff
+			background-color: darken($darkGray, 30%)
+			width: 1em
+			height: 1em
+			text-align: center
+			border-radius: 50%
+			display: inline-block
+	&__image
+		width: 10em
+		height: 10em
+		background-color: $darkGray
+		position: relative
+		color: $textDark
+		span
+			position: absolute
+			top: 50%
+			text-align: center
+			width: 100%
+			transform: translateY(-50%)
+	&__description
+		h4
+			margin: 0.7em	0
+			&:first-child
+				margin-top: 0
+		textarea
+			width: 25em
+		input
+			width: 100%
+		&.width-20
+			width: 20%
+	&__sizes
+		display: flex
+	&__params
+		> div
+			display: flex
+			align-items: center
+			margin-bottom: .7em
+		input[type="text"]
+			width: 13em
+		&-title
+			width: 8.5em
+		.size-radio
+			width: 1.5em
+			height: 1em
+			margin: 0em .3em
+			input
+				display: none
+			label
+				color: #ffffff
+				display: block
+				text-align: center
+				width: 100%
+				background-image: linear-gradient(to top, #ababab 0%, #7d7d7d 100%)
+			input:checked + label
+				background-image: linear-gradient(to top, #ed832c 0%, #eb954e 100%)
+		.rose-color, .box-color
+			display: block
+			width: 1.5em
+			height: 1.5em
+			margin: 0 0.2em
+			border-radius: 50%
+		.rose-color
+			background-color: $orange
+		.box-color
+			background-color: $darkGray
+	&__buttons
+		margin-top: auto
+		text-align: center
+		display: flex
+		flex-direction: column
+		.btn-default
+			margin-top: auto
+			display: block
+			margin-bottom: 1em
+			box-shadow: 0 10px 20px rgba(243, 31, 121, 0.3)
+			&:hover
+				box-shadow: none
+	&_remove-btn
+		color: $textDark
+		&:hover
+			color: darken($textDark, 30%)
+
+
+.content-item, .partner-item
+	width: 13em
+	border-radius: 3px
+	box-shadow: $cardShadow
+	background-color: #fff
+	padding: .3em .3em .7em
+	&__image-box
+		background-color: $darkGray
+		height: 12em
+		position: relative
+		margin-bottom: 0.5em
+	&__buttons
+		position: absolute
+		right: .5em
+		top: .5em
+		text-align: center
+		font-weight: 600
+	p
+		line-height: 1.4
+		color: #666
+	&__description
+		margin-bottom: 0.5em
+	.btn-default
+		width: 100%
+	&__title
+		text-transform: uppercase
+
+.partner-item
+	p
+		text-transform: uppercase
+	&__city
+		margin-bottom: 1em
+	&__socials
+		display: flex
+	&__social-icon
+		display: block
+		width: 1.6em
+		height: 1.6em
+		border-radius: 50%
+		background-color: $orange
+		color: #fff
+		font-size: 1.4em
+		line-height: 1.6em
+		text-align: center
+		margin-right: 0.4em
+
+
+
+.basket-window
+	width: 30em
+	background-color: $btnBG
+	box-shadow: $cardShadow
+	padding: 1.8em 2em
+	border-radius: 3px
+	font-size: 1.3em
+	.btn-default
+		font-size: .8em
+	&__title, &__total
+		font-weight: 700
+		padding-bottom: 0.7em
+		span
+			border: 1px solid $textLight
+			padding: 0 .5em
+			border-radius: 5px
+	&__title.uppercase 
+		text-transform: uppercase
+		line-height: 1.4
+	&__table
+		padding: .5em 0
+		border-bottom: 1px solid $darkGray
+		border-top: 1px solid $darkGray
+		margin-bottom: 1em
+	&__buttons
+		.btn-default
+			width: 8em
+			text-align: center
+			padding: 0
+	&__card
+		font-size: 1.28em
+		text-transform: uppercase
+		margin-top: 1em
+		padding: 2.4em
+		border-radius: 5px
+		border: 1px solid #a9a9a9
+		background-color: #1f1f1f
+		color: #fff
+		p
+			margin-bottom: 2rem
+			&:last-child
+				margin-bottom: 0
+.basket-table, .stock-table
+	&__row
+		display: flex
+		justify-content: space-between
+		margin: .6em 0
+.basket-table__row > *
+	width: 33%
+	text-align: center
+	&:last-child
+		text-align: right
+	&:first-child
+		text-align: left
+.basket-counter__btn
+	background-color: transparent
+
+.basket-card__number
+	font-size: 1.5em
+.stock
+	&-box
+		width: 55em // Опционально!
+		background-color: #fff
+		box-shadow: $blockShadow
+		padding: 2em 4em
+		&.in-transit
+			width: fit-content
+	&__title
+		font-size: 1.15em
+		font-weight: 700
+		margin-bottom: 1em
+	&-table
+		padding: .5em 0
+		border-bottom: 1px solid $darkGray
+		border-top: 1px solid $darkGray
+		margin-bottom: 1em
+		&__head
+			font-weight: 700
+			margin-bottom: 1em
+		&__row > *
+			width: 30%
+			&:last-child
+				width: 10%
+	&-counter__btn
+		background-color: transparent
+
+.request-item
+	margin-bottom: 1em
+	line-height: 1.5
+	&__title
+		font-weight: 700
+	&__date
+		color: #666462
+		font-weight: 300
+	&__buttons
+		margin-top: .7em
+		.btn-default
+			width: 10em
+			padding-left: 0
+			padding-right: 0
+			margin-right: .5em
+			&:last-child
+				margin-right: 0
+
+.profile-box
+  width: 70% // Опционально!
+  background-color: #fff
+  padding: 2.1em
+  padding-bottom: 1.2em 
+  box-shadow: $blockShadow
+  &__header
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin-bottom: 2.2em
+  &__title
+    font-size: 1.28em
+    font-weight: 400
+    color: $textDark
+  .profile_save-changes
+    margin-top: 1.2em
+    margin-left: auto
+    width: fit-content
+
+.personal-data
+  &__input
+    display: block
+    width: 100%
+    margin: .5em 0
+    padding: .9em 1.5em
+    background-color: $btnBG
+    border: 1px solid $lightGray
+    &.small
+      width: 23%
+      display: inline-block
+      text-align: center
+  &__small-inputs
+    display: flex
+    justify-content: space-between
+  &__photo-wrap
+    width: 10em
+    margin-bottom: 1.5em
+  &__photo
+    background-color: $btnBG
+    border: 1px solid $lightGray
+    width: 10em
+    height: 10em
+    position: relative
+    margin-bottom: .7em
+    span
+      position: absolute
+      width: 100%
+      top: 50%
+      text-align: center
+      color: #aaaaaa
+      transform: translateY(-50%)
+  &__text
+    line-height: 1.5
+    color: #666666
+    margin-bottom: 1em
+    width: 90%
