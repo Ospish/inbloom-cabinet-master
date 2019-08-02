@@ -421,6 +421,7 @@ button
 	a
 		margin-right: 1em
 		text-decoration: underline
+		cursor: pointer
 .remove-requestion
 	p
 		margin-top: 0.4em
@@ -802,3 +803,14 @@ button
     color: #666666
     margin-bottom: 1em
     width: 90%
+
+
+@media (max-width: 767px)
+	body
+		font-size: .7rem
+
+  .requestion-modal, .auth-modal
+    max-width: 95%
+    .btn-default
+      width: 100%
+      max-width: 25em

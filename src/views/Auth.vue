@@ -12,20 +12,20 @@
       </div>
       <form action="" class="auth-modal__form">
         <div class="auth-modal_inputs">
-          <input class="auth-modal__input" type="email" placeholder="E-mail">
-          <input class="auth-modal__input" type="password" placeholder="Пароль" v-if="action == 'reg' || action == 'auth'">
-          <input class="auth-modal__input" type="password" placeholder="Подтверждение пароля" v-else-if="action == 'reg'">
-          <input class="auth-modal__input" type="text" placeholder="Код приглашения" v-else-if="action == 'reg'">
+          <input class="auth-modal__input" name="email" type="email" placeholder="E-mail">
+          <input class="auth-modal__input" name="pass" type="password" placeholder="Пароль" v-if="action == 'reg' || action == 'auth'">
+          <input class="auth-modal__input" name="passConfirm" type="password" placeholder="Подтверждение пароля" v-else-if="action == 'reg'">
+          <input class="auth-modal__input" name="referalCode" type="text" placeholder="Код приглашения" v-else-if="action == 'reg'">
         </div>
-        <div class="auth-links" v-if="action='auth'">
+        <div class="auth-links" v-if="action == 'auth'">
           <a @click="changeAction(authStrings.linksVal[0])">{{ authStrings.linksText[0] }}</a>
           <a @click="changeAction(authStrings.linksVal[1])">{{ authStrings.linksText[1] }}</a>
         </div>
-        <div class="auth-links" v-else-if="action='reg'">
+        <div class="auth-links" v-else-if="action == 'reg'">
           <a @click="changeAction(regStrings.linksVal[0])">{{ regStrings.linksText[0] }}</a>
           <a @click="changeAction(regStrings.linksVal[1])">{{ regStrings.linksText[1] }}</a>
         </div>
-        <div class="auth-links" v-else-if="action='restorePass'">
+        <div class="auth-links" v-else-if="action == 'restorePass'">
           <a @click="changeAction(restoreStrings.linksVal[0])">{{ restoreStrings.linksText[0] }}</a>
           <a @click="changeAction(restoreStrings.linksVal[1])">{{ restoreStrings.linksText[1] }}</a>
         </div>
