@@ -17,6 +17,9 @@ body
   align-items: flex-start
 
 .left-sidebar
+  position: fixed
+  left: 0
+  top: 0
   min-height: 100vh
   height: 100% 
   width: 20em
@@ -50,12 +53,15 @@ body
               
 .right-section
   width: calc(100% - 20em)
+  margin-left: 20em
   min-height: 100vh
   display: flex
   align-items: flex-start
   flex-direction: column
   background-color: #f7fafc
   &__header
+    display: flex
+    align-items: center
     z-index: 1
     width: 100%
     height: $headerHeight
@@ -66,13 +72,14 @@ body
       display: flex
       align-items: center
       justify-content: flex-end
-      margin-right: 20%
+      width: 80%
   &_content
     padding: 1.5em
     width: 100%
   &__title
     font-size: 2.6em
     color: $textDark
+    margin-bottom: 1em
     text-transform: uppercase
 
 
@@ -122,6 +129,39 @@ body
     left: 50%
     top: 50%
     transform: translate(-50%, -50%)  
+.header-menu-toggler
+  display: none
+  width: 3em
+  height: 2em
+  margin-left: auto
+  margin-right: auto
+  position: relative
+  cursor: pointer
+  span
+    width: 100%
+    height: 0.3em
+    border-radius: 2px
+    background-color: $textDark
+    display: block
+    position: absolute
+    left: 0
+    top: calc(50% - 2px)
+    transition: .3s
+    &:first-child
+      top: 0
+    &:last-child
+      bottom: 0
+      top: auto
+  &.active
+    span
+      left: 0%
+      top: 50%
+      &:nth-child(2)
+        display: none
+      &:first-child
+        transform: rotateZ(45deg)
+      &:last-child
+        transform: rotateZ(-45deg)
 
 .breadcrumbs
   padding: 1em 1.5em
@@ -155,3 +195,44 @@ footer
     color: #3aa6b4
     text-decoration: none
   
+
+@media (max-width: 1440px)
+  .left-sidebar
+    width: 17em
+  .right-section
+    margin-left: 17em
+    width: calc(100% - 17em)
+
+@media (max-width: 1024px)
+  html
+    font-size: 10px
+  .left-sidebar
+    width: 100vw
+    right: 100%
+    left: auto
+    z-index: 10
+    transition: 1s
+    &.opened
+      right: 0
+  .right-section
+    margin-left: 0
+    width: 100%
+    margin-top: 5.7em
+    &__header
+      z-index: 11
+      position: fixed
+      left: 0
+      top: 0
+  .header-menu-toggler
+    display: block
+  .left-sidebar__navigation
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    a
+      width: fit-content
+      font-size: 2em
+      margin: .5em auto
+      &::after
+        content: none

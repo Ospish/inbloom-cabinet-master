@@ -1,11 +1,11 @@
 import Vue from 'vue'
+import './assets/scss/main.scss'
+import './assets/css/reset.css'
+import './assets/sass/style.sass'
+import './assets/sass/interface.sass'
 import App from './App.vue'
 import router from './router'
 import store from './store/'
-
-import './assets/scss/main.scss'
-import './assets/sass/style.sass'
-import './assets/sass/interface.sass'
 
 Vue.config.productionTip = false
 

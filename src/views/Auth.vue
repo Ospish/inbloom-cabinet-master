@@ -18,8 +18,7 @@
           <input class="auth-modal__input" name="referalCode" type="text" placeholder="Код приглашения" v-else-if="action == 'reg'">
         </div>
         <div class="auth-links" v-if="action == 'auth'">
-          <a @click="changeAction(authStrings.linksVal[0])">{{ authStrings.linksText[0] }}</a>
-          <a @click="changeAction(authStrings.linksVal[1])">{{ authStrings.linksText[1] }}</a>
+          <a @click="changeAction(link[1])" v-for="link in authStrings.links" :key="link.id">{{ link[0] }}</a>
         </div>
         <div class="auth-links" v-else-if="action == 'reg'">
           <a @click="changeAction(regStrings.linksVal[0])">{{ regStrings.linksText[0] }}</a>
@@ -38,16 +37,20 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
   name: 'Auth',
   data () {
     return {
       action: 'auth',
+      info: null,
+      info1: null,
       authStrings: {
         title: 'Войти в личный кабинет',
         btnVal: 'Войти',
-        linksText: ['Забыли пароль?', 'Зарегистрироваться'],
-        linksVal: ['restorePass', 'reg']
+        links: [['Забыли пароль?', 'restorePass'], ['Зарегистрироваться', 'reg']]
       },
       regStrings: {
         title: 'Регистрация',
@@ -65,12 +68,23 @@ export default {
   },
   methods: {
     changeAction: function(action) {
-      this.action = 'restorePass'
-      console.log(this.action)
-      console.log(action)
-      this.action = action
+      this.action = 'restorePass';
+      this.action = action;
     }
+  },
+  created() {
+    axios
+      .get('http://ibapi.fobesko.com/public/login')
+      .then(response => (this.info = response));
+    axios
+      .post('http://ibapi.fobesko.com/public/login', {
+        email: 'example@gmail.com',
+        password: 'asdasdasdasd'
+      })
+      .then(response => (this.info1 = response))
+      .catch(function (error) {
+        console.log(error);
+       })
   }
-
 }
 </script>

@@ -38,9 +38,7 @@ button
 	&.active
 		color: #fff
 		background-image: $orangeGrad
-.content-item__buttons
-	display: flex
-	align-items: center
+	
 
 .btn-yes, .btn-no
 	border-radius: 4px
@@ -152,6 +150,7 @@ button
 	border-radius: 3px
 	background-color: $darkGray
 	line-height: 1.8em
+	margin: 0 .5em
 	&:hover
 		background-color: lighten($darkGray, 3%)
 	&.active
@@ -165,10 +164,11 @@ button
 	background-image: linear-gradient(to bottom, #ff2e2e 0%, #ff4e4e 100%)
 	color: #fff
 	min-width: 6em
+	visibility: hidden
 	display: block
+	opacity: 0
 	&:hover
 		background-image: linear-gradient(to bottom, lighten(#ff2e2e, 10%) 0%, lighten(#ff4e4e, 10%) 100%)
-
 .personal-data__photo-btn
   width: 100%
   background-color: $btnBG
@@ -281,6 +281,7 @@ button
 		border-radius: 50%
 		overflow: hidden
 	&__value
+		width: 100%
 		position: absolute
 		z-index: 2
 		top: 70%
@@ -318,6 +319,8 @@ button
 	font-size: 1.2em
 
 
+/* ЗАЯВКИ */
+
 .requestion
 	&-box
 		padding: 1.5em 2em
@@ -329,7 +332,7 @@ button
 		position: relative
 		&.opened
 			display: flex
-			width: 90em // Опционально!
+			width: 85em // Опционально!
 		&.remove-overlay
 			&:before, &:after
 				position: absolute
@@ -343,7 +346,7 @@ button
 				background-color: #e3e3e3
 				opacity: 0.87
 			&:after
-				background-image: url(/img/icons/trash_black.svg)
+				background-image: url(/assets/img/icons/trash_black.svg)
 				background-size: 35%
 				background-repeat: no-repeat
 				background-position: center
@@ -377,6 +380,11 @@ button
 		font-weight: 700
 		font-size: 1.3em
 		margin-bottom: .8em
+
+/* ЗАЯВКИ АДАПТИВ */
+
+
+
 .requestion-modal, .auth-modal
   position: relative
   background-color: #fff
@@ -408,6 +416,7 @@ button
 	color: inherit
 	line-height: 1
 	transition: .3s
+	cursor: pointer
 	&:hover
 		color: darken($textLight, 30%) 
 
@@ -436,7 +445,8 @@ button
 		color: inherit
 		transition: .3s
 		&:hover
-			color: darken($textLight, 30%) 
+			color: darken($textLight, 30%)
+
 
 
 .catalog-item
@@ -606,6 +616,8 @@ button
 		position: relative
 		margin-bottom: 0.5em
 	&__buttons
+		display: flex
+		align-items: center
 		position: absolute
 		right: .5em
 		top: .5em
@@ -621,6 +633,13 @@ button
 	&__title
 		text-transform: uppercase
 
+.content-item__description
+	height: 3.2em
+	overflow-y: scroll
+	border: 1px solid $darkGray
+	border-radius: 3px
+	margin: .5em 0
+	padding: .3em .3em
 .partner-item
 	p
 		text-transform: uppercase
@@ -703,7 +722,6 @@ button
 	font-size: 1.5em
 .stock
 	&-box
-		width: 55em // Опционально!
 		background-color: #fff
 		box-shadow: $blockShadow
 		padding: 2em 4em
@@ -721,10 +739,15 @@ button
 		&__head
 			font-weight: 700
 			margin-bottom: 1em
-		&__row > *
-			width: 30%
-			&:last-child
-				width: 10%
+		&__row 
+			& > *
+				width: 30%
+				&:last-child
+					width: 10%
+			&:hover 
+				.write-off_btn
+					visibility: visible
+					opacity: 1
 	&-counter__btn
 		background-color: transparent
 
@@ -805,12 +828,59 @@ button
     width: 90%
 
 
+
+.social-table
+  width: 100%
+  &_row
+    display: flex
+    align-items: center
+    justify-content: space-between
+    &:first-child
+      p
+        margin-left: auto
+
+
+@media (max-width: 1024px)
+	.profile-card
+		width: 20em
+
 @media (max-width: 767px)
 	body
-		font-size: .7rem
+		font-size: .85rem
+	.requestion-modal, .auth-modal
+		max-width: 95%
+	.btn-default
+		width: 100%
+		max-width: 25em
+	.profile-box
+		&__title
+			margin-bottom: 1em
+		&__header
+			flex-direction: column
+		.btn-default
+			width: auto
+	.requestion
+		&-box
+			button
+				width: auto
+		&-title
+			font-size: 1.25em
+	.requestion-wrap.opened 
+		.requestion-box:first-child
+			margin-bottom: 1.5em	
 
-  .requestion-modal, .auth-modal
-    max-width: 95%
-    .btn-default
-      width: 100%
-      max-width: 25em
+@media (max-width: 374px)
+	.requestion-box
+		&__col
+			min-width: 28%
+	.requestion-wrap.opened .requestion-box:first-child
+		width: 100%
+		margin-right: 0!important
+		.requestion-title
+			text-align: center
+
+@media (max-width: 360px)
+	.profile-menu
+		font-size: .8em
+		.btn-default
+			line-height: 1.4em
