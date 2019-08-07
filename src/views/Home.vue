@@ -33,6 +33,7 @@
 
 <script>
 // @ is an alias to /src
+
 import Sidebar from '@/components/Sidebar.vue'
 import Header from '@/components/Header.vue'
 import Profile from '@/pages/Profile.vue'
@@ -42,6 +43,8 @@ import Requestions from '@/pages/Requestions.vue'
 import Shop from '@/pages/Shop.vue'
 import Content from '@/pages/Content.vue'
 import Partners from '@/pages/Partners.vue'
+
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
@@ -63,12 +66,27 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['checkAuth']),
+    routing() {
+      if (this.isLoginned === false) this.$router.push('/auth');
+    },
     showTitle(title) {
       this.title = title
     },
     toggleMenu(isOpen) {
       this.menuOpened = !isOpen
     }
+  },
+  computed: mapGetters(['isLoginned']),
+  created() {
+    this.checkAuth(),
+    this.routing()  
   }
 }
 </script>
+
+<style scoped>
+.remove-overlay:after {
+  background-image: url('/assets/img/trash_black.svg')
+}
+</style>

@@ -38,6 +38,7 @@
 
 <script>
 
+import { mapActions, mapGetters } from 'vuex'
 import axios from 'axios';
 
 export default {
@@ -67,12 +68,19 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['checkAuth']),
+    routing() {
+      if (this.isLoginned === true) this.$router.push('/home');
+    },
     changeAction: function(action) {
       this.action = 'restorePass';
       this.action = action;
     }
   },
+  computed: mapGetters(['isLoginned']),
   created() {
+    this.checkAuth();
+    this.routing();
     axios
       .get('http://ibapi.fobesko.com/public/login')
       .then(response => (this.info = response));

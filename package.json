@@ -8,10 +8,17 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.21",
+    "@fortawesome/free-brands-svg-icons": "^5.10.1",
+    "@fortawesome/free-solid-svg-icons": "^5.10.1",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "highcharts": "^7.1.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
+    "vue-simple-progress": "^1.1.0",
+    "vue2-highcharts": "^1.2.5",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -20,6 +27,7 @@
     "@vue/cli-service": "^3.9.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
+    "css-loader": "^3.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.9.0",
@@ -32,7 +40,7 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/recommended",
+      "plugin:vue/essential",
       "@vue/standard"
     ],
     "parserOptions": {
