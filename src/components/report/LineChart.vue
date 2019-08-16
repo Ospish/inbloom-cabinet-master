@@ -1,13 +1,14 @@
 <template>
     <section class="charts">
-        <vue-highcharts :options="options" :highcharts="Highcharts"></vue-highcharts>
+        <vue-highcharts :options="data" v-if="data.id === 'today' || showChart" ></vue-highcharts>
+        <vue-highcharts :options="data" v-if="data.id === 'month' || showChart" ></vue-highcharts>
+        <vue-highcharts :options="data" v-if="data.id === 'year' || showChart" ></vue-highcharts>
     </section>
 </template>
 <script>
 import VueHighcharts from "vue2-highcharts";
 import Exporting from "highcharts/modules/exporting";
-import Highcharts from "highcharts";
-import { LineChart as data } from "@/assets/data.js";
+import Highcharts, { Chart } from "highcharts";
 
 Exporting(Highcharts);
 export default {
@@ -16,18 +17,15 @@ export default {
   },
   data() {
     return {
-      options: data,
+      showChart: true,
       Highcharts: Highcharts
     };
   },
   methods: {
-    getData(){
-      this.$emit('getData', this.options)
-      console.log(this.options)
-    }
   },
+  props: ['data'],
   mounted(){
-    this.getData(this.options)
+    this.showChart = false
   }
 };
 </script>

@@ -8,7 +8,7 @@
             <button class="btn-yes" @click="remove">Да</button>
           </template>
           <button class="btn-remove" @click="isRemove = true">
-            <img :src="itemData.photo" alt="">
+            <img src="./../assets/img/icons/trash_white.svg" alt="">
           </button>  
         </div>
       </div>

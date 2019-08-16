@@ -6,7 +6,7 @@
         <button class="btn-default gray" v-for="tab in tabs" :key="tab.name" :class="{active: currentTab.name === tab.name}" @click="currentTab = tab">{{ tab.name }}</button>
       </div>
     </div>
-    <component v-bind:is="currentTab.component" class="tab"></component>
+    <component :is="currentTab.component" class="tab"></component>
   </div>
 </template>
 

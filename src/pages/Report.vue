@@ -2,53 +2,67 @@
   <div class="report-container">
     <div class="report-head">
       <div class="report-buttons">
-        <button class="report-btn active">Сегодня</button>
-        <button class="report-btn">Месяц</button>
-        <button class="report-btn">Год</button>
+        <button class="report-btn" v-for="tab in tabs" :key="tab.name" :class="[currentTab.name, { active: currentTab.name === tab.name}]" @click="currentTab = tab">{{ tab.name }}</button>
       </div>
     </div>
-    <div class="report-box">
-      <h2>Доход: <span>{{ income }} р.</span></h2>
-      <LineChart @getData="getData"/>
-    </div>
-    <div class="report-box">
-      <Benchmarks />
-    </div>
+    <component :is="currentTab.component" :data="currentTab.data" class="tab"></component>
   </div>
 </template>
 
 <script>
 
-import LineChart from '@/components/report/LineChart.vue'
-import Benchmarks from '@/components/report/Benchmarks.vue'
+import ReportBody from '@/components/report/ReportBody.vue'
+import chartData from '@/assets/data.js'
+
+var tabs = [
+  {
+    name: 'Сегодня',
+    dataName: 'today',
+    data: null,
+    component: ReportBody
+  },
+  {
+    name: 'Месяц',
+    dataName: 'month',
+    data: null,
+    component: ReportBody
+  },
+  {
+    name: 'Год', 
+    dataName: 'year',
+    data: null,
+    component: ReportBody
+  }
+]
 
 export default {
   name: 'Report',
   data() {
     return {
       title: 'Сводка',
-      lineChartData: {},
-      income: ''
+      income: '',
+      tabs: tabs,
+      chartData: chartData,
+      currentTab: ''
     }
   },
   methods: {
     addTitle(title) {
       this.$emit('showTitle', this.title)
-    },
-    getData(data){
-      this.lineChartData = data
-      this.income = this.lineChartData.series[0].data.reduce(function(sum, current){
-        return sum + current
-      }, 0)
     }
   },
+  created() {
+    for (let index = 0; index < this.tabs.length; index++) {
+      this.tabs[index].data = this.chartData[this.tabs[index].dataName]
+    }
+    this.currentTab = tabs[0]
+  },
   mounted() {
-    console.log(this.lineChartData)
     this.addTitle(this.title)
   },
   components: {
-    LineChart,
-    Benchmarks
+    ReportBody,
+    chartData
   }
 }
 </script>
@@ -56,13 +70,25 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass">
 .report-container
+  width: 100%
+.report-body
   display: flex
   flex-wrap: wrap
-  width: 100%
-
+  justify-content: space-between
+  width: 100% 
 .highcharts-button.highcharts-contextbutton
   display: none!important
 
 .highcharts-credits
   display: none!important
+.branchmarks-item
+  margin-bottom: 2em 
+.report-box
+  margin-bottom: 2em
+
+@media (max-width: 1023px)
+  .report-box
+    width: 100%
+    padding: 2.8em 3em
+    font-size: 1.3em
 </style>
