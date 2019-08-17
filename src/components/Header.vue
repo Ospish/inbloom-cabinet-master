@@ -8,14 +8,17 @@
       >
         <span class="header-basket__label">9</span>
       </a>
-      <router-link to="/home/profile"
-        class="header-profile"
-      >
+      <p class="header-profile">
+        <router-link to="/home/profile">
         <img
           src="/img/profile-min.jpeg"
           alt=""
         >
-      </router-link>
+        </router-link>
+        <ul class="profile-popup">
+          <li @click="exitProfile">Выйти</li>
+        </ul>
+      </p>
     </div>
     <div class="header-menu-toggler" @click="toggleMenu" :class="{ active: openClass }">
       <span></span>
@@ -32,6 +35,10 @@ export default {
   methods: {
     toggleMenu() {
       this.$emit('toggleMenu', this.openClass)
+    },
+    exitProfile() {
+      this.$store.dispatch('logOut');
+      this.$router.push('/auth')
     }
   }
 }

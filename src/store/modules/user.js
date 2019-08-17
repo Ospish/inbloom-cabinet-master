@@ -7,7 +7,7 @@ export default {
       email: ''
       // TODO: добавить необходимые поля
     },
-    isLogin: false
+    isLogin: true
   },
   
   // getters
@@ -25,7 +25,10 @@ export default {
     },
     checkAuth(ctx) {
       // TODO: написать функцию проверки авторизован пользователь или нет (отправка на API id & key)
-      const auth = true
+      ctx.commit('updateStatus')
+    },
+    logOut(ctx) {
+      const auth = false
       ctx.commit('updateStatus', auth)
     },
     getInfo (id) {
@@ -41,7 +44,9 @@ export default {
   // mutations
   mutations: {
     updateStatus(state, status) {
+      if (status === undefined) status = state.isLogin
       state.isLogin = status
+      console.log(state.isLogin)
     }
   }
 }

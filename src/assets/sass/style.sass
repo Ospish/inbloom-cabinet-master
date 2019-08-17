@@ -82,7 +82,24 @@ body
     margin-bottom: 1em
     text-transform: uppercase
 
-
+.profile-popup
+  position: absolute
+  top: 100%
+  left: 50%
+  transform: translateX(-50%)
+  width: 15em
+  background-color: #fff
+  box-shadow: $blockShadow
+  opacity: 0
+  transition: .5s
+  visibility: visible
+  text-align: center
+  li
+    padding: 1em
+    cursor: pointer
+.header-profile:hover .profile-popup
+  opacity: 1
+  visibility: visible
 .header-basket, .header-profile
   width: 3em
   height: 3em
@@ -121,7 +138,10 @@ body
   border: 3px solid #ffffff
   border-radius: 50%
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3)
-  overflow: hidden
+  a
+    width: 100%
+    height: 100%
+    display: block
   img
     width: 100%
     height: auto
