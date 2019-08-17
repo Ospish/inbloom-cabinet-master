@@ -4,102 +4,7 @@
       <div class="social-table_row">
         <p>Отображать:</p>
       </div>
-      <div class="social-table_row">
-        <div class="social-box">
-          <h3 class="social-box__title">Вконтакте</h3>
-          <div class="social-box__link">
-            <span class="unactive-link">https://vk.com/</span>
-            <button class="social-box__link-btn">Введите ID</button>
-          </div>
-        </div>
-        <div class="swither">
-          <input type="checkbox" class="checkbox">
-          <div class="knobs">
-            <span>Нет</span>
-            <span>Да</span>
-          </div>
-        </div>
-      </div>
-      <div class="social-table_row">
-        <div class="social-box">
-          <h3 class="social-box__title">Вконтакте</h3>
-          <div class="social-box__link">
-            <span class="unactive-link">https://vk.com/</span>
-            <button class="social-box__link-btn">Введите ID</button>
-          </div>
-        </div>
-        <div class="swither">
-          <input type="checkbox" class="checkbox">
-          <div class="knobs">
-            <span>Нет</span>
-            <span>Да</span>
-          </div>
-        </div>
-      </div>
-      <div class="social-table_row">
-        <div class="social-box">
-          <h3 class="social-box__title">Вконтакте</h3>
-          <div class="social-box__link">
-            <span class="unactive-link">https://vk.com/</span>
-            <button class="social-box__link-btn">Введите ID</button>
-          </div>
-        </div>
-        <div class="swither">
-          <input type="checkbox" class="checkbox">
-          <div class="knobs">
-            <span>Нет</span>
-            <span>Да</span>
-          </div>
-        </div>
-      </div>
-      <div class="social-table_row">
-        <div class="social-box">
-          <h3 class="social-box__title">Вконтакте</h3>
-          <div class="social-box__link">
-            <span class="unactive-link">https://vk.com/</span>
-            <button class="social-box__link-btn">Введите ID</button>
-          </div>
-        </div>
-        <div class="swither">
-          <input type="checkbox" class="checkbox">
-          <div class="knobs">
-            <span>Нет</span>
-            <span>Да</span>
-          </div>
-        </div>
-      </div>
-      <div class="social-table_row">
-        <div class="social-box">
-          <h3 class="social-box__title">Вконтакте</h3>
-          <div class="social-box__link">
-            <span class="unactive-link">https://vk.com/</span>
-            <button class="social-box__link-btn">Введите ID</button>
-          </div>
-        </div>
-        <div class="swither">
-          <input type="checkbox" class="checkbox">
-          <div class="knobs">
-            <span>Нет</span>
-            <span>Да</span>
-          </div>
-        </div>
-      </div>
-      <div class="social-table_row">
-        <div class="social-box">
-          <h3 class="social-box__title">Вконтакте</h3>
-          <div class="social-box__link">
-            <span class="unactive-link">https://vk.com/</span>
-            <button class="social-box__link-btn">Введите ID</button>
-          </div>
-        </div>
-        <div class="swither">
-          <input type="checkbox" class="checkbox">
-          <div class="knobs">
-            <span>Нет</span>
-            <span>Да</span>
-          </div>
-        </div>
-      </div>
+      <SocialBox v-for="socialItem in socialData" :key="socialItem.id" :socialData="socialItem" />
     </div>
     <div class="profile_save-changes">
       <button class="btn-default big gray">Отмена</button>
@@ -109,8 +14,26 @@
 </template>
 
 <script>
+
+import SocialBox from '@/components/profile/SocialBox.vue'
+
 export default {
-  name: 'Social'
+  name: 'Social',
+  data() {
+    return {
+      socialData: [
+        {title: 'Вконтакте', href: 'https://vk.com/'},
+        {title: 'Инстаграм', href: 'https://instagram.com/'},
+        {title: 'Твиттер', href: 'https://twitter.com/'},
+        {title: 'Вконтакте', href: 'https://vk.com/'},
+        {title: 'Вконтакте', href: 'https://vk.com/'},
+        {title: 'Вконтакте', href: 'https://vk.com/'}
+      ]
+    }
+  },
+  components: {
+    SocialBox
+  }
 }
 </script>
 
