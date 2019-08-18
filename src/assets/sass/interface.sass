@@ -515,11 +515,12 @@ button
 
 .add-item
 	&-panel
-		width: 90em // Опционально!
+		width: 100% // Опционально!
 		box-shadow: $blockShadow
 		border-radius: 3px
 		background-color: #ffffff 
 		padding: 1.5em 3em
+		margin-bottom: 2em
 		color: $textDark
 		form
 			display: flex
@@ -618,6 +619,17 @@ button
 		&:hover
 			color: darken($textDark, 30%)
 
+@media (max-width: 768px)
+	.add-item-panel form
+		flex-wrap: wrap
+		> *
+			margin-bottom: 1.5em
+		.add-item__buttons
+			flex-direction: row
+			align-items: center
+			.btn-default
+				margin-bottom: 0
+				margin-right: 1em
 
 .content-item, .partner-item
 	width: 13em

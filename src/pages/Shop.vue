@@ -1,17 +1,23 @@
 <template>
-  <div class="shop-container">
-    <div class="catalog-header">
-      <span>Товар в наличии: </span>
-      <button class="catalog-btn active">Сайт</button>
-      <button class="catalog-btn">Опт</button>   
+  <div>
+    <div class="shop-container">
+      <div class="catalog-header">
+        <span>Товар в наличии: </span>
+        <button class="catalog-btn active">Сайт</button>
+        <button class="catalog-btn">Опт</button>   
+      </div>
+      <CatalogItem  v-for="item in catalogItems" :key="item.id" :itemData="item" />
     </div>
-    <CatalogItem  v-for="item in catalogItems" :key="item.id" :itemData="item" />
+    <AddItemToShop />
+    <AddItemToFranch />
   </div>
 </template>
 
 <script>
 
 import CatalogItem from '@/components/CatalogItem.vue'
+import AddItemToShop from '@/components/AddItemToShop.vue'
+import AddItemToFranch from '@/components/AddItemToFranch.vue'
 
 export default {
   name: 'Shop',
@@ -71,7 +77,9 @@ export default {
     }
   },
   components: {
-    CatalogItem
+    CatalogItem,
+    AddItemToShop,
+    AddItemToFranch
   },
   methods: {
     addTitle(title) {
@@ -92,6 +100,7 @@ export default {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
   background-color: #fff
   padding: 2em 5em
+  margin-bottom: 2em
 .catalog-header
   width: 100%
   padding-bottom: .7em;
