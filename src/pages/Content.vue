@@ -1,5 +1,6 @@
 <template>
   <div class="content-wrap">
+    <button @click="addContent" class="btn-plus">+</button>
     <ContentItem  v-for="item in contentItems" :key="item.id" :itemData="item" @removeItem="removeItem"/>
   </div>
 </template>
@@ -53,7 +54,14 @@ export default {
       this.contentItems = this.contentItems.filter(item => item.id != id)
     },
     addTitle(title) {
-      this.$emit('showTitle', this.title)
+      this.$emit('showTitle', title)
+    },
+    addContent() {
+      this.contentItems.push({
+        id: this.contentItems.length + 1,
+        descript: '',
+        photo: ''
+        })
     }
   },
   mounted() {

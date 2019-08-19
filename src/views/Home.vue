@@ -9,7 +9,9 @@
           <a class="active">Пользователь</a>
         </div>
         <div class="right-section_content">
-          <h2 class="right-section__title">{{ title }}</h2>
+          <h2 class="right-section__title">
+            {{ title }}
+          </h2>
           <Profile v-if="$route.params.id === 'profile' || $route.params.id === undefined" @showTitle="showTitle" />
           <Stock v-if="$route.params.id === 'stock'" @showTitle="showTitle"/>
           <Report v-if="$route.params.id === 'report'" @showTitle="showTitle"/>
@@ -17,6 +19,7 @@
           <Shop v-if="$route.params.id === 'shop'" @showTitle="showTitle"/>
           <Content v-if="$route.params.id === 'content'" @showTitle="showTitle"/>
           <Partners v-if="$route.params.id === 'partners'" @showTitle="showTitle"/>
+          <SendInvitation v-if="$route.params.id === 'invitation'" @showTitle="showTitle"/>
         </div>
         <footer>
           <span class="">&copy; 2019 InBloom.</span>
@@ -43,6 +46,7 @@ import Requestions from '@/pages/Requestions.vue'
 import Shop from '@/pages/Shop.vue'
 import Content from '@/pages/Content.vue'
 import Partners from '@/pages/Partners.vue'
+import SendInvitation from '@/pages/SendInvitation.vue'
 
 import { mapActions, mapGetters } from 'vuex'
 
@@ -57,12 +61,14 @@ export default {
     Requestions,
     Shop,
     Content,
-    Partners
+    Partners,
+    SendInvitation
   },
   data() {
     return {
       title: '',
-      menuOpened: false
+      menuOpened: false,
+      addBtn: false
     }
   },
   methods: {

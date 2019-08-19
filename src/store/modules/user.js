@@ -46,7 +46,6 @@ export default {
     updateStatus(state, status) {
       if (status === undefined) status = state.isLogin
       state.isLogin = status
-      console.log(state.isLogin)
     }
   }
 }

@@ -1,5 +1,6 @@
 <template>
   <div class="partners-wrap">
+    <button @click="addPartner" class="btn-plus">+</button>
     <PartnerItem  v-for="item in partnerItems" :key="item.id" :itemData="item" @removeItem="removeItem"/>
   </div>
 </template>
@@ -103,6 +104,20 @@ export default {
     },
       addTitle(title) {
       this.$emit('showTitle', this.title)
+    },
+    addPartner(){
+      this.partnerItems.push({
+        id: this.partnerItems.length + 1,
+        photo: '',
+        name: '',
+        city: '',
+        socials: {
+          vk: '',
+          instagram: '',
+          telegram: '',
+          whatsapp: ''
+        }
+        })
     }
   },
   mounted() {

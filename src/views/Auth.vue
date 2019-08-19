@@ -28,9 +28,10 @@
           <a @click="changeAction(restoreStrings.linksVal[0])">{{ restoreStrings.linksText[0] }}</a>
           <a @click="changeAction(restoreStrings.linksVal[1])">{{ restoreStrings.linksText[1] }}</a>
         </div>
-        <button type="submit" class="btn-default big purple" v-if="action == 'auth'">{{ authStrings.btnVal }}</button>
+        <button type="submit" class="btn-default big purple" @click="auth" v-if="action == 'auth'">{{ authStrings.btnVal }}</button>
         <button type="submit" class="btn-default big purple" v-else-if="action == 'reg'">{{ regStrings.btnVal }}</button>
         <button type="submit" class="btn-default big purple" v-else-if="action == 'restorePass'">{{ restoreStrings.btnVal }}</button>
+                <p v-if="errorMessage != null" class="return-message error">{{ errorMessage }}</p>
       </form>
     </div>
   </div>
@@ -48,6 +49,7 @@ export default {
       action: 'auth',
       info: null,
       info1: null,
+      errorMessage: null,
       authStrings: {
         title: 'Войти в личный кабинет',
         btnVal: 'Войти',
@@ -75,24 +77,27 @@ export default {
     changeAction: function(action) {
       this.action = 'restorePass';
       this.action = action;
+    },
+    auth(){
+      axios
+      .get('http://ibapi.fobesko.com/public/login')
+      .then(response => (this.info = response));
+      axios
+        .post('http://ibapi.fobesko.com/public/login', {
+          email: 'example@gmail.com',
+          password: 'asdasdasdasd'
+        })
+        .then(response => (this.info1 = response))
+        .catch(function (error) {
+          console.log(error);
+        },
+          this.errorMessage = 'Ошибка!')
     }
   },
   computed: mapGetters(['isLoginned']),
   created() {
     this.checkAuth();
     this.routing();
-    axios
-      .get('http://ibapi.fobesko.com/public/login')
-      .then(response => (this.info = response));
-    axios
-      .post('http://ibapi.fobesko.com/public/login', {
-        email: 'example@gmail.com',
-        password: 'asdasdasdasd'
-      })
-      .then(response => (this.info1 = response))
-      .catch(function (error) {
-        console.log(error);
-       })
   }
 }
 </script>
