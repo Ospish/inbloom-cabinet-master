@@ -5,6 +5,7 @@
       <a href="#" class="add-item__image">
         <img src="" alt="">
         <span>Загрузить Фото</span>
+        <input type="file" accept="image/jpeg,image/png,image/gif" class="add-item__photo-input" >
       </a>
       <div class="add-item__description width-20">
         <h4>Наименование:</h4>

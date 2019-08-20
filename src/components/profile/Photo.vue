@@ -6,7 +6,10 @@
         <img src="" alt="">
         <span>Нет фото :(</span>
       </div>
-      <button class="personal-data__photo-btn">Выбрать фото</button>
+      <button class="personal-data__photo-btn" @change="sync">
+        <input type="file" accept="image/jpeg,image/png,image/gif" class="personal-data__photo-input" >
+        Выбрать фото
+      </button>
     </div>
 
     <div class="profile_save-changes">
@@ -18,6 +21,18 @@
 
 <script>
 export default {
-  name: 'Photo'
+  name: 'Photo',
+  data(){
+    return {
+      image: null
+    }
+  },
+  methods: {
+    sync(e){
+      e.preventDefault();
+      this.image = e.target.files[0];
+      console.log(this.image)
+    }
+  }
 }
 </script>
