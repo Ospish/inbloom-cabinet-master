@@ -1,13 +1,13 @@
 <template>
   <div class="right-section__header">
     <div class="right-section__header-menu">
-      <a
-        href=""
+      <router-link
+        to="/home/basket"
         name="Корзина"
         class="header-basket"
       >
         <span class="header-basket__label">9</span>
-      </a>
+      </router-link>
       <p class="header-profile">
         <router-link to="/home/profile">
         <img

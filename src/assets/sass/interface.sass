@@ -710,9 +710,21 @@ button
 		text-align: center
 		margin-right: 0.4em
 
-
+.overlay
+	position: fixed
+	top: 0
+	left: 0
+	background-color: rgba(0,0,0,.8)
+	width: 100vw
+	height: 100vh
+	z-index: 1
 
 .basket-window
+	position: fixed
+	left: 50%
+	top: 50%
+	transform: translate(-50%, -50%)
+	z-index: 122
 	width: 30em
 	background-color: $btnBG
 	box-shadow: $cardShadow
@@ -771,6 +783,17 @@ button
 
 .basket-card__number
 	font-size: 1.5em
+	background-color: transparent
+	border: none
+	color: #fff
+	&::placeholder
+		color: #fff
+.basket-card__name
+	color: #fff
+	background-color: transparent
+	border: none
+	&::placeholder
+		color: #fff
 .stock
 	&-box
 		background-color: #fff

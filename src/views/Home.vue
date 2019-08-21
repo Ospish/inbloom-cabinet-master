@@ -14,6 +14,7 @@
           </h2>
           <Profile v-if="$route.params.id === 'profile' || $route.params.id === undefined" @showTitle="showTitle" />
           <Stock v-if="$route.params.id === 'stock'" @showTitle="showTitle"/>
+          <Basket v-if="$route.params.id === 'basket'" @showTitle="showTitle"/>
           <Report v-if="$route.params.id === 'report'" @showTitle="showTitle"/>
           <Requestions v-if="$route.params.id === 'requestions'" @showTitle="showTitle"/>
           <Shop v-if="$route.params.id === 'shop'" @showTitle="showTitle"/>
@@ -41,6 +42,7 @@ import Sidebar from '@/components/Sidebar.vue'
 import Header from '@/components/Header.vue'
 import Profile from '@/pages/Profile.vue'
 import Stock from '@/pages/Stock.vue'
+import Basket from '@/pages/Basket.vue'
 import Report from '@/pages/Report.vue'
 import Requestions from '@/pages/Requestions.vue'
 import Shop from '@/pages/Shop.vue'
@@ -57,6 +59,7 @@ export default {
     Header,
     Profile,
     Stock,
+    Basket,
     Report,
     Requestions,
     Shop,
