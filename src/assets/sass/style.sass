@@ -1,0 +1,269 @@
+@import 'variables.sass'
+
+html
+  font-size: 14px
+  font-family: "Open Sans"
+
+body
+  font-size: 1em
+  color: $textLight
+  font-family: "Open Sans"
+
+*
+  box-sizing: border-box
+
+.content-wrap
+  display: flex
+  align-items: flex-start
+
+.left-sidebar
+  position: fixed
+  left: 0
+  top: 0
+  min-height: 100vh
+  height: 100%
+  width: 20em
+  background-color: #23252f
+  &__logo
+    padding: 0 2.8em
+    height: $headerHeight
+    display: flex
+    align-items: center
+    background-color: #232833
+    border-bottom: 1px solid #565a63
+    img
+      width: 60%
+      height: auto
+  &__navigation
+    padding: 2em 2em 2em 2.8em
+    li
+      padding: .5em 0
+    a
+      display: block
+      color: #999
+      text-decoration: none
+      text-transform: uppercase
+      position: relative
+      &::after
+        content: "►"
+        position: absolute
+        right: 0
+      &:hover
+        color: #ed832c
+
+.right-section
+  width: calc(100% - 20em)
+  margin-left: 20em
+  min-height: 100vh
+  display: flex
+  align-items: flex-start
+  flex-direction: column
+  background-color: #f7fafc
+  &__header
+    display: flex
+    align-items: center
+    z-index: 1
+    width: 100%
+    height: $headerHeight
+    background-color: #ffffff
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15)
+    &-menu
+      height: 100%
+      display: flex
+      align-items: center
+      justify-content: flex-end
+      width: 80%
+  &_content
+    padding: 1.5em
+    width: 100%
+    position: relative
+    min-height: 80vh
+  &__title
+    font-size: 2.6em
+    color: $textDark
+    margin-bottom: 1em
+    text-transform: uppercase
+
+.profile-popup
+  position: absolute
+  top: 100%
+  left: 50%
+  transform: translateX(-50%)
+  width: 15em
+  background-color: #fff
+  box-shadow: $blockShadow
+  opacity: 0
+  transition: .5s
+  visibility: visible
+  text-align: center
+  li
+    padding: 1em
+    cursor: pointer
+.header-profile:hover .profile-popup
+  opacity: 1
+  visibility: visible
+.header-basket, .header-profile
+  width: 3em
+  height: 3em
+  margin: 0 .5em
+  display: block
+  position: relative
+
+.header-basket
+  box-shadow: 0 5px 10px rgba(235, 147, 76, 0.3)
+  background-image: linear-gradient(to top, #ed832c 0%, #eb9754 99%, #eb9754 100%)
+  border-radius: 50%
+  &::before
+    content: ""
+    position: absolute
+    width: 100%
+    height: 100%
+    background-image: url(./../img/icons/basket.svg)
+    background-repeat: no-repeat
+    background-size: 65%
+    background-position: center
+  &__label
+    position: absolute
+    background-color: #eb3032
+    width: 1.2em
+    height: 1.2em
+    font-size: 1.2em
+    text-align: center
+    line-height: 1.25em
+    font-weight: 500
+    color: #fff
+    border-radius: 50%
+    left: 65%
+    bottom: 65%
+.header-profile
+  background-color: #f6514c
+  border: 3px solid #ffffff
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3)
+  border-radius: 50%
+  a
+    overflow: hidden
+    width: 100%
+    height: 100%
+    display: block
+    border-radius: 50%
+    position: relative
+  img
+    object-fit: cover
+    height: 100%
+    width: 100%
+.header-menu-toggler
+  display: none
+  width: 3em
+  height: 2em
+  margin-left: auto
+  margin-right: auto
+  position: relative
+  cursor: pointer
+  span
+    width: 100%
+    height: 0.3em
+    border-radius: 2px
+    background-color: $textDark
+    display: block
+    position: absolute
+    left: 0
+    top: calc(50% - 2px)
+    transition: .3s
+    &:first-child
+      top: 0
+    &:last-child
+      bottom: 0
+      top: auto
+  &.active
+    span
+      left: 0
+      top: 50%
+      &:nth-child(2)
+        display: none
+      &:first-child
+        transform: rotateZ(45deg)
+      &:last-child
+        transform: rotateZ(-45deg)
+
+.breadcrumbs
+  padding: 1em 1.5em
+  width: 100%
+  background-color: #fff
+  a
+    color: inherit
+    text-decoration: none
+    position: relative
+    font-size: 0.85em
+    margin-right: .5em
+    padding-right: 1.5em
+    cursor: pointer
+    &:hover
+      color: $orange
+      &.active
+        color: $textLight
+        cursor: default
+      &:not(.active)::before
+          color: $textLight
+    &:not(.active)::before
+      content: "→"
+      position: absolute
+      right: 0
+      top: 50%
+      transform: translateY(-50%)
+
+footer
+  display: flex
+  align-items: center
+  justify-content: space-between
+  margin-top: auto
+  padding: 1em 15% 1em 1.5em
+  width: 100%
+  background-color: #fff
+
+  .fobesko-team
+    font-weight: 300
+    text-transform: uppercase
+    color: #3aa6b4
+    text-decoration: none
+
+
+@media (max-width: 1440px)
+  .left-sidebar
+    width: 17em
+  .right-section
+    margin-left: 17em
+    width: calc(100% - 17em)
+
+@media (max-width: 1024px)
+  html
+    font-size: 10px
+  .left-sidebar
+    width: 100vw
+    right: 100%
+    left: auto
+    z-index: 10
+    transition: 1s
+    &.opened
+      right: 0
+  .right-section
+    margin-left: 0
+    width: 100%
+    margin-top: 5.7em
+    &__header
+      z-index: 11
+      position: fixed
+      left: 0
+      top: 0
+  .header-menu-toggler
+    display: block
+  .left-sidebar__navigation
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    a
+      width: fit-content
+      font-size: 2em
+      margin: .5em auto
+      &::after
+        content: none
