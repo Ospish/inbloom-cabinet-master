@@ -15,7 +15,7 @@
       </div>
       <div class="add-item__description width-20">
         <h4>Описание:</h4>
-        <input type="text" v-model="itemData.description" class="add-item__input">
+        <textarea style='width: 260px' rows="6" type="text" v-model="itemData.description" class="add-item__input"></textarea>
       </div>
       <div class="add-item__description width-20">
         <h4>Цена:</h4>

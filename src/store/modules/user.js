@@ -275,7 +275,12 @@ export default {
     addProduct (state, [product, type]) {
       state.products[type].push(product)
     },
-
+    addCategory (state, category) {
+      state.categories.push(category)
+    },
+    addSubCategory (state, subcategory) {
+      state.categories[subcategory.id].subs.push(subcategory)
+    },
     deleteProduct (state, id) {
       let index = state.products[state.app.shopType].findIndex(product => product.id === id)
       state.products[state.app.shopType].splice(index, 1)
@@ -694,7 +699,30 @@ export default {
           console.log(error)
         })
     },
-
+    addCategory (ctx, category) {
+      axios
+        .post(API_SERVER + '/api/store/categories', {name: category.name})
+        .then(function (response) {
+          //console.log('getRequests RESPONSE')
+          //console.log(response)
+          ctx.commit('addCategory', category)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    addSubCategory (ctx, subcategory) {
+      axios
+        .post(API_SERVER + '/api/store/categories/' + subcategory.id, {name: subcategory.name})
+        .then(function (response) {
+          //console.log('getRequests RESPONSE')
+          //console.log(response)
+          ctx.commit('addSubCategory', subcategory)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
 
     // REQUESTS
 

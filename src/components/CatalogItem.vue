@@ -16,7 +16,8 @@
       </div>
       <img :src="itemData.photo || noPhoto" alt="">
     </div>
-    <p class="catalog-item__description">{{ itemData.name }}</p>
+    <p class="catalog-item__price">{{ itemData.name }}</p>
+    <pre class="catalog-item__description">{{ itemData.description }}</pre>
     <p v-if="userRole == 4 || isAdmin || itemData.id < 500" class="catalog-item__price">Цена: {{ itemData.price }} р.</p>
     <p v-if="userRole == 3 && itemData.id > 499" class="catalog-item__price">Цена: {{ itemData.price_premium }} р.</p>
     <p v-if="userRole == 2 && itemData.id > 499" class="catalog-item__price">Цена: {{ itemData.price_vip }} р.</p>
