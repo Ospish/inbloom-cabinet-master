@@ -4,21 +4,36 @@
       <div class="catalog-header">
         <span>Товар в наличии: </span>
         <!-- The buttons on top controlling shop type. Add item button is invisible for non admins when shop type = 0 -->
-        <span>
-          <button @click="setShopType(0)" v-bind:class="{ active: shopType == 0 }" class="catalog-btn">Опт</button>
-          <button @click="setShopType(1)" v-bind:class="{ active: shopType == 1 }" class="catalog-btn">Сайт</button>
-          <button v-if="shopType == 1 || isAdmin" class="edit-item-btn add" @click="openEditor(-1)">+</button>
+        <span class="catalog-header__buttons">
+          <button @click="setShopType(0); showPopup = false" v-bind:class="{ active: shopType == 0 }" class="catalog-btn">Опт</button>
+          <button @click="setShopType(1); showPopup = false" v-bind:class="{ active: shopType == 1 }" class="catalog-btn">Сайт</button>
+          <button v-if="shopType == 1 || isAdmin" class="edit-item-btn add" @click="plusButton">
+            +
+          </button>
+          <span class="add-shop-popup" v-if="showPopup">
+            <button @click="openEditor(-1)">Товар</button>
+            <button @click="showPopup = false; showInput0 = true;">Категория</button>
+            <button @click="showPopup = false; showInput1 = true;">Подкатегория</button>
+          </span>
+          <span v-if="showInput0">
+            <input v-model="input0" type="text"><button @click="addCategory({name: input0, id: categoriesInfo.length, subs: []}); showInput0 = false">OK</button>
+          </span>
+          <span v-if="showInput1">
+            <input v-model="input1" type="text"><button @click="addSubCategory({name: input1, id: currentTab2.id}); showInput1 = false">OK</button>
+          </span>
         </span>
       </div>
       <div v-if="shopType == 0" class="catalog-header">
         <!-- The second row buttons controlling product type -->
-        <div class="report-buttons">
-          <button class="report-btn" v-for="tab in categoriesInfo" :key="tab.name" :class="[currentTab.name, { active: currentTab.name === tab.name}]" @click="selectCategory(tab)">{{ tab.name }}</button>
+        <h2 class="catalog-header__title" :class="{active: accordeonHeight.categories != '0px'}" @click="changeAccordion('categories')">Категории</h2>
+        <div class="report-buttons" :style="{height: accordeonHeight.categories}">
+          <button class="report-btn" v-for="tab in categoriesInfo" :key="tab.name" :class="[currentTab.name, { active: currentTab.name === tab.name}]" @click="selectCategory(tab, 'categories')">{{ tab.name }}</button>
         </div>
         <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
         <!-- The third row buttons controlling product subtype -->
-        <div class="report-buttons">
-            <button class="report-btn" v-for="tab in categoriesInfo[currentTab.id].subs" :key="tab.name" :class="[currentTab2.name, { active: currentTab2.name === tab.name}]" @click="selectSubcategory(tab)">{{ tab.name }}</button>
+        <h2 class="catalog-header__title" :class="{active: accordeonHeight.subcategories != '0px'}" v-if="categoriesInfo[currentTab.id].subs.length != 0" @click="changeAccordion('subcategories')">Подкатегории</h2>
+        <div class="report-buttons" :style="{height: this.accordeonHeight.subcategories}">
+          <button class="report-btn" v-for="tab in categoriesInfo[currentTab.id].subs" :key="tab.name" :class="[currentTab2.name, { active: currentTab2.name === tab.name}]" @click="selectSubcategory(tab, 'subcategories')">{{ tab.name }}</button>
         </div>
       </div>
       <CatalogItem v-if="shopType == 1 && item.userid == userId" v-for="(item, index) in shopInfo" :key="item.id" :itemIndex="index" :itemData="item"/>
@@ -54,8 +69,17 @@ export default {
   data () {
     return {
       title: 'Магазин',
-    currentTab: '',
-      currentTab2: ''
+      currentTab: '',
+      currentTab2: '',
+      showPopup: false,
+      showInput0: false,
+      showInput1: false,
+      input0: '',
+      input1: '',
+      accordeonHeight: {
+        categories: '0px',
+        subcategories: '0px'
+      }
     }
   },
   components: {
@@ -64,15 +88,26 @@ export default {
     AddItemToFranch
   },
   methods: {
-    ...mapActions([ 'openEditor', 'changeStore' ]),
+    ...mapActions([ 'openEditor', 'changeStore', 'addCategory', 'addSubCategory' ]),
     addTitle (title) {
       this.$emit('showTitle', this.title)
+    },
+    changeAccordion(id) {
+      if (this.accordeonHeight[id] == '0px'){
+        console.log('Show')
+        this.accordeonHeight[id] = 'auto'
+      } else {
+        this.accordeonHeight[id] = '0px'
+        console.log('Hide')
+        console.log(this.accordeonHeight)
+      }
     },
     setShopType (store) {
       this.$store.commit('changeStore', store)
       this.$store.commit('openEditor', null)
     },
     openEditor (id) {
+      this.showPopup = false
       if (this.isEdited != -1) this.$store.commit('openEditor', id)
         else {
           this.$store.commit('openEditor', null)
@@ -88,13 +123,23 @@ export default {
     showStock(item){
       return (this.shopType == 0 && item.type == this.currentTab.id && item.sub == this.currentTab2.id)
     },
-    selectCategory(tab){
+    plusButton(){
+      if (this.shopType == 0) {
+        this.showPopup = !this.showPopup
+        this.showInput0 = false
+        this.showInput1 = false
+      }
+      else this.openEditor(-1)
+    },
+    selectCategory(tab, accId){
+      if (document.width < 600) this.accordeonHeight[accId] = '0px'
       this.currentTab = tab
       console.log(this.currentTab.subs[0])
       if (this.currentTab.subs[0] != undefined) this.currentTab2 = this.currentTab.subs[0]
 
     },
-    selectSubcategory(tab){
+    selectSubcategory(tab, accId){
+      this.accordeonHeight[accId] = '0px'
       this.currentTab2 = tab
       console.log(this.currentTab2.id)
     }
@@ -108,7 +153,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="sass">
+<style lang="sass" scoped>
 .shop-container
   display: flex
   flex-wrap: wrap
@@ -121,12 +166,58 @@ export default {
   padding-bottom: .7em;
   border-bottom: 1px solid #eeeeee;
   margin-bottom: 1em;
+  &__buttons
+    position: relative
 .catalog-item
   margin: 2em
   margin-left: 0
+.add-shop-popup
+  position: absolute
+  right: -.5em
+  bottom: 50%
+  z-index: 2
+  transform: translateX(100%)
+  button
+    padding: .3em 0
+    display: block
+    width: 8em
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
+    background-color: #ffffff
+    &:hover
+      background-color: #d43eff
+.catalog-header__title
+  text-align: center
+  margin-bottom: 1em
+  font-size: 1.2em
+  width: fit-content
+  margin-left: auto
+  margin-right: auto
+  cursor: pointer
+  padding-right: 1.5em
+  background-position: right center
+  background-size: .8em
+  background-repeat: no-repeat
+  background-image: url('../assets/img/icons/arrow-down.svg')
+  &.active
+    background-image: url('../assets/img/icons/arrow-up.svg')
+.report-buttons
+  margin-bottom: 1em
+  max-width: 100%
+  width: 100%
+  flex-wrap: wrap
+  height: auto
+  justify-content: space-between
+  .report-btn
+    margin-bottom: 1em
+    padding: .5em 0
+    margin: .25em
+    width: calc(25% - .5em)
+    border-radius: 1em;
+    &:last-child
+      margin-right: auto
 @media (max-width: 767px)
   .shop-container
-    padding: 2em 3em
+    padding: 2em 2em
   .catalog-item
     width: 30%
     margin: 1.5em 1.5%
@@ -134,6 +225,13 @@ export default {
   .edit-item-btn
     padding: 0
     line-height: 1.5em
+  .report-btn
+    width: calc(50% - .5em)!important
+  .add-shop-popup
+    right: 1.7em
+    bottom: 50%
+    z-index: 2
+    transform: translateX(0)
 @media (max-width: 350px)
   .catalog-item
     width: 36%
