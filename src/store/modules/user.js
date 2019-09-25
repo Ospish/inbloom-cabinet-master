@@ -1,3 +1,5 @@
+// The main module of site, handling the most of functions
+
 import axios from 'axios'
 import router from '../../router.js'
 const API_SERVER = 'https://ibapi.fobesko.com/public'
@@ -26,6 +28,7 @@ export default {
     },
     stats: {},
     products: [],
+    categories: ["Руза", "Щакура", "Гертензия", "Горбера", "Гуоргин", "Пяон", "Хрюзантема", "Гвоздика"],
     stocks: [],
     history: [
       /*
@@ -77,6 +80,7 @@ export default {
     stockInfo (state) { return state.products[0] },
     productsInfo (state) { return state.products },
     contentInfo (state) { return state.content },
+    categoriesInfo (state) { return state.categories },
     partnersInfo (state) { return state.partners },
     shopType (state) { return state.app.shopType },
     isEdited (state) { return state.app.isEdited },
@@ -186,6 +190,11 @@ export default {
       //console.log('state.partners[index].photo UPDATED');
       //console.log(photo.substring(0, 32))
       state.app.isLoaded++
+    },
+    updateCategories (state, categories) {
+      state.categories = categories;
+      //console.log('state.user.info.coords UPDATED ');
+      //console.log(state.user.info.coords)
     },
     updateCoords (state, coords) {
       state.user.info.coords = coords;
@@ -460,6 +469,7 @@ export default {
       ctx.dispatch('loadProducts')
       ctx.dispatch('loadContent')
       ctx.dispatch('loadPartners')
+      ctx.dispatch('loadCategories')
     },
     async getCoords (ctx) {
       let info = ctx.state.user.info
@@ -672,6 +682,20 @@ export default {
         })
     },
 
+    loadCategories (ctx) {
+      axios
+        .get(API_SERVER + '/api/store/categories')
+        .then(function (response) {
+          //console.log('getRequests RESPONSE')
+          //console.log(response)
+          ctx.commit('updateCategories', response.data)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+
+
     // REQUESTS
 
     getRequests (ctx) {
@@ -777,6 +801,7 @@ export default {
         axios
           .get(API_SERVER + '/api/store/products/' + ctx.state.user.id  )
           .then(function (response) {
+            console.log(response.data)
             axios
               .get(API_SERVER + '/api/file/stock')
               .then(function (response) {
@@ -789,7 +814,7 @@ export default {
               })
               .catch(function (error) { console.log(error) })
             axios
-              .get(API_SERVER + '/api/file/store')
+              .get(API_SERVER + '/api/file/user/store/' + ctx.state.user.id )
               .then(function (response) {
                 photo = response.data
                 console.log('Store Products Photo LOADED: ' + photo.length)
@@ -851,7 +876,7 @@ export default {
     deleteProduct (ctx, product) {
       console.log('Action: deleteProduct')
       axios
-        .delete(API_SERVER + '/api/store/delete/' + product.id)
+        .delete(API_SERVER + '/api/store/delete/'+ product.type + '/' + product.id)
         .then(function (response) {
           console.log(response.data)
           ctx.commit('deleteProduct', product.id)

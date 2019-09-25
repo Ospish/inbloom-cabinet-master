@@ -3,26 +3,29 @@
     <div class="shop-container">
       <div class="catalog-header">
         <span>Товар в наличии: </span>
+        <!-- The buttons on top controlling shop type. Add item button is invisible for non admins when shop type = 0 -->
         <span>
           <button @click="setShopType(0)" v-bind:class="{ active: shopType == 0 }" class="catalog-btn">Опт</button>
           <button @click="setShopType(1)" v-bind:class="{ active: shopType == 1 }" class="catalog-btn">Сайт</button>
           <button v-if="shopType == 1 || isAdmin" class="edit-item-btn add" @click="openEditor(-1)">+</button>
         </span>
       </div>
-      <div class="catalog-header">
+      <div v-if="shopType == 0" class="catalog-header">
+        <!-- The second row buttons controlling product type -->
         <div class="report-buttons">
-          <button class="report-btn" v-for="tab in tabs" :key="tab.name" :class="[currentTab.name, { active: currentTab.name === tab.name}]" @click="currentTab = tab">{{ tab.name }}</button>
+          <button class="report-btn" v-for="tab in categoriesInfo" :key="tab.name" :class="[currentTab.name, { active: currentTab.name === tab.name}]" @click="selectCategory(tab)">{{ tab.name }}</button>
         </div>
         <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        <!-- The third row buttons controlling product subtype -->
         <div class="report-buttons">
-            <button class="report-btn" v-if="isAdmin" v-for="tab in tabs[currentTab.index].subs" :key="tab.name" :class="[currentTab2.name, { active: currentTab2.name === tab.name}]" @click="currentTab2 = tab">{{ tab.name }}</button>
+            <button class="report-btn" v-for="tab in categoriesInfo[currentTab.id].subs" :key="tab.name" :class="[currentTab2.name, { active: currentTab2.name === tab.name}]" @click="selectSubcategory(tab)">{{ tab.name }}</button>
         </div>
       </div>
       <CatalogItem v-if="shopType == 1 && item.userid == userId" v-for="(item, index) in shopInfo" :key="item.id" :itemIndex="index" :itemData="item"/>
-      <CatalogItem v-if="shopType == 0" v-for="(item, index) in stockInfo" :key="item.id" :itemIndex="index" :itemData="item"/>
+      <CatalogItem v-if="showStock(item)" v-for="(item, index) in stockInfo" :key="item.id" :itemIndex="index" :itemData="item"/>
     </div>
     <AddItemToShop :itemData="shopItemInfo" v-if="shopType == 1 && isEdited != null"/>
-    <AddItemToFranch :itemData="stockItemInfo" v-if="shopType == 0 && isEdited != null"/>
+    <AddItemToFranch :itemData="stockItemInfo" :selectedType="currentTab.id" :selectedSub="currentTab2.id" v-if="shopType == 0 && isEdited != null"/>
   </div>
 </template>
 
@@ -36,7 +39,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Shop',
   computed: {
-    ...mapGetters(['isAdmin', 'shopInfo', 'isEdited', 'shopType', 'userId', 'basketInfo', 'stockInfo']),
+    ...mapGetters(['isAdmin', 'shopInfo', 'isEdited', 'shopType', 'userId', 'basketInfo', 'stockInfo', 'categoriesInfo']),
     shopItemInfo () {
       let item = this.shopInfo[this.isEdited]
       if (item == undefined) return { name: '', description: '', price: 0 }
@@ -51,57 +54,6 @@ export default {
   data () {
     return {
       title: 'Магазин',
-      tabs: [
-        {
-          index: 0,
-          name: 'Розы',
-          dataName: 'request_closed',
-          data: null,
-          subs: [
-            { name: 'Стадартные', },
-            { name: 'Большие', },
-            { name: 'Плоские' },
-            { name: 'Вывернутые' },
-            { name: 'С напылением' },
-            { name: 'Корейская' },
-            { name: 'Кучерявая' },
-            { name: 'Мелкая' },
-            { name: 'Пионовидная' },
-            { name: 'Радужная' },
-          ]
-        },
-        {
-          index: 1,
-          name: 'Пионы',
-          dataName: 'request_deleted',
-          data: null,
-          subs: [
-          ]
-        },
-        {
-          index: 2,
-          name: 'Коробки',
-          dataName: 'request_deleted',
-          data: null,
-          subs: [
-            { name: 'Коробки 1', },
-            { name: 'Коробки 2', },
-            { name: 'Коробки 3' },
-          ]
-        },
-        {
-          index: 3,
-          name: 'Доп. материалы',
-          dataName: 'request_deleted',
-          data: null,
-          subs: [
-            { name: 'Доп. материалы 1', },
-            { name: 'Доп. материалы 2', },
-            { name: 'Доп. материалы 3' },
-          ]
-        },
-      ],
-
     currentTab: '',
       currentTab2: ''
     }
@@ -130,17 +82,27 @@ export default {
       let index = this.basketInfo.findIndex(product => product.id === item.id)
       if (this.basketInfo.index == undefined) {return 0}
       else {
-        console.log(this.basketInfo.index.quantity)
-        console.log('AAAAAAAAAAAAA')
         return this.basketInfo.index.quantity
       }
+    },
+    showStock(item){
+      return (this.shopType == 0 && item.type == this.currentTab.id && item.sub == this.currentTab2.id)
+    },
+    selectCategory(tab){
+      this.currentTab = tab
+      console.log(this.currentTab.subs[0])
+      if (this.currentTab.subs[0] != undefined) this.currentTab2 = this.currentTab.subs[0]
 
+    },
+    selectSubcategory(tab){
+      this.currentTab2 = tab
+      console.log(this.currentTab2.id)
     }
   },
   mounted () {
     this.addTitle(this.title)
-    this.currentTab = this.tabs[0]
-    this.currentTab2 = this.tabs[0].subs[0]
+    this.currentTab = this.categoriesInfo[0]
+    this.currentTab2 = this.categoriesInfo[0].subs[0]
   }
 }
 </script>

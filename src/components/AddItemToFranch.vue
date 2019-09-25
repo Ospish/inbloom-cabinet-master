@@ -46,14 +46,14 @@
 
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  props: ['itemData'],
+  props: ['itemData', 'selectedType', 'selectedSub'],
   data() {
     return {
       item: {}
     }
   },
   computed: {
-    ...mapGetters(['isAdmin', 'isEdited']),
+    ...mapGetters(['isAdmin', 'isEdited', 'noPhoto', 'shopType', 'stockInfo']),
     avatarSrc(){
       if (typeof this.itemData.id == 'undefined') {return ''}
       let src = 'https://ibapi.fobesko.com/public/api/file/blob/store/' + this.itemData.id
@@ -65,30 +65,29 @@ export default {
   methods: {
     ...mapActions(['addProduct', 'editProduct', 'deleteProduct', 'uploadImage']),
     async save() {
-      if (upload.files[0]) {
+      if (this.editProduct(this.itemData) && upload.files[0]) {
         this.$store.commit('updateShopPhoto', [this.itemData.id, await toBase64(upload.files[0])])
         this.$store.dispatch('uploadImage', { file: upload.files[0], type: 'stock', id: this.itemData.id })
+        this.$forceUpdate();
       }
-      this.editProduct(this.itemData)
-      this.$forceUpdate();
     },
     async create() {
-      if (upload.files[0]) {
-
-        if (typeof this.itemData.id == 'undefined') {
-          let id = -1
-          this.productsInfo[this.shopType].forEach(function (element) {
-            if (element.id > id) id = element.id
-          })
-          console.log
-          this.itemData.id = id+1
-        }
-        this.itemData.photo = avatar.src
-        this.addProduct(this.itemData)
-        this.$store.commit('updateShopPhoto', [this.itemData.id, avatar.src])
+      let item = this.itemData
+      let id = -1
+      this.stockInfo.forEach(function (element) {
+        if (element.id > id) id = element.id
+      })
+      item.id = id+1
+      console.log(item.id)
+      item.type = this.selectedType
+      if (typeof this.selectedSub != 'undefined') item.sub = this.selectedSub
+      if (this.addProduct(item) && upload.files[0]) {
+        item.photo = avatar.src
+        this.$store.commit('updateShopPhoto', [item.id, avatar.src])
+        this.$store.dispatch('uploadImage', { file: upload.files[0], type: 'stock', id: item.id })
         this.$forceUpdate();
-        this.$store.dispatch('uploadImage', { file: upload.files[0], type: 'stock', id: this.itemData.id })
       }
+
     },
     async sync (e) {
       this.image = e.target.files[0]
@@ -96,7 +95,6 @@ export default {
     }
   },
   mounted () {
-    this.item = Object.assign({}, this.itemData)
   }
 }
 </script>
