@@ -1,91 +1,96 @@
 <template>
   <div class="requestions-container">
-    <RequestItem  v-for="request in requestions" :key="request.id" :itemData="request" @remove="removeRequest"/>
+    <div class="report-head">
+      <div class="report-buttons">
+        <button class="report-btn" v-for="tab in tabs" :key="tab.name" :class="[currentTab.name, { active: currentTab.name === tab.name}]" @click="currentTab = tab">{{ tab.name }}</button>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        <button class="report-btn" v-if="isAdmin" v-for="tab in tabs2" :key="tab.name" :class="[currentTab2.name, { active: currentTab2.name === tab.name}]" @click="currentTab2 = tab">{{ tab.name }}</button>
+      </div>
+
+    </div>
+    <RequestItem v-if="showRequest(request)" v-for="request in orderedRequests" :key="request.id" :itemData="request" @remove="deleteRequest"/>
+    <div v-if="currentTab.dataName == 0 && requestInfo.length == 0">Нет активных заявок.</div>
   </div>
 </template>
 
 <script>
 
 import RequestItem from '@/components/RequestBox.vue'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Requestions',
   data() {
     return {
       title: 'Заявки',
-      requestions: [
-        { id: 1,
-          articul: '',
-          total: {title: 'ИБ-2104', date: '14.04.2019', name: 'Сергей', type: 'Сборный букет', sum: 1290},
-          contacts: {tel: '8 914 6000 900', receiptDate: '25.07.2019'},
-          posyInfo: {size: 'M', flowers: 'Роза, Одуванчик', colors: 'зеленый, белый, оранжевый', boxColor: 'белый'},
-          congratulation: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Пустился бросил, буквоград однажды текстов несколько залетают реторический первую переписали.',
-          photo: '' 
+      itemCount: 0,
+      tabs: [
+        {
+          name: 'Каталог',
+          dataName: '0',
+          data: null,
         },
-        { id: 2,
-          articul: '',
-          total: {title: 'ИБ-2105', date: '14.05.2019', name: 'Сергей', type: 'Сборный букет', sum: 1290},
-          contacts: {tel: '8 914 6000 900', receiptDate: '25.07.2019'},
-          posyInfo: {size: 'M', flowers: 'Роза, Одуванчик', colors: 'зеленый, белый, оранжевый', boxColor: 'белый'},
-          congratulation: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Пустился бросил, буквоград однажды текстов несколько залетают реторический первую переписали.',
-          photo: '' 
+        {
+          name: 'Квиз',
+          dataName: '1',
+          data: null,
         },
-        { id: 3,
-          articul: '003-310',
-          total: {title: 'ИБ-2106', date: '14.06.2019', name: 'Сергей', type: 'Сборный букет', sum: 1290},
-          contacts: {tel: '8 914 6000 900', receiptDate: '25.07.2019'},
-          posyInfo: {size: 'M', flowers: 'Роза, Одуванчик', colors: 'зеленый, белый, оранжевый', boxColor: 'белый'},
-          congratulation: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Пустился бросил, буквоград однажды текстов несколько залетают реторический первую переписали.',
-          photo: '@/assets/img/flowers/photo.jpg' 
+        {
+          name: 'Внутренние',
+          dataName: '2',
+          data: null,
         },
-        { id: 4,
-          articul: '003-310',
-          total: {title: 'ИБ-2107', date: '14.07.2019', name: 'Сергей', type: 'Сборный букет', sum: 1290},
-          contacts: {tel: '8 914 6000 900', receiptDate: '25.07.2019'},
-          posyInfo: {size: 'M', flowers: 'Роза, Одуванчик', colors: 'зеленый, белый, оранжевый', boxColor: 'белый'},
-          congratulation: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Пустился бросил, буквоград однажды текстов несколько залетают реторический первую переписали.',
-          photo: '@/assets/img/flowers/photo.jpg' 
+      ],
+      tabs2: [
+        {
+          name: 'Свои',
+          dataName: '0',
+          data: null,
         },
-        { id: 5,
-          articul: '003-310',
-          total: {title: 'ИБ-2108', date: '14.08.2019', name: 'Сергей', type: 'Сборный букет', sum: 1290},
-          contacts: {tel: '8 914 6000 900', receiptDate: '25.07.2019'},
-          posyInfo: {size: 'M', flowers: 'Роза, Одуванчик', colors: 'зеленый, белый, оранжевый', boxColor: 'белый'},
-          congratulation: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Пустился бросил, буквоград однажды текстов несколько залетают реторический первую переписали.',
-          photo: '@/assets/img/flowers/photo.jpg' 
+        {
+          name: 'Все',
+          dataName: '1',
+          data: null,
         },
-        { id: 6,
-          articul: '',
-          total: {title: 'ИБ-2109', date: '14.09.2019', name: 'Сергей', type: 'Сборный букет', sum: 1290},
-          contacts: {tel: '8 914 6000 900', receiptDate: '25.07.2019'},
-          posyInfo: {size: 'M', flowers: 'Роза, Одуванчик', colors: 'зеленый, белый, оранжевый', boxColor: 'белый'},
-          congratulation: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Пустился бросил, буквоград однажды текстов несколько залетают реторический первую переписали.',
-          photo: '' 
-        },
-        { id: 7,
-          articul: '003-310',
-          total: {title: 'ИБ-2110', date: '14.10.2019', name: 'Сергей', type: 'Сборный букет', sum: 1290},
-          contacts: {tel: '8 914 6000 900', receiptDate: '25.07.2019'},
-          posyInfo: {size: 'M', flowers: 'Роза, Одуванчик', colors: 'зеленый, белый, оранжевый', boxColor: 'белый'},
-          congratulation: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Пустился бросил, буквоград однажды текстов несколько залетают реторический первую переписали.',
-          photo: '@/assets/img/flowers/photo.jpg' 
-        }
-      ]
+      ],
+      currentTab: '',
+      currentTab2: '',
     }
   },
   components: {
     RequestItem
   },
   methods: {
-    removeRequest(id) {
+    ...mapActions(['deleteRequest']),
+    /*
+    removeRequest (id) {
       this.requestions = this.requestions.filter(item => item.id !== id)
     },
-    addTitle(title) {
+     */
+    addTitle (title) {
       this.$emit('showTitle', this.title)
+    },
+    showRequest(request) {
+      if (this.currentTab2.dataName == 0) {
+        if (this.currentTab.dataName == request.type && request.userid == this.userId && (request.status == 'request_added' || request.status == 'request_sent')) return true
+        else return false
+      }
+      else {
+        if (this.currentTab.dataName == request.type && (request.status == 'request_added' || request.status == 'request_sent')) return true
+        else return false
+      }
     }
   },
-  mounted() {
+  computed: {
+    ...mapGetters(['requestInfo', 'userId', 'isAdmin']),
+    orderedRequests: function () {
+      return _.orderBy(this.requestInfo, 'id', 'desc')
+    }
+  },
+  mounted () {
     this.addTitle(this.title)
+    this.currentTab = this.tabs[0]
+    this.currentTab2 = this.tabs2[0]
   }
 }
 </script>
@@ -95,6 +100,8 @@ export default {
 .requestions-container
   display: flex
   flex-wrap: wrap
+.report-btn
+  width: 10em
 .requestion-wrap
   margin: .8em
   &.opened
@@ -103,13 +110,13 @@ export default {
     .requestion-box:first-child
       margin-right: 1.6em
 
-@media (max-width: 1600px) 
+@media (max-width: 1600px)
   .requestion-box
     &.opened
-      width: 55em 
+      width: 55em
     &__col
       min-width: 25%
-  
+
 @media (max-width: 1024px)
   .requestions-container
     padding: 0 2.5em
@@ -122,6 +129,10 @@ export default {
   .requestion-box.opened
     width: 100%
 @media (max-width: 767px)
+  .report-buttons
+    width: 100%
+  .report-btn
+    width: 33%
   .requestions-container
     padding: 0
   .requestion-wrap

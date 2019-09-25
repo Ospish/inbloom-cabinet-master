@@ -6,7 +6,7 @@
         <button class="btn-default gray" v-for="tab in tabs" :key="tab.name" :class="{active: currentTab.name === tab.name}" @click="currentTab = tab">{{ tab.name }}</button>
       </div>
     </div>
-    <component :is="currentTab.component" class="tab"></component>
+    <component :tabname="tabname" :is="currentTab.component" class="tab"></component>
   </div>
 </template>
 
@@ -27,21 +27,28 @@ var tabs = [
     component: Photo
   },
   {
-    name: 'Пароль', 
+    name: 'Пароль',
     component: Password
   },
   {
-    name: 'Соцсети', 
+    name: 'Соцсети',
     component: Social
   }
 ]
 
 export default {
   name: 'ProfileBox',
+  props: ['tabname'],
   data() {
     return {
       tabs: tabs,
       currentTab: tabs[0]
+    }
+  },
+  mounted(){
+    //console.log(this.$route)
+    if (this.tabname == 'password') {
+      this.currentTab = tabs[2]
     }
   }
 }

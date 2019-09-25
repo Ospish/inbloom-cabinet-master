@@ -3,49 +3,57 @@
     <div class="profile-card">
       <div class="profile-avatar">
         <div class="profile-avatar_container">
-          <img src="/img/profile-avatar.jpeg" alt="">
-          <span class="profile-avatar__value">10 890</span>
+          <img :src="userInfo.photo || noPhoto" alt="">
+          <span class="profile-avatar__value">{{this.userInfo.points}}</span>
         </div>
       </div>
-      <p class="profile-name">Сергей Фобэско</p>
-      <p class="profile-city">г. Сочи</p>
+      <p class="profile-name">{{this.userInfo.name}} {{this.userInfo.surname}}</p>
+      <p class="profile-city">{{this.userInfo.city}}</p>
     </div>
-    <ProfileBox />
+    <ProfileBox :tabname="tabname" />
   </div>
 </template>
 
 <script>
-
 import ProfileBox from '@/components/profile/ProfileBox.vue'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
+
   name: 'Profile',
   components: {
     ProfileBox
   },
   data() {
     return {
-      title: 'Профиль'
+      title: 'Профиль',
+      name: '',
+      surname: '',
+      city: '',
+      points: 0
     }
   },
+  props: ['tabname'],
+  computed: mapGetters(['userInfo', 'userId', 'noPhoto']),
   methods: {
-    addTitle(title) {
+    ...mapActions(['getCoords']),
+    addTitle (title) {
       this.$emit('showTitle', this.title)
     }
   },
-  mounted() {
+  mounted () {
     this.addTitle(this.title)
-  }
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
-  .profile-container 
+  .profile-container
     display: flex
     align-items: flex-start
-  .profile-card
-    margin-right: 2em
+    .profile-card
+      margin-right: 2em
   @media (max-width: 767px)
     .profile-container
       flex-direction: column
@@ -54,5 +62,5 @@ export default {
       margin-right: 0
       margin-bottom: 2em
     .profile-box
-      width: 100% 
+      width: 100%
 </style>

@@ -1,7 +1,7 @@
-<template>
-  <div class="stock-table__row">
+<template >
+  <div v-if="isDisplayed" class="stock-table__row">
     <div class="span">{{ itemData.name }}</div>
-    <span>{{ itemData.count }} шт.</span>
+    <span>{{ itemData[userId] }} шт.</span>
     <div class="stock-table__counter">
       <button class="stock-counter__btn" @click="offItem">-</button>
       <span class="stock-counter__value">{{ removeCount }}</span>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'ItemInStock',
   props: ['itemData'],
@@ -21,16 +22,31 @@ export default {
       removeCount: 1
     }
   },
+  computed: {
+    ...mapGetters(['isAdmin', 'userId']),
+    isDisplayed () {
+      /*
+      let result = ((((parseInt(this.itemData.type) === 0) && (this.isAdmin))) || (parseInt(this.itemData.type) === 1))
+      return result
+       */
+      return true
+    }
+  },
   methods: {
+    ...mapActions(['pullProductStock']),
     offItem() {
-      if (this.removeCount > 1) this.removeCount--; 
+      if (this.removeCount > 1) this.removeCount--;
+
     },
     addItem() {
-      if (this.itemData.count > this.removeCount) this.removeCount = this.removeCount + 1;
+      if (this.itemData[this.userId] > this.removeCount) this.removeCount++;
     },
     removeItems() {
-      this.$emit('removeRow', [this.itemData.id, this.removeCount])
-      this.removeCount = 1
+      if (this.itemData[this.userId] >= this.removeCount) {
+        this.pullProductStock({ id: this.itemData.id, quantity: this.removeCount })
+        this.removeCount = 1
+      }
+      else {alert('Склад пуст!')}
     }
   }
 }

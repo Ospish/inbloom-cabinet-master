@@ -11,14 +11,16 @@
           <span>Списать:</span>
           <span></span>
         </div>
-        <ItemInStock v-for="item in itemsInStock" :key="item.id" :itemData="item" @removeRow="removeRow"/>
-      </div>  
+        <ItemInStock v-if="item[userId] > 0" v-for="(item, index) in stockInfo" :key="item.id" :itemData="stockInfo[index]" @writeOff="writeOff"/>
+      </div>
+      <div v-if="stockInfo[0][userId] + stockInfo[1][userId] + stockInfo[2][userId] == 0">Склад пуст. Посетите <router-link to="/home/shop">магазин</router-link> для закупки товара.</div>
     </div>
-    <div class="stock-box in-transit" v-if="requestItems.length != 0">
+    <div v-if="!isAdmin" class="stock-box in-transit">
       <h3 class="stock__title">
         Товар в пути:
       </h3>
-      <RequestItem v-for="item in requestItems" :key="item.id" :itemData="item" @removeRequest="removeRequest"/>
+      <RequestItem v-if="item.type == 2" v-for="item in stockRequests" :key="item.id" :itemData="item" @removeRequest="removeRequest"/>
+
     </div>
   </div>
 </template>
@@ -27,6 +29,7 @@
 
 import ItemInStock from '@/components/stock/ItemInStock.vue'
 import RequestItem from '@/components/stock/RequestItem.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Stock',
@@ -34,68 +37,39 @@ export default {
     return {
       title: 'Склад',
       itemsRow: null,
-      itemsInStock: [
-        { id: 1,
-          name: 'Позиция 1',
-          count: 7
-        },
-        { id: 2,
-          name: 'Позиция 2',
-          count: 3
-        },
-        { id: 3,
-          name: 'Позиция 3',
-          count: 7
-        },
-        { id: 4,
-          name: 'Позиция 4',
-          count: 8
-        },
-        { id: 5,
-          name: 'Позиция 5',
-          count: 2
-        },
-        { id: 6,
-          name: 'Позиция 6',
-          count: 3
-        },
-        { id: 7,
-          name: 'Позиция 7',
-          count: 1
-        }
-      ],
-      requestItems: [
-        {
-          id: 1,
-          date: '2019-03-01 11:28:17'
-        },
-        {
-          id: 2,
-          date: '2019-01-01 11:28:17'
-        }
-      ]
     }
   },
   components: {
     ItemInStock,
     RequestItem
   },
+  computed: {
+    ...mapGetters(['shopInfo', 'stockInfo', 'requestInfo', 'userId', 'isAdmin']),
+    stockRequests(){
+      if (this.requestInfo.length > 0) {
+        return this.requestInfo.filter(item => item.status == 'request_sent' && item.userid == this.userId)
+        }
+    }
+  },
   methods: {
     addTitle(title) {
       this.$emit('showTitle', this.title)
     },
-    removeRow(params) {
-      this.itemsRow = this.itemsInStock.find(item => item.id == params[0])
-      if (params[1] == this.itemsRow.count) {
-        this.itemsInStock = this.itemsInStock.filter(item => item.id != params[0])
+    writeOff(params) {
+
+      /*
+      this.itemsRow = this.stockInfo.find(item => item.id == params[0])
+      if (params[1] === this.itemsRow.count) {
+        this.stockInfo = this.stockInfo.filter(item => item.id != params[0])
       }
       else {
         this.itemsRow.count = this.itemsRow.count - params[1]
       }
+
+       */
     },
     removeRequest(id) {
-      this.requestItems = this.requestItems.filter(item => item.id != id)
-      console.log(this.requestItems.length)
+      this.stockInfo = this.requestInfo.filter(item => item.id != id)
     }
   },
   mounted() {
@@ -106,7 +80,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
-  .stock-container 
+  .stock-container
     display: flex
     justify-content: space-between
   .stock_in

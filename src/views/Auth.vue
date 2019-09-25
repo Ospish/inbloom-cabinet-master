@@ -1,4 +1,4 @@
-<template>
+<template v-if="$route.params.id === 'auth'">
   <div class="auth">
     <div class="auth-modal">
       <div class="auth-modal__title" v-if="action == 'auth'">
@@ -10,12 +10,12 @@
       <div class="auth-modal__title" v-else-if="action == 'restorePass'">
         {{ restoreStrings.title }}
       </div>
-      <form action="" class="auth-modal__form">
+      <form id="form" action="" class="auth-modal__form">
         <div class="auth-modal_inputs">
           <input class="auth-modal__input" name="email" type="email" placeholder="E-mail">
           <input class="auth-modal__input" name="pass" type="password" placeholder="Пароль" v-if="action == 'reg' || action == 'auth'">
-          <input class="auth-modal__input" name="passConfirm" type="password" placeholder="Подтверждение пароля" v-else-if="action == 'reg'">
-          <input class="auth-modal__input" name="referalCode" type="text" placeholder="Код приглашения" v-else-if="action == 'reg'">
+          <input class="auth-modal__input" name="passConfirm" type="password" placeholder="Подтверждение пароля" v-if="action == 'reg'">
+          <input class="auth-modal__input" name="invite" type="text" placeholder="Код приглашения" v-if="action == 'reg'">
         </div>
         <div class="auth-links" v-if="action == 'auth'">
           <a @click="changeAction(link[1])" v-for="link in authStrings.links" :key="link.id">{{ link[0] }}</a>
@@ -28,28 +28,29 @@
           <a @click="changeAction(restoreStrings.linksVal[0])">{{ restoreStrings.linksText[0] }}</a>
           <a @click="changeAction(restoreStrings.linksVal[1])">{{ restoreStrings.linksText[1] }}</a>
         </div>
-        <button type="submit" class="btn-default big purple" @click="auth" v-if="action == 'auth'">{{ authStrings.btnVal }}</button>
-        <button type="submit" class="btn-default big purple" v-else-if="action == 'reg'">{{ regStrings.btnVal }}</button>
-        <button type="submit" class="btn-default big purple" v-else-if="action == 'restorePass'">{{ restoreStrings.btnVal }}</button>
-                <p v-if="errorMessage != null" class="return-message error">{{ errorMessage }}</p>
+        <button type="button" class="btn-default big purple" @click='login()'  v-if="action == 'auth'">{{ authStrings.btnVal }}</button>
+        <button type="button" class="btn-default big purple" @click='reg(); login()'  v-else-if="action == 'reg'">{{ regStrings.btnVal }}</button>
+        <button type="button" class="btn-default big purple" @click='restorePass()'  v-else-if="action == 'restorePass'">{{ restoreStrings.btnVal }}</button>
       </form>
     </div>
+    <Reset v-if="$route.params.id === 'reset'" @showTitle="showTitle"/>
   </div>
 </template>
 
 <script>
 
 import { mapActions, mapGetters } from 'vuex'
-import axios from 'axios';
+import Reset from '@/pages/Reset.vue'
 
 export default {
   name: 'Auth',
+  components: { Reset },
   data () {
     return {
+      email: null,
       action: 'auth',
       info: null,
       info1: null,
-      errorMessage: null,
       authStrings: {
         title: 'Войти в личный кабинет',
         btnVal: 'Войти',
@@ -70,34 +71,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['checkAuth']),
-    routing() {
-      if (this.isLoginned === true) this.$router.push('/home');
-    },
-    changeAction: function(action) {
-      this.action = 'restorePass';
+    ...mapActions(['checkAuth', 'login', 'reg', 'restorePass']),
+    changeAction: function (action) {
       this.action = action;
-    },
-    auth(){
-      axios
-      .get('http://ibapi.fobesko.com/public/login')
-      .then(response => (this.info = response));
-      axios
-        .post('http://ibapi.fobesko.com/public/login', {
-          email: 'example@gmail.com',
-          password: 'asdasdasdasd'
-        })
-        .then(response => (this.info1 = response))
-        .catch(function (error) {
-          console.log(error);
-        },
-          this.errorMessage = 'Ошибка!')
     }
   },
-  computed: mapGetters(['isLoginned']),
-  created() {
-    this.checkAuth();
-    this.routing();
+  computed: mapGetters(['isLoggedIn']),
+  created () {
+    if (this.$route.params.token == '24ad13sf' ) {
+      this.$store.commit('updateEmail', this.$route.params.email)
+      this.login(this.$route.params.id)
+    }
+    this.checkAuth()
   }
 }
 </script>

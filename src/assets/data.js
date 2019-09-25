@@ -3,20 +3,10 @@ let monthToday = months[2]
 
 let today = {
   id: 'today',
-  chart: {
-      type: "area"
-  },
-  title: {
-      text: ""
-  },
+  chart: { type: "area" },
+  title: { text: "" },
   xAxis: {
-    categories: [
-      "00:00",
-      "06:00",
-      "12:00",
-      "18:00",
-      "24:00"
-    ],
+    categories: [ ],
     labels: {
       formatter: function() {
         return this.value;
@@ -39,7 +29,7 @@ let today = {
         enabled: false,
         symbol: 'circle',
         radius: 5
-      }            
+      }
     }
   },
   series: [
@@ -47,23 +37,14 @@ let today = {
       name: "Доход",
       color: {
         linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
-        stops: [
-          [0, '#f3bc45'],
-          [1, '#ed832c']
-        ]
+        stops: [ [0, '#f3bc45'], [1, '#ed832c'] ]
       },
       lineWidth: 3,
       lineColor: "#c77824",
       marker: {
         symbol: "circle"
       },
-      data: [
-        500,
-        690,
-        950,
-        1400,
-        180
-      ]
+      data: [ ]
     },
   ]
 }
@@ -87,7 +68,8 @@ let month = {
     ],
     labels: {
       formatter: function() {
-        return this.value + " " + monthToday;
+        var d = new Date();
+        return this.value + " " + months[d.getMonth()]
       }
     }
   },
@@ -107,7 +89,7 @@ let month = {
         enabled: false,
         symbol: 'circle',
         radius: 5
-      }            
+      }
     }
   },
   series: [
@@ -125,13 +107,7 @@ let month = {
       marker: {
         symbol: "circle"
       },
-      data: [
-        5000,
-        6900,
-        9500,
-        14000,
-        18200
-      ]
+      data: []
     },
   ]
 }
@@ -169,7 +145,7 @@ let year = {
         enabled: false,
         symbol: 'circle',
         radius: 5
-      }            
+      }
     }
   },
   series: [
@@ -187,27 +163,14 @@ let year = {
       marker: {
         symbol: "circle"
       },
-      data: [
-        50000,
-        69000,
-        95000,
-        40000,
-        20200,
-        50000,
-        69000,
-        95000,
-        41000,
-        27200,
-        50000,
-        90000
-      ]
+      data: []
     },
   ]
 }
 
 export default {
- today, 
- month, 
+ today,
+ month,
  year
 }
 

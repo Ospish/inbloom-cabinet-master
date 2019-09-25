@@ -1,8 +1,8 @@
 <template>
   <div class="stock-container">
-    <div class="stock-box stock_in" >
+    <div v-if="basketInfo.length > 0" class="stock-box stock_in" >
       <h3 class="stock__title">
-        Товар в наличии:
+        Корзина:
       </h3>
       <div class="stock-table">
         <div class="stock-table__row stock-table__head">
@@ -10,33 +10,40 @@
           <span>Количество:</span>
           <span>Цена:</span>
         </div>
-        <ItemInBasket v-for="item in itemsInStock" :key="item.id" :itemData="item" @removeRow="removeRow"/>
+        <ItemInBasket v-for="item in basketInfo" :key="item.id" :itemData="item" :sum="sum" @removeRow="removeRow"/>
+
       </div>
-      <p class="table-sum">Итого: {{ sum }} руб.</p> 
-      <button @click="changeModal" class="btn-default purple">Заказать</button> 
+      <p class="table-sum">Итого: {{ basketSum }} руб.</p>
+      <button @click="makeOrder(request)" class="btn-default purple">Заказать</button>
+      <button @click="$store.commit('basketFlush')" class="btn-default">Очистить</button>
     </div>
-    <div v-if="modal" @click="changeModal" class="overlay"></div>
-    <div v-if="modal" class="basket-window">
-      <h3 class="basket-window__title uppercase">
-        Оплатите онлайн переводом, <br>укажите номер заказа: <span>IB-09-09-1</span>
-      </h3>
-      <div class="basket-window__buttons">
-        <button class="btn-default medium green">Sberbank</button>
-        <button class="btn-default medium yellow">Tinkoff</button>
-      </div>
-      <div class="basket-window__card">
-        <p class="basket-card__bank-name">Сбербанк</p>
-        <input class="basket-card__number" placeholder="5555 5555 5555 5555">
-        <input class="basket-card__name" placeholder="Иванович Иван Иванов">
+    <div v-if="basketInfo.length == 0">Корзина пуста. Пожалуйста, перейдите в <router-link to="/home/shop">магазин</router-link> для покупки.</div>
+    <div v-if="modal" @click="changeModal"  class="auth">
+      <div class="auth-modal">
+        <span class="close-modal" @click="closeModal"></span>
+        <div class="auth-modal__title">
+          Заявка отправлена
+        </div>
+        <form action="" class="auth-modal__form">
+            <p>
+              Мы свяжемся с Вами в течении 20 минут и согласуем букет перед отправкой.
+            </p>
+        </form>
       </div>
     </div>
+
+
+      </div>
+      <!-- end .popup__window -->
+
+    </div>
+    <!-- end .popup -->
   </div>
 </template>
 
 <script>
-
+import { mapGetters, mapActions } from 'vuex'
 import ItemInBasket from '@/components/ItemInBasket.vue'
-
 export default {
   name: 'Basket',
   data() {
@@ -44,66 +51,59 @@ export default {
       title: 'Корзина',
       itemsRow: null,
       card: null,
-      itemsInStock: [
-        { id: 1,
-          name: 'Позиция 1',
-          count: 7,
-          price: 200
-        },
-        { id: 2,
-          name: 'Позиция 2',
-          count: 3,
-          price: 400
-        },
-        { id: 3,
-          name: 'Позиция 3',
-          count: 7,
-          price: 200
-        },
-        { id: 4,
-          name: 'Позиция 4',
-          count: 8,
-          price: 150
-        },
-        { id: 5,
-          name: 'Позиция 5',
-          count: 2,
-          price: 300
-        },
-        { id: 6,
-          name: 'Позиция 6',
-          count: 3,
-          price: 250
-        },
-        { id: 7,
-          name: 'Позиция 7',
-          count: 1,
-          price: 100
-        }
-      ],
-      modal: false
+      modal: false,
+    }
+  },
+  watch: {
+    sum: function(){
+      return this.basketInfo.reduce(function(sum, current){
+        return sum + (current.quantity * current.price)
+      }, 0)
+    }
+  },
+  computed: {
+    ...mapGetters(['basketInfo', 'userInfo', 'basketSum', 'shopInfo']),
+    request(){
+      let item = {}
+      item.posInfo_products = []
+      item.posInfo_quantity = []
+      for (let x = 0; x < this.basketInfo.length; x++) {
+        item.posInfo_quantity.push(this.basketInfo[x].quantity)
+        item.posInfo_products.push(this.basketInfo[x].id)
+      }
+      item.posInfo_quantity = JSON.stringify(item.posInfo_quantity)
+      item.posInfo_products = JSON.stringify(item.posInfo_products)
+      console.log(item.posInfo_products)
+      item.value = this.sum
+      item.type = 2
+      return item
+    },
+    sum() {
+      return this.basketInfo.reduce(function (sum, current) {
+        return sum + (current.quantity * current.price)
+      }, 0)
     }
   },
   components: {
     ItemInBasket
   },
   methods: {
+    ...mapActions(['addRequest', 'addStatsRecord']),
     addTitle(title) {
       this.$emit('showTitle', this.title)
     },
     removeRow(id) {
-      this.itemsRow = this.itemsInStock.find(item => item.id == id)
-      this.itemsInStock = this.itemsInStock.filter(item => item.id != id)
+      this.itemsRow = this.basket.find(item => item.id == id)
+      this.basket = this.basket.filter(item => item.id != id)
     },
     changeModal() {
       this.modal = !this.modal
-    }
-  },
-  computed: {
-    sum(){
-      return this.itemsInStock.reduce(function(sum, current){
-        return sum = sum + (current.count * current.price)
-      }, 0)
+    },
+    makeOrder(request) {
+      this.modal = true
+      this.$store.commit('basketFlush')
+      this.$store.commit('addStatsRecord', {value: request.value})
+      this.addRequest(request)
     }
   },
   mounted() {
@@ -114,7 +114,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
-  .stock-container 
+  .btn-default
+    margin-right: 1em
+  .stock-container
     display: flex
     justify-content: space-between
   .stock_in
@@ -130,4 +132,6 @@ export default {
       margin-bottom: 2em
     .in-transit
       width: 100%
+    .btn-default
+      width: auto
 </style>

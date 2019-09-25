@@ -26,6 +26,8 @@ export default {
         {name: "Магазин", link: "/home/shop"},
         {name: "Контент", link: "/home/content"},
         {name: "Партнеры", link: "/home/partners"},
+        {name: "Корзина", link: "/home/basket"},
+        {name: "История", link: "/home/history"},
       ]
     }
   },

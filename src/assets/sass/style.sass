@@ -21,7 +21,7 @@ body
   left: 0
   top: 0
   min-height: 100vh
-  height: 100% 
+  height: 100%
   width: 20em
   background-color: #23252f
   &__logo
@@ -49,8 +49,8 @@ body
         position: absolute
         right: 0
       &:hover
-        color: lighten(#999, 10%)
-              
+        color: #ed832c
+
 .right-section
   width: calc(100% - 20em)
   margin-left: 20em
@@ -111,7 +111,7 @@ body
 
 .header-basket
   box-shadow: 0 5px 10px rgba(235, 147, 76, 0.3)
-  background-image: linear-gradient(to top, #ed832c 0%, #eb9754 99%, #eb9754 100%);
+  background-image: linear-gradient(to top, #ed832c 0%, #eb9754 99%, #eb9754 100%)
   border-radius: 50%
   &::before
     content: ""
@@ -138,19 +138,19 @@ body
 .header-profile
   background-color: #f6514c
   border: 3px solid #ffffff
-  border-radius: 50%
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3)
+  border-radius: 50%
   a
+    overflow: hidden
     width: 100%
     height: 100%
     display: block
+    border-radius: 50%
+    position: relative
   img
+    object-fit: cover
+    height: 100%
     width: 100%
-    height: auto
-    position: absolute
-    left: 50%
-    top: 50%
-    transform: translate(-50%, -50%)  
 .header-menu-toggler
   display: none
   width: 3em
@@ -176,7 +176,7 @@ body
       top: auto
   &.active
     span
-      left: 0%
+      left: 0
       top: 50%
       &:nth-child(2)
         display: none
@@ -190,17 +190,26 @@ body
   width: 100%
   background-color: #fff
   a
+    color: inherit
+    text-decoration: none
     position: relative
     font-size: 0.85em
     margin-right: .5em
     padding-right: 1.5em
     cursor: pointer
     &:hover
-     color: lighten($textLight, 10%)
+      color: $orange
+      &.active
+        color: $textLight
+        cursor: default
+      &:not(.active)::before
+          color: $textLight
     &:not(.active)::before
       content: "→"
       position: absolute
       right: 0
+      top: 50%
+      transform: translateY(-50%)
 
 footer
   display: flex
@@ -216,7 +225,7 @@ footer
     text-transform: uppercase
     color: #3aa6b4
     text-decoration: none
-  
+
 
 @media (max-width: 1440px)
   .left-sidebar

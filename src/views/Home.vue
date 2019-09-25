@@ -5,22 +5,22 @@
       <section class="right-section">
         <Header :openClass="menuOpened" @toggleMenu="toggleMenu"/>
         <div class="breadcrumbs">
-          <a>Домашняя</a>
-          <a class="active">Пользователь</a>
+          <router-link to="/home">Домашняя</router-link>
+          <a class="active">{{title}}</a>
         </div>
         <div class="right-section_content">
           <h2 class="right-section__title">
             {{ title }}
           </h2>
-          <Profile v-if="$route.params.id === 'profile' || $route.params.id === undefined" @showTitle="showTitle" />
+          <Profile v-if="$route.params.id === 'profile' || $route.params.id === undefined" :tabname="$route.params.tab" @showTitle="showTitle" />
           <Stock v-if="$route.params.id === 'stock'" @showTitle="showTitle"/>
-          <Basket v-if="$route.params.id === 'basket'" @showTitle="showTitle"/>
           <Report v-if="$route.params.id === 'report'" @showTitle="showTitle"/>
           <Requestions v-if="$route.params.id === 'requestions'" @showTitle="showTitle"/>
           <Shop v-if="$route.params.id === 'shop'" @showTitle="showTitle"/>
           <Content v-if="$route.params.id === 'content'" @showTitle="showTitle"/>
           <Partners v-if="$route.params.id === 'partners'" @showTitle="showTitle"/>
-          <SendInvitation v-if="$route.params.id === 'invitation'" @showTitle="showTitle"/>
+          <Basket v-if="$route.params.id === 'basket'" @showTitle="showTitle"/>
+          <History v-if="$route.params.id === 'history'" @showTitle="showTitle"/>
         </div>
         <footer>
           <span class="">&copy; 2019 InBloom.</span>
@@ -42,13 +42,14 @@ import Sidebar from '@/components/Sidebar.vue'
 import Header from '@/components/Header.vue'
 import Profile from '@/pages/Profile.vue'
 import Stock from '@/pages/Stock.vue'
-import Basket from '@/pages/Basket.vue'
 import Report from '@/pages/Report.vue'
 import Requestions from '@/pages/Requestions.vue'
 import Shop from '@/pages/Shop.vue'
 import Content from '@/pages/Content.vue'
 import Partners from '@/pages/Partners.vue'
-import SendInvitation from '@/pages/SendInvitation.vue'
+import Basket from '@/pages/Basket.vue'
+import History from '@/pages/History.vue'
+
 
 import { mapActions, mapGetters } from 'vuex'
 
@@ -59,26 +60,24 @@ export default {
     Header,
     Profile,
     Stock,
-    Basket,
     Report,
     Requestions,
     Shop,
     Content,
     Partners,
-    SendInvitation
+    Basket,
+    History
   },
   data() {
     return {
       title: '',
       menuOpened: false,
       addBtn: false
+
     }
   },
   methods: {
     ...mapActions(['checkAuth']),
-    routing() {
-      if (this.isLoginned === false) this.$router.push('/auth');
-    },
     showTitle(title) {
       this.title = title
     },
@@ -86,10 +85,8 @@ export default {
       this.menuOpened = !isOpen
     }
   },
-  computed: mapGetters(['isLoginned']),
-  created() {
-    this.checkAuth(),
-    this.routing()  
+  computed: mapGetters(['isLoggedIn']),
+  mounted() {
   }
 }
 </script>

@@ -21,7 +21,7 @@
 export default {
   data() {
     return {
-      title: 'Отправить приглашение',
+      title: 'Сбросить пароль',
       sendMessage: '',
       sendStatus: '',
       email: null
@@ -33,12 +33,13 @@ export default {
     },
     send(){
       if (this.email != null) {
+
         this.sendStatus = 'success'
-        this.sendMessage = 'Приглашение успешно отправлено!'
+        this.sendMessage = 'Пароль успешно сброшен!'
       }
       else {
         this.sendStatus = 'error'
-        this.sendMessage = 'Ошибка отправки приглашения!'
+        this.sendMessage = 'Ошибка сброса пароля!'
       }
       console.log(this.sendStatus)
     }

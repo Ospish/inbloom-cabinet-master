@@ -7,9 +7,9 @@
                 <p>Количество:</p>
             </div>
             <div class="table-body">
-                <div class="table-row" v-for="item in leftovers" :key="item.id">
-                    <p>{{ item.name }}</p>
-                    <p>{{ item.count }} шт</p>
+                <div class="table-row" v-for="(item, index) in stockInfo" v-if="stockInfo[index][userId] > 0" :key="item.id">
+                    <p>{{ stockInfo[index].name }}</p>
+                    <p>{{ stockInfo[index][userId] }} шт</p>
                 </div>
             </div>
         </div>
@@ -17,23 +17,19 @@
     </section>
 </template>
 <script>
-
-
+  import { mapGetters, mapActions } from 'vuex'
 export default {
+  computed: {
+    ...mapGetters(['shopInfo', 'stockInfo', 'userId']),
+  },
   data() {
     return {
-        leftovers: [
-            { name: 'Бутон белых роз, 8 мм', count: 12 },
-            { name: 'Бутон красных роз, 8 мм', count: 8 },
-            { name: 'Бутон белых роз, 8 мм', count: 12 },
-            { name: 'Бутон белых роз, 8 мм', count: 12 },
-        ]
     };
   },
   methods: {
       getToShop() {
           this.$router.push('/home/shop')
-      }
+      },
   },
   mounted(){
   }
@@ -43,7 +39,7 @@ export default {
 <style lang="sass">
 
 .leftovers-table
-    margin-bottom: 2em 
+    margin-bottom: 2em
     .table-head, .table-row
         display: flex
         justify-content: space-between

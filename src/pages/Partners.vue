@@ -1,123 +1,34 @@
 <template>
   <div class="partners-wrap">
-    <button @click="addPartner" class="btn-plus">+</button>
-    <PartnerItem  v-for="item in partnerItems" :key="item.id" :itemData="item" @removeItem="removeItem"/>
+    <button v-if="isAdmin" @click="sendInvite = true"  class="btn-plus">+</button>
+    <PartnerItem  v-for="item in partnersInfo" :key="item.id" :itemData="item" @removeItem="deletePartner"/>
+    <Invitation v-if="sendInvite" @closeModal="sendInvite = false" />
   </div>
 </template>
 
 <script>
 
 import PartnerItem from '@/components/PartnerItem.vue'
+import Invitation from '@/components/SendInvitation.vue'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Partners',
-  data() {
+  computed: mapGetters(['isAdmin', 'partnersInfo']),
+  data () {
     return {
       title: 'Партнеры',
-      partnerItems: [
-        { id: 1,
-          photo: '/assets/img/content-item-img.jpg',
-          name: 'Сергей',
-          city: 'Благевещенск',
-          socials: {
-            vk: 'https://vk.com/',
-            instagram: 'https://instagram.com/',
-            telegram: 'https://t.me/',
-            whatsapp: 'https://api.whatsapp.com/send?phone='
-          }
-        },
-        { id: 2,
-          photo: '/assets/img/content-item-img.jpg',
-          name: 'Сергей',
-          city: 'Благевещенск',
-          socials: {
-            vk: 'https://vk.com/',
-            instagram: 'https://instagram.com/',
-            telegram: 'https://t.me/',
-            whatsapp: 'https://api.whatsapp.com/send?phone='
-          }
-        },
-        { id: 3,
-          photo: '/assets/img/content-item-img.jpg',
-          name: 'Сергей',
-          city: 'Благевещенск',
-          socials: {
-            vk: 'https://vk.com/',
-            instagram: 'https://instagram.com/',
-            telegram: 'https://t.me/',
-            whatsapp: 'https://api.whatsapp.com/send?phone='
-          }
-        },
-        { id: 4,
-          photo: '/assets/img/content-item-img.jpg',
-          name: 'Сергей',
-          city: 'Благевещенск',
-          socials: {
-            vk: 'https://vk.com/',
-            instagram: 'https://instagram.com/',
-            telegram: 'https://t.me/',
-            whatsapp: 'https://api.whatsapp.com/send?phone='
-          }
-        },
-        { id: 5,
-          photo: '/assets/img/content-item-img.jpg',
-          name: 'Сергей',
-          city: 'Благевещенск',
-          socials: {
-            vk: 'https://vk.com/',
-            instagram: 'https://instagram.com/',
-            telegram: 'https://t.me/',
-            whatsapp: 'https://api.whatsapp.com/send?phone='
-          }
-        },
-        { id: 6,
-          photo: '/assets/img/content-item-img.jpg',
-          name: 'Сергей',
-          city: 'Благевещенск',
-          socials: {
-            vk: 'https://vk.com/',
-            instagram: 'https://instagram.com/',
-            telegram: 'https://t.me/',
-            whatsapp: 'https://api.whatsapp.com/send?phone='
-          }
-        },
-        { id: 7,
-          photo: '/assets/img/content-item-img.jpg',
-          name: 'Сергей',
-          city: 'Благевещенск',
-          socials: {
-            vk: 'https://vk.com/',
-            instagram: 'https://instagram.com/',
-            telegram: 'https://t.me/',
-            whatsapp: 'https://api.whatsapp.com/send?phone='
-          }
-        }
-      ]
+      sendInvite: false
     }
   },
   components: {
-    PartnerItem
+    PartnerItem,
+    Invitation
   },
   methods: {
-    removeItem(id) {
-      this.partnerItems = this.partnerItems.filter(item => item.id != id)
-    },
-      addTitle(title) {
+    ...mapActions(['loadPartners', 'deletePartner']),
+    addTitle(title) {
       this.$emit('showTitle', this.title)
-    },
-    addPartner(){
-      this.partnerItems.push({
-        id: this.partnerItems.length + 1,
-        photo: '',
-        name: '',
-        city: '',
-        socials: {
-          vk: '',
-          instagram: '',
-          telegram: '',
-          whatsapp: ''
-        }
-        })
     }
   },
   mounted() {
@@ -139,9 +50,9 @@ export default {
     width: 30%
     margin: 1.5em 1.5%
     margin-left: 1.5%
-@media (max-width: 350px) 
+@media (max-width: 350px)
   .partner-item
     width: 40%
     margin-right: 5%
-    margin-left: 5% 
+    margin-left: 5%
 </style>

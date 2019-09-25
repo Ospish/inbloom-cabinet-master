@@ -1,17 +1,16 @@
 <template>
   <div class="right-section__header">
     <div class="right-section__header-menu">
-      <router-link
-        to="/home/basket"
+      <router-link to="/home/basket"
         name="Корзина"
         class="header-basket"
       >
-        <span class="header-basket__label">9</span>
+        <span class="header-basket__label">{{ basketCount }}</span>
       </router-link>
       <p class="header-profile">
         <router-link to="/home/profile">
         <img
-          src="/img/profile-min.jpeg"
+          :src="userInfo.photo || noPhoto"
           alt=""
         >
         </router-link>
@@ -29,9 +28,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: "Header",
   props: ['openClass'],
+  computed: {
+    ...mapGetters(['basketCount', 'userInfo', 'noPhoto'])
+  },
   methods: {
     toggleMenu() {
       this.$emit('toggleMenu', this.openClass)

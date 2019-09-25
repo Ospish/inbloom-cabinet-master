@@ -5,7 +5,7 @@
       <LineChart v-if="data" :data="data"/>
     </div>
     <div class="report-box">
-      <Benchmarks />
+      <Benchmarks :dataName="this.dataName" />
     </div>
     <div class="report-box">
       <Leftovers />
@@ -18,25 +18,34 @@
 import LineChart from '@/components/report/LineChart.vue'
 import Benchmarks from '@/components/report/Benchmarks.vue'
 import Leftovers from '@/components/report/Leftovers.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Report',
   data() {
     return {
-      income: ''
     }
   },
+  computed: {
+    ...mapGetters(['isAdmin', 'userStats']),
+    income(){
+      if (this.userStats[this.dataName] == undefined) return 0
+      else return this.userStats[this.dataName].sum
+    }
+  },
+
   methods: {
     updateIncome(){
+      /*
       this.income = this.data.series[0].data.reduce(function(sum, current){
         return sum + current
-      }, 0)
+      }, 0)*/
     }
   },
-  updated() {
+  mounted() {
     this.updateIncome()
   },
-  props: ['data'],
+  props: ['data', 'dataName'],
   components: {
     LineChart,
     Benchmarks,
