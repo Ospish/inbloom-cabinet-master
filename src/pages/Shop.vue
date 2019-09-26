@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="shop-container">
-      <div class="catalog-header">
-        <span>Товар в наличии: </span>
+      <div class="catalog-header flex">
+        <p>Товар в наличии: </p>
         <!-- The buttons on top controlling shop type. Add item button is invisible for non admins when shop type = 0 -->
-        <span class="catalog-header__buttons">
+        <div class="catalog-header__buttons">
           <button @click="setShopType(0); showPopup = false" v-bind:class="{ active: shopType == 0 }" class="catalog-btn">Опт</button>
           <button @click="setShopType(1); showPopup = false" v-bind:class="{ active: shopType == 1 }" class="catalog-btn">Сайт</button>
+        </div>
+        <div class="catalog-header__buttons add-button">
           <button v-if="shopType == 1 || isAdmin" class="edit-item-btn add" @click="plusButton">
             +
           </button>
@@ -15,25 +17,25 @@
             <button @click="showPopup = false; showInput0 = true;">Категория</button>
             <button @click="showPopup = false; showInput1 = true;">Подкатегория</button>
           </span>
-          <span v-if="showInput0">
-            <input v-model="input0" type="text"><button @click="addCategory({name: input0, id: categoriesInfo.length, subs: []}); showInput0 = false">OK</button>
+          <span class="add-category__input" v-if="showInput0">
+            <input v-model="input0" type="text"><button @click="add">Добавить</button>
           </span>
-          <span v-if="showInput1">
-            <input v-model="input1" type="text"><button @click="addSubCategory({name: input1, id: currentTab.id}); showInput1 = false">OK</button>
+          <span class="add-category__input" v-if="showInput1">
+            <input v-model="input1" type="text"><button @click="addSubCategory({name: input1, id: currentTab.id}); showInput1 = false">Добавить</button>
           </span>
-        </span>
+        </div>
       </div>
       <div v-if="shopType == 0" class="catalog-header">
         <!-- The second row buttons controlling product type -->
         <h2 class="catalog-header__title" :class="{active: accordeonHeight.categories != '0px'}" @click="changeAccordion('categories')">Категории</h2>
         <div class="report-buttons" :style="{height: accordeonHeight.categories}">
-          <button class="report-btn" v-for="tab in categoriesInfo" :key="tab.name" :class="[currentTab.name, { active: currentTab.name === tab.name}]" @click="selectCategory(tab, 'categories')">{{ tab.name }}</button>
+            <ShopCategorie v-for="tab in categoriesInfo" :key="tab.id" :tab="tab" :currentTab="currentTab" :type="0"  @selectSubcategory="selectCategory" @changeSubcategory="changeCategory" @deleteSubcategory="deleteCategory"></ShopCategorie>
         </div>
         <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
         <!-- The third row buttons controlling product subtype -->
         <h2 class="catalog-header__title" :class="{active: accordeonHeight.subcategories != '0px'}" v-if="categoriesInfo[currentTab.id].subs.length != 0" @click="changeAccordion('subcategories')">Подкатегории</h2>
-        <div class="report-buttons" :style="{height: this.accordeonHeight.subcategories}">
-          <button class="report-btn" v-for="tab in categoriesInfo[currentTab.id].subs" :key="tab.name" :class="[currentTab2.name, { active: currentTab2.name === tab.name}]" @click="selectSubcategory(tab, 'subcategories')">{{ tab.name }}</button>
+        <div class="report-buttons subcategories" :style="{height: this.accordeonHeight.subcategories}">
+          <ShopCategorie v-for="tab in categoriesInfo[currentTab.id].subs" :key="tab.id" :tab="tab" :type="1" :currentTab="currentTab2" @selectSubcategory="selectSubcategory" @changeSubcategory="changeSubcategory" @deleteSubcategory="deleteSubcategory"></ShopCategorie>
         </div>
       </div>
       <CatalogItem v-if="shopType == 1 && item.userid == userId" v-for="(item, index) in shopInfo" :key="item.id" :itemIndex="index" :itemData="item"/>
@@ -49,6 +51,7 @@
 import CatalogItem from '@/components/CatalogItem.vue'
 import AddItemToShop from '@/components/AddItemToShop.vue'
 import AddItemToFranch from '@/components/AddItemToFranch.vue'
+import ShopCategorie from '@/components/shop/ShopCategorie.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -85,7 +88,8 @@ export default {
   components: {
     CatalogItem,
     AddItemToShop,
-    AddItemToFranch
+    AddItemToFranch,
+    ShopCategorie
   },
   methods: {
     ...mapActions([ 'openEditor', 'changeStore', 'addCategory', 'addSubCategory' ]),
@@ -108,7 +112,12 @@ export default {
     },
     openEditor (id) {
       this.showPopup = false
-      if (this.isEdited != -1) this.$store.commit('openEditor', id)
+      if (this.isEdited != -1) {
+        this.$store.commit('openEditor', id)
+        setTimeout(function () {
+          window.scrollTo(0,document.body.scrollHeight);
+        }, 100)
+      }
         else {
           this.$store.commit('openEditor', null)
       }
@@ -131,23 +140,56 @@ export default {
       }
       else this.openEditor(-1)
     },
-    selectCategory(tab, accId){
-      if (document.width < 600) this.accordeonHeight[accId] = '0px'
+    selectCategory(tab){
+      if (document.width < 600) this.accordeonHeight['categories'] = '0px'
       this.currentTab = tab
-      console.log(this.currentTab.subs[0])
+      this.$store.commit('openEditor', null)
+      console.log(this.currentTab.id)
       if (this.currentTab.subs[0] != undefined) this.currentTab2 = this.currentTab.subs[0]
-
     },
-    selectSubcategory(tab, accId){
-      this.accordeonHeight[accId] = '0px'
+    add(){
+      let arr = this.categoriesInfo.map(function(o){ return o.id })
+      this.addCategory({name: this.input0, id: Math.max.apply(Math, arr)+1, subs: []})
+      this.showInput0 = false
+    },
+    deleteCategory(tab){
+      if (this.currentTab == tab) this.currentTab = this.categoriesInfo[0]
+      this.$store.dispatch('deleteCategory', tab)
+      this.$forceUpdate();
+      console.log(tab)
+    },
+    changeCategory(tab){
+      this.currentTab = tab
+    },
+    saveCategory($event, tab){
+      $event.path[2].firstChild.setAttribute('readonly', 'readonly')
+    },
+    selectSubcategory(tab){
+      if (document.width < 600) this.accordeonHeight['subcategories'] = '0px'
       this.currentTab2 = tab
       console.log(this.currentTab2.id)
+    },
+    deleteSubcategory(tab){
+      if (this.currentTab == tab) this.currentTab = this.categoriesInfo[0]
+      tab.parent = this.currentTab.id
+      this.$store.dispatch('deleteSubCategory', tab)
+      this.$forceUpdate();
+      console.log(tab)
+    },
+    changeSubcategory(tab){
+      this.currentTab2 = tab
+    },
+    saveSubcategory($event, tab){
+      $event.path[2].firstChild.setAttribute('readonly', 'readonly')
+
     }
   },
   mounted () {
     this.addTitle(this.title)
     this.currentTab = this.categoriesInfo[0]
     this.currentTab2 = this.categoriesInfo[0].subs[0]
+    this.accordeonHeight['categories'] = 'auto'
+    this.accordeonHeight['subcategories'] = 'auto'
   }
 }
 </script>
@@ -166,11 +208,30 @@ export default {
   padding-bottom: .7em;
   border-bottom: 1px solid #eeeeee;
   margin-bottom: 1em;
+  &.flex
+    display: flex
+    align-items: center
   &__buttons
     position: relative
 .catalog-item
   margin: 2em
   margin-left: 0
+.add-category__input
+  margin-left: .5em
+  height: 100%
+  input
+    border-radius: 3px 0 0 3px
+    border: 1px solid #555555
+    padding: 0 .5em
+    height: 1.7em
+  button
+    height: 1.7em
+    border: 1px solid #555555
+    border-left: none
+    border-radius: 0 3px 3px 0
+    font-size: 1em
+    &:hover
+      background-color: #d43eff
 .add-shop-popup
   position: absolute
   right: -.5em
@@ -207,17 +268,14 @@ export default {
   flex-wrap: wrap
   height: auto
   justify-content: space-between
-  .report-btn
-    margin-bottom: 1em
-    padding: .5em 0
-    margin: .25em
-    width: calc(25% - .5em)
-    border-radius: 1em;
-    &:last-child
-      margin-right: auto
+
 @media (max-width: 767px)
   .shop-container
     padding: 2em 2em
+  .catalog-header__buttons.add-button
+    margin-top: 1em
+  .catalog-header.flex
+    flex-wrap: wrap
   .catalog-item
     width: 30%
     margin: 1.5em 1.5%
@@ -227,14 +285,16 @@ export default {
     line-height: 1.5em
   .report-btn
     width: calc(50% - .5em)!important
+    &__inner
+      padding: 0 .8em
   .add-shop-popup
     right: 1.7em
     bottom: 50%
     z-index: 2
     transform: translateX(0)
-@media (max-width: 350px)
+@media (max-width: 500px)
   .catalog-item
-    width: 36%
-    margin-right: 7%
-    margin-left: 7%
+    width: 45%
+    margin-right: 2.5%
+    margin-left: 2.5%
 </style>

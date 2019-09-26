@@ -10,7 +10,7 @@
           <img src="./../assets/img/icons/trash_white.svg" alt="">
         </button>
       </div>
-      <img id="partnerimg" class="avatar" :src="this.itemData.photo || noPhoto" alt="">
+      <img id="partnerimg" class="avatar" :src="avatarSrc" alt="">
     </div>
     <p class="partner-item__name">{{ itemData.name || "-ИМЯ НЕ УКАЗАНО-" }}</p>
     <p>
@@ -37,7 +37,14 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'PartnerItem',
-  computed: mapGetters(['isAdmin', 'noPhoto', 'isLoaded']),
+  computed: {
+    ...mapGetters(['isAdmin', 'noPhoto', 'isLoaded']),
+    avatarSrc(){
+      if (this.itemData.photo == 'data:image/jpeg;base64,') return this.noPhoto
+      else return this.itemData.photo
+    }
+
+  },
   props: ['itemData'],
   data() {
     return {

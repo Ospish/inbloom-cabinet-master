@@ -100,7 +100,10 @@ export default {
       state.basket = []
       state.app.basketSum = 0
       state.app.basketCount = 0
-      state.products.forEach(function (item) {
+      state.products[0].forEach(function (item) {
+        item.quantity = 0
+      })
+      state.products[1].forEach(function (item) {
         item.quantity = 0
       })
     },
@@ -242,8 +245,8 @@ export default {
     pushStocks (state, [id, quantity]) {
       let index = state.products[0].findIndex(product => product.id === id)
       state.products[0][index][state.user.id] = state.products[0][index][state.user.id] + quantity;
-      //console.log('state.stocks UPDATED');
-      //console.log(state.stocks)
+      console.log('Stocks UPDATED');
+      console.log(state.products[0][index][state.user.id])
     },
     updatePartners (state, partners) {
       state.partners = partners;
@@ -281,12 +284,25 @@ export default {
     addSubCategory (state, subcategory) {
       state.categories[subcategory.id].subs.push(subcategory)
     },
+    deleteCategory (state, category) {
+      let index = state.categories.findIndex(categories => categories.id === category.id)
+      state.categories.splice(index, 1)
+      console.log('state.categories: ')
+      console.log(state.categories)
+    },
+    deleteSubCategory (state, subcategory) {
+      let index = state.requests.findIndex(subcategories => subcategories.id === subcategory.id)
+      state.categories[subcategory.parent].subs.splice(index, 1)
+      console.log('state.subcategories: ')
+      console.log(state.categories[subcategory.parent].subs)
+    },
     deleteProduct (state, id) {
       let index = state.products[state.app.shopType].findIndex(product => product.id === id)
       state.products[state.app.shopType].splice(index, 1)
       console.log('state.products UPDATED')
       console.log(state.products)
     },
+
     deletePartner (state, id) {
       let index = state.partners.findIndex(partners => partners.id === id)
       state.partners.splice(index, 1)
@@ -338,9 +354,9 @@ export default {
 
   actions: {
     isAdmin (ctx) {
-      return parseInt(ctx.state.role) === 1
+      return parseInt(ctx.state.role) < 2
     },
-    reg (email, password, invite) {
+    reg (ctx, email, password, invite) {
       email = document.getElementsByName('email')[0].value
       password = document.getElementsByName('pass')[0].value
       invite = document.getElementsByName('invite')[0].value
@@ -350,11 +366,15 @@ export default {
           password: password,
           invite: invite
         })
-        .then(response => (console.log(response)))
-        .catch(function (error) {
-          console.log(error)
+        .then(function (response) {
+          console.log(response.data)
+          ctx.commit('updateStatus', true)
+          router.push('/auth')
         })
-      router.push('/auth')
+        .catch(function (error) {
+          console.error(error)
+        })
+
     },
     login (ctx, id, email, password) {
       if (typeof document.getElementsByName('email')[0] != 'undefined') {email = document.getElementsByName('email')[0].value}
@@ -448,7 +468,7 @@ export default {
     getInfo (ctx, id) {
       var photo = null
         axios
-          .get(API_SERVER + '/api/file/profile/' + id)
+          .get(API_SERVER + '/api/file/one/profile/' + id)
           .then(function (response) {
             photo = response.data
             //console.log(photo)
@@ -461,7 +481,7 @@ export default {
             console.log(response.data[0])
             response.data[0].photo = photo
             ctx.commit('updateInfo', response.data[0])
-            if ((response.data[0].coords == '' || response.data[0].coords == null) && response.data[0].city != '') ctx.dispatch('getCoords')
+            if ((response.data[0].coords == '' || response.data[0].coords == null) && response.data[0].city != 'null') ctx.dispatch('getCoords')
           })
           .catch(function (error) {
             console.log(error)
@@ -599,7 +619,7 @@ export default {
           console.log(error)
         })
       axios
-        .get(API_SERVER + '/api/file/profile')
+        .get(API_SERVER + '/api/file/profile/shown')
         .then(function (response) {
           photo = response.data
           console.log('Partners Photo LOADED: ' + photo.length)
@@ -637,7 +657,7 @@ export default {
         })
         .catch(function (error) { console.log(error) })
       axios
-        .get(API_SERVER + '/api/file/content')
+        .get(API_SERVER + '/api/file/all/content')
         .then(function (response) {
           //console.log('Content Photo LOADED')
           //console.log(response.data)
@@ -701,7 +721,7 @@ export default {
     },
     addCategory (ctx, category) {
       axios
-        .post(API_SERVER + '/api/store/categories', {name: category.name})
+        .post(API_SERVER + '/api/store/categories/0', {id: category.id, name: category.name})
         .then(function (response) {
           //console.log('getRequests RESPONSE')
           //console.log(response)
@@ -711,9 +731,21 @@ export default {
           console.log(error)
         })
     },
+    editCategory (ctx, subcategory) {
+      axios
+        .put(API_SERVER + '/api/store/categories/0', {id: subcategory.id, name: subcategory.name})
+        .then(function (response) {
+          //console.log('getRequests RESPONSE')
+          //console.log(response)
+          //ctx.commit('editCategory', subcategory)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
     addSubCategory (ctx, subcategory) {
       axios
-        .post(API_SERVER + '/api/store/categories/' + subcategory.id, {name: subcategory.name})
+        .post(API_SERVER + '/api/store/categories/1', {id: subcategory.id, name: subcategory.name})
         .then(function (response) {
           //console.log('getRequests RESPONSE')
           //console.log(response)
@@ -723,7 +755,42 @@ export default {
           console.log(error)
         })
     },
-
+    editSubCategory (ctx, subcategory) {
+      axios
+        .put(API_SERVER + '/api/store/categories/1', {id: subcategory.id, name: subcategory.name})
+        .then(function (response) {
+          //console.log('getRequests RESPONSE')
+          //console.log(response)
+          //ctx.commit('addSubCategory', subcategory)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    deleteCategory (ctx, category) {
+      axios
+        .delete(API_SERVER + '/api/store/categories/' + category.id)
+        .then(function (response) {
+          //console.log('getRequests RESPONSE')
+          //console.log(response)
+          ctx.commit('deleteCategory', category)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    deleteSubCategory (ctx, subcategory) {
+      axios
+        .delete(API_SERVER + '/api/store/categories/' + subcategory.id + '/' + subcategory.parent)
+        .then(function (response) {
+          //console.log('getRequests RESPONSE')
+          //console.log(response)
+          ctx.commit('deleteSubCategory', subcategory)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
     // REQUESTS
 
     getRequests (ctx) {
@@ -807,10 +874,12 @@ export default {
     addProduct (ctx, product) {
       product.userid = ctx.state.user.id
       let type = ctx.state.app.shopType
-      if (type == 0) {
+      /*
+      if (type != 0) {
         product.price_premium = product.price
         product.price_vip = product.price
       }
+       */
       axios
         .post(API_SERVER + '/api/store/add/' + type, product)
         .then(function (response) {
@@ -824,14 +893,14 @@ export default {
         })
     },
     loadProducts (ctx) {
-      if (ctx.state.products == "") {
+
         var photo = null
         axios
           .get(API_SERVER + '/api/store/products/' + ctx.state.user.id  )
           .then(function (response) {
             console.log(response.data)
             axios
-              .get(API_SERVER + '/api/file/stock')
+              .get(API_SERVER + '/api/file/all/stock')
               .then(function (response) {
                 photo = response.data
                 console.log('Stock Products Photo LOADED: ' + photo.length)
@@ -842,7 +911,7 @@ export default {
               })
               .catch(function (error) { console.log(error) })
             axios
-              .get(API_SERVER + '/api/file/user/store/' + ctx.state.user.id )
+              .get(API_SERVER + '/api/file/userproducts/store/' + ctx.state.user.id )
               .then(function (response) {
                 photo = response.data
                 console.log('Store Products Photo LOADED: ' + photo.length)
@@ -866,7 +935,7 @@ export default {
           .catch(function (error) {
             console.log(error)
           })
-      }
+
       /*
       if ((ctx.state.stocks == "") && (ctx.state.user.id != null)) {
         axios
@@ -885,10 +954,12 @@ export default {
     editProduct (ctx, product) {
       let type = ctx.state.app.shopType
       console.log('Action: editProduct')
-      if (type == 0) {
+      /*
+      if (type != 0) {
         product.price_premium = product.price
         product.price_vip = product.price
       }
+       */
       //product.posInfo = JSON.stringify(product.posInfo)
       axios
         .post(API_SERVER + '/api/store/set/' + type, product)

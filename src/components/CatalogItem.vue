@@ -59,8 +59,16 @@ export default {
       this.$forceUpdate();
     },
     openEditor () {
-      console.log('this.itemData.id: ' + this.itemIndex)
-      this.$store.commit('openEditor', this.itemIndex)
+      this.showPopup = false
+      if (this.isEdited != -1) {
+        this.$store.commit('openEditor', this.itemIndex)
+        setTimeout(function () {
+          window.scrollTo(0,document.body.scrollHeight);
+        }, 100)
+      }
+      else {
+        this.$store.commit('openEditor', null)
+      }
     },
   }
 }
