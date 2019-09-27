@@ -367,9 +367,13 @@ export default {
           invite: invite
         })
         .then(function (response) {
+          //ctx.commit('updateStatus', true)
+          //router.push('/home')
           console.log(response.data)
-          ctx.commit('updateStatus', true)
-          router.push('/auth')
+          setTimeout(function () {
+            ctx.dispatch('login')
+          }, 250)
+
         })
         .catch(function (error) {
           console.error(error)
@@ -456,7 +460,7 @@ export default {
     setInfo (ctx) {
       console.log('Action: setInfo: ' + ctx.state.user.id)
       let info = ctx.state.user.info
-      info.phone = info.phone.replace(/\D+/g, "");
+      if (info.phone != '') info.phone = info.phone.replace(/\D+/g, "");
       axios
         .post(API_SERVER + '/api/user/info/' + ctx.state.user.id, info)
         .then(response => (console.log(response)))

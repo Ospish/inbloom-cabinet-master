@@ -29,7 +29,7 @@
           <a @click="changeAction(restoreStrings.linksVal[1])">{{ restoreStrings.linksText[1] }}</a>
         </div>
         <button type="button" class="btn-default big purple" @click='login()'  v-if="action == 'auth'">{{ authStrings.btnVal }}</button>
-        <button type="button" class="btn-default big purple" @click='reg(); login()'  v-else-if="action == 'reg'">{{ regStrings.btnVal }}</button>
+        <button type="button" class="btn-default big purple" @click='reg()'  v-else-if="action == 'reg'">{{ regStrings.btnVal }}</button>
         <button type="button" class="btn-default big purple" @click='restorePass()'  v-else-if="action == 'restorePass'">{{ restoreStrings.btnVal }}</button>
       </form>
     </div>

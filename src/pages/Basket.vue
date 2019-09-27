@@ -26,18 +26,11 @@
         </div>
         <form action="" class="auth-modal__form">
             <p>
-              Мы свяжемся с Вами в течении 20 минут и согласуем букет перед отправкой.
+              В ближайшее время с Вами свяжется менеджер.
             </p>
         </form>
       </div>
     </div>
-
-
-      </div>
-      <!-- end .popup__window -->
-
-    </div>
-    <!-- end .popup -->
   </div>
 </template>
 
