@@ -13,7 +13,7 @@
         </div>
       </div>
       <label class="add-item__image">
-        <img class="avatar" id="img" :src="avatarSrc" alt="">
+        <img class="avatar" id="img" :src="this.itemData.photo || noPhoto" alt="">
         <input :disabled="!isAdmin" @change="edit" type="file" accept="image/jpeg,image/png,image/gif" class="add-item__photo-input" >
       </label>
 
@@ -37,11 +37,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'ContentItem',
   computed: {
-    ...mapGetters(['isAdmin', 'contentInfo', 'noPhoto', 'isLoaded']),
-    avatarSrc(){
-      if (this.itemData.photo == 'data:image/jpeg;base64,') return this.noPhoto
-      else return this.itemData.photo
-    }
+    ...mapGetters(['isAdmin', 'contentInfo', 'noPhoto', 'isLoaded'])
   },
   props: ['itemData', 'isAdding'],
   data () {
