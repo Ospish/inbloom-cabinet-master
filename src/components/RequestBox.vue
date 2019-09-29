@@ -98,6 +98,7 @@ export default {
       console.log(this.itemData.posInfo_products)
       console.log(this.itemData.posInfo_products)
       console.log(this.itemData.posInfo_products)
+
       for (let x = 0; x < JSON.parse(this.itemData.posInfo_products).length; x++) {
         if (this.itemData.type == 2) {
           let index = this.stockInfo.findIndex(requests => requests.id == JSON.parse(this.itemData.posInfo_products)[x])
@@ -106,6 +107,7 @@ export default {
         }
         else {
           let index = this.shopInfo.findIndex(requests => requests.id == JSON.parse(this.itemData.posInfo_products)[x])
+          if (typeof this.shopInfo[index] == 'undefined') return 'Товар #' + JSON.parse(this.itemData.posInfo_products)[x]
           if (x > 0) str += ', '
           str += this.shopInfo[index].name + ' x ' + JSON.parse(this.itemData.posInfo_quantity)[x]
         }

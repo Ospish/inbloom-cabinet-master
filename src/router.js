@@ -29,7 +29,7 @@ router.beforeEach((to, from, next) => {
   if (to.fullPath != '/auth') {
     if (store.getters.isLoggedIn) {
       if (to.fullPath == '/home') {
-        setTimeout(function () { next() }, 1400)
+        setTimeout(function () { next() }, 1600)
       }
       else next()
     }

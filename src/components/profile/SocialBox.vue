@@ -60,8 +60,8 @@ export default {
     socialURL () {
       if (this.arraykey == 'vk') return 'https://vk.com/'
       if (this.arraykey == 'ok') return 'https://ok.ru/'
-      if (this.arraykey == 'whatsapp') return 'https://whatsapp.com/'
-      if (this.arraykey == 'telegram') return 'https://telegram.com/'
+      if (this.arraykey == 'whatsapp') return 'https://wa.me/'
+      if (this.arraykey == 'telegram') return 'https://t.me/'
       if (this.arraykey == 'facebook') return 'https://facebook.com/'
       if (this.arraykey == 'instagram') return 'https://instagram.com/'
     }

@@ -7,7 +7,7 @@
 				<button class="btn-yes" @click="deleteSubcategory(tab); showModal=false">Да</button><button class="btn-no" @click="showModal=false">Нет</button>
 			</div>
 		</div>
-		<div class="report-btn__options">
+		<div v-if="isAdmin" class="report-btn__options">
 			<button class="report-btn__changed" v-if="changeToggler" @click="saveSubcategory($event, tab)"></button>
 			<button v-if="currentTab.name === tab.name && !changeToggler" class="report-btn__change" @click="changeSubcategory($event, tab)"></button>
 			<button v-if="currentTab.name === tab.name" class="report-btn__remove" @click="showModal = true"></button>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
 	data(){
 		return {
@@ -23,6 +24,7 @@ export default {
 			showModal: false
 		}
 	},
+  computed: mapGetters(['isAdmin']),
 	props: ['tab', 'currentTab', 'type'],
 	methods: {
 		selectSubcategory(tab){

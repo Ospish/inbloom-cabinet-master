@@ -130,7 +130,12 @@ export default {
       }
     },
     showStock(item){
-      return (this.shopType == 0 && item.type == this.currentTab.id && item.sub == this.currentTab2.id)
+      if (this.shopType == 0 && item.type == this.currentTab.id && item.sub == this.currentTab2.id) {
+        if (item.available == 1 || item.available == true) return true
+        if (this.isAdmin == true) return true
+        return false
+      }
+      else return false
     },
     plusButton(){
       if (this.shopType == 0) {

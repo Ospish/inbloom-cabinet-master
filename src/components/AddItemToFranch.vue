@@ -10,12 +10,12 @@
         <h4>Наименование:</h4>
         <input type="text" v-model="itemData.name" class="add-item__input">
           <h4>Товар в наличии
-          <input type="checkbox" name="on-shelf" class="add-item__input">
+          <input checked type="checkbox" v-model="itemData.available" class="add-item__input">
           </h4>
       </div>
       <div class="add-item__description width-20">
         <h4>Описание:</h4>
-        <textarea style='width: 260px' rows="6" type="text" v-model="itemData.description" class="add-item__input"></textarea>
+        <textarea style='width: 230px' rows="6" type="text" v-model="itemData.description" class="add-item__input"></textarea>
         <!-- TODO: move inline to styles -->
       </div>
       <div class="add-item__description width-20">
