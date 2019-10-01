@@ -1,6 +1,7 @@
 <template>
   <div class="catalog-item">
     <div class="catalog-item__image-box">
+      <div v-if="itemData.available == false" style="position: absolute; margin: 110px 20px; font-size: 24px; font-weight: bold;">НЕТ В НАЛИЧИИ</div>
       <span v-if="shopType == 0 || !isAdmin" class="catalog-item__count">{{ itemData.quantity || 0 }}</span>
       <button v-if="shopType == 1 || isAdmin" @click="openEditor" class="catalog-item__edit-item">
         <img src="./../assets/img/icons/edit.svg" alt="">
@@ -9,13 +10,14 @@
         <span v-if="userRole == 4 " class="catalog-item__full-price">{{ itemData.price * itemData.quantity || 0 }} р.</span>
         <span v-if="userRole == 3" class="catalog-item__full-price">{{ itemData.price_premium * itemData.quantity || 0 }} р.</span>
         <span v-if="userRole < 3" class="catalog-item__full-price">{{ itemData.price_vip * itemData.quantity || 0 }} р.</span>
-        <div>
+        <div v-if="itemData.available == true">
           <button class="edit-item-btn off" @click="removeItem">-</button>
-          <button class="edit-item-btn add" @click="addItem">+</button>
+          <button class="edit-item-btn add"  @click="addItem">+</button>
         </div>
       </div>
-      <img :src="itemData.photo || noPhoto" alt="">
+      <img :class="[{notavailable: itemData.available == false}]" :src="itemData.photo || noPhoto" alt="">
     </div>
+
     <p class="catalog-item__price">{{ itemData.name }}</p>
     <pre class="catalog-item__description">{{ itemData.description }}</pre>
     <p v-if="userRole == 4 || isAdmin || itemData.id < 500" class="catalog-item__price">Цена: {{ itemData.price }} р.</p>

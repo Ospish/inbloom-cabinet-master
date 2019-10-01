@@ -169,6 +169,7 @@ export default {
         if (element.id > id) id = element.id
       })
       item.id = id+1
+      console.log(item.id)
       if (this.addProduct(item) && upload.files[0]) {
         item.photo = avatar.src
         this.$store.commit('updateShopPhoto', [item.id, avatar.src])

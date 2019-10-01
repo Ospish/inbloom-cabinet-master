@@ -39,8 +39,10 @@ export default {
       inputChanged: false
     }
   },
-  mounted(){
-
+  watch: {
+    isLoaded(){
+      this.$forceUpdate();
+    }
   },
   methods: {
     async look(e) {

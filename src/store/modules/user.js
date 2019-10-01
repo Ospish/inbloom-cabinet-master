@@ -825,8 +825,11 @@ export default {
     },
     addRequest (ctx, request) {
       request.userid = ctx.state.user.id
-      request.posInfo_email = ctx.state.user.email
+      request.posInfo_email = ctx.state.user.info.corp_email
       request.phone = ctx.state.user.info.phone
+      request.city = ctx.state.user.info.city
+      request.posInfo_name = ctx.state.user.info.name
+      request.type = 2
       axios
         .post(API_SERVER + '/api/requests', request)
         .then(function(response) {
