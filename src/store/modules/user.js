@@ -879,7 +879,6 @@ export default {
         })
     },
     // PRODUCTS
-
     addProduct (ctx, product) {
       product.userid = ctx.state.user.id
       let type = ctx.state.app.shopType
@@ -902,7 +901,6 @@ export default {
         })
     },
     loadProducts (ctx) {
-
         var photo = null
         axios
           .get(API_SERVER + '/api/store/products/' + ctx.state.user.id  )
@@ -986,7 +984,7 @@ export default {
       axios
         .delete(API_SERVER + '/api/store/delete/'+ product.type + '/' + product.id)
         .then(function (response) {
-          console.log(response.data)
+          console.log(product.id)
           ctx.commit('deleteProduct', product.id)
           ctx.commit('openEditor', null)
         })

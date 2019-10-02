@@ -547,6 +547,12 @@ button
 			width: 100%
 		.notavailable
 			opacity: .4
+
+		.notavailable_text
+			position: absolute
+			margin: 110px 20px
+			font-size: 24px
+			font-weight: bold
 	&__count, &__edit-item, &__add
 		position: absolute
 	&__count
@@ -567,6 +573,7 @@ button
 		font-weight: 600
 		opacity: .7
 	&__edit-item
+		z-index: 5
 		background-color: transparent
 		right: .5em
 		top: .5em
@@ -800,6 +807,11 @@ button
 			.btn-default
 				margin-bottom: 0
 				margin-right: 1em
+	.catalog-item
+		&__image-box
+			.notavailable_text
+				margin: 70px 16px
+				font-size: 14px
 
 .content-item, .partner-item
 	width: 13em
@@ -949,6 +961,8 @@ button
 	border: none
 	&::placeholder
 		color: #fff
+
+
 .stock
 	&-box
 		background-color: #fff

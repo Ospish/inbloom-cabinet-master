@@ -65,7 +65,7 @@ export default {
     },
     stockItemInfo () {
       let item = this.stockInfo[this.isEdited]
-      if (item == undefined) return { name: '', description: '', price: 0 }
+      if (item == undefined) return { name: '', description: '', price: 0, available: true }
       else return item
     },
   },
@@ -131,9 +131,7 @@ export default {
     },
     showStock(item){
       if (this.shopType == 0 && item.type == this.currentTab.id && item.sub == this.currentTab2.id) {
-        if (item.available == 1 || item.available == true) return true
-        if (this.isAdmin == true) return true
-        return false
+        return true
       }
       else return false
     },

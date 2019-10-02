@@ -1,18 +1,12 @@
 <template>
   <div class="right-section__header">
     <div class="right-section__header-menu">
-      <router-link to="/home/basket"
-        name="Корзина"
-        class="header-basket"
-      >
+      <router-link to="/home/basket" name="Корзина" class="header-basket">
         <span class="header-basket__label">{{ basketCount }}</span>
       </router-link>
       <p class="header-profile">
         <router-link to="/home/profile">
-        <img
-          :src="userInfo.photo || noPhoto"
-          alt=""
-        >
+        <img :src="userInfo.photo || noPhoto" alt="">
         </router-link>
         <ul class="profile-popup">
           <li @click="exitProfile">Выйти</li>
