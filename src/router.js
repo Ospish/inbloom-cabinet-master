@@ -23,7 +23,6 @@ const router =  new Router({
     { path: '/auth/:token/:id', component: Auth }
   ],
 })
-let newStore = store
 router.beforeEach((to, from, next) => {
   if (to.fullPath === '/') {next({ name: "auth" })}
   if (to.fullPath != '/auth') {
@@ -34,7 +33,13 @@ router.beforeEach((to, from, next) => {
       else next()
     }
     else {
-      next({ name: "auth" });
+      if (to.fullPath.includes('24ad13sf')) {
+        var n = to.fullPath.lastIndexOf('/');
+        var result = to.fullPath.substring(n + 1);
+
+        store.dispatch('login', result)
+      }
+      else next({ name: "auth" });
     }
   }
   else next()

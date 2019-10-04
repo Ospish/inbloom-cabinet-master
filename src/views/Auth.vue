@@ -30,7 +30,8 @@
         </div>
         <button type="button" class="btn-default big purple" @click='login()'  v-if="action == 'auth'">{{ authStrings.btnVal }}</button>
         <button type="button" class="btn-default big purple" @click='reg()'  v-else-if="action == 'reg'">{{ regStrings.btnVal }}</button>
-        <button type="button" class="btn-default big purple" @click='restorePass()'  v-else-if="action == 'restorePass'">{{ restoreStrings.btnVal }}</button>
+        <button id="reset" type="button" class="btn-default big purple" @click='reset()'  v-else-if="action == 'restorePass'">{{ restoreStrings.btnVal }}</button>
+        <p v-if="sendStatus != ''" class="return-message" :class="sendStatus">{{ sendMessage }}</p>
       </form>
     </div>
     <Reset v-if="$route.params.id === 'reset'" @showTitle="showTitle"/>
@@ -38,6 +39,8 @@
 </template>
 
 <script>
+
+
 
 import { mapActions, mapGetters } from 'vuex'
 import Reset from '@/pages/Reset.vue'
@@ -51,6 +54,8 @@ export default {
       action: 'auth',
       info: null,
       info1: null,
+      sendMessage: '',
+      sendStatus: '',
       authStrings: {
         title: 'Войти в личный кабинет',
         btnVal: 'Войти',
@@ -74,14 +79,28 @@ export default {
     ...mapActions(['checkAuth', 'login', 'reg', 'restorePass']),
     changeAction: function (action) {
       this.action = action;
+    },
+    reset() {
+      if (form.email.value != '') {
+        this.sendStatus = 'success'
+        this.sendMessage = 'Пароль успешно сброшен!'
+        reset.setAttribute("disabled", true);
+        this.restorePass();
+      }
+      else {
+        this.sendStatus = 'error'
+        this.sendMessage = 'Ошибка сброса пароля!'
+      }
     }
   },
   computed: mapGetters(['isLoggedIn']),
   created () {
+    /*
     if (this.$route.params.token == '24ad13sf' ) {
       this.$store.commit('updateEmail', this.$route.params.email)
-      this.login(this.$route.params.id)
+      this.login()
     }
+     */
     this.checkAuth()
   }
 }

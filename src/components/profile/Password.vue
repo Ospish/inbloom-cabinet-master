@@ -32,7 +32,7 @@ export default {
     ...mapActions(['changePwd']),
     changePassword(newPass){
       this.changePwd(newPass)
-      inputChanged = true
+      this.inputChanged = true
     },
   }
 }
