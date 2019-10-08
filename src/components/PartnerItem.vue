@@ -10,7 +10,7 @@
           <img src="./../assets/img/icons/trash_white.svg" alt="">
         </button>
       </div>
-      <img id="partnerimg" class="avatar" :src="this.itemData.photo || noPhoto" alt="">
+      <img id="partnerimg" class="avatar" :src="itemData.photo || noPhoto" alt="">
     </div>
     <p class="partner-item__name">{{ itemData.name || "-ИМЯ НЕ УКАЗАНО-" }}</p>
     <p>
@@ -26,9 +26,9 @@
 
     <div class="partner-item__socials">
       <a v-if="itemData.vk" :href="'https://vk.com/'+itemData.vk" class="partner-item__social-icon" target="_blank"><font-awesome-icon :icon="['fab', 'vk']"></font-awesome-icon></a>
-      <a v-if="itemData.instagram" :href="itemData.instagram" class="partner-item__social-icon" target="_blank"><font-awesome-icon :icon="['fab', 'instagram']"></font-awesome-icon></a>
-      <a v-if="itemData.telegram" :href="itemData.telegram" class="partner-item__social-icon" target="_blank"><font-awesome-icon :icon="['fab', 'telegram']"></font-awesome-icon></a>
-      <a v-if="itemData.whatsapp" :href="itemData.whatsapp" class="partner-item__social-icon" target="_blank"><font-awesome-icon :icon="['fab', 'whatsapp']"></font-awesome-icon></a>
+      <a v-if="itemData.instagram" :href="'https://instagram.com/'+itemData.instagram" class="partner-item__social-icon" target="_blank"><font-awesome-icon :icon="['fab', 'instagram']"></font-awesome-icon></a>
+      <a v-if="itemData.telegram" :href="'https://t.me/'+itemData.telegram" class="partner-item__social-icon" target="_blank"><font-awesome-icon :icon="['fab', 'telegram']"></font-awesome-icon></a>
+      <a v-if="itemData.whatsapp" :href="'https://wa.me/'+itemData.whatsapp" class="partner-item__social-icon" target="_blank"><font-awesome-icon :icon="['fab', 'whatsapp']"></font-awesome-icon></a>
     </div>
   </div>
 </template>
@@ -62,9 +62,11 @@ export default {
 <style lang="sass">
   .partner-role
     text-align: right
+    width: 38%
+  .partner-item__city
+    width: 62%
   .partner-role, .partner-item__city
     display: inline-block
-    width: 50%
     img
       width: 13px
 

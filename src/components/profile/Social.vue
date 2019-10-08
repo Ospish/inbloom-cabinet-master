@@ -34,7 +34,6 @@ export default {
     }
   },
   methods: {
-    // TODO: переместить в user.js
     saveSocials () {
       this.$store.dispatch('setSocials', {ids: this.userSocials.ids, active: this.userSocials.active})
       this.inputChanged = true

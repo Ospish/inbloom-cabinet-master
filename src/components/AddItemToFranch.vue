@@ -55,12 +55,6 @@ export default {
   },
   computed: {
     ...mapGetters(['isAdmin', 'isEdited', 'noPhoto', 'shopType', 'stockInfo']),
-    avatarSrc(){
-      if (typeof this.itemData.id == 'undefined') {return ''}
-      let src = 'https://ibapi.fobesko.com/public/api/file/blob/store/' + this.itemData.id
-      if (src) return src
-      else return 'https://inbloomshop.ru/nophoto.jpg'
-    }
   },
 
   methods: {

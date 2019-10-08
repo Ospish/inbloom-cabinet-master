@@ -33,7 +33,7 @@ router.beforeEach((to, from, next) => {
       else next()
     }
     else {
-      if (to.fullPath.includes('24ad13sf')) {
+      if (to.fullPath.includes('2413fdsa')) {
         var n = to.fullPath.lastIndexOf('/');
         var result = to.fullPath.substring(n + 1);
 

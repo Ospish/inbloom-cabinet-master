@@ -26,7 +26,7 @@
           <span class="">&copy; 2019 InBloom.</span>
           <a
             class="fobesko-team"
-            href="http://fobesko.com/"
+            href="http://wa.me/79146000900"
             target="_blank"
           >Fobesko Team</a>
         </footer>

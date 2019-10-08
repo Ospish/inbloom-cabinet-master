@@ -15,7 +15,7 @@
           <button class="edit-item-btn add"  @click="addItem">+</button>
         </div>
       </div>
-      <img :class="[{notavailable: itemData.available == false}]" :src="itemData.photo || noPhoto" alt="">
+      <img :class="[{notavailable: itemData.available == false}]" :src="apiServer + '/storage/' + typeStr + '/' + itemData.id + '.' + itemData.imgext" @error="'this.src = ' + noPhoto" alt="">
     </div>
 
     <p class="catalog-item__price">{{ itemData.name }}</p>
@@ -32,7 +32,7 @@ export default {
   name: 'CatalogItem',
   props: ['itemData', 'itemIndex', 'basketItem'],
   computed: {
-    ...mapGetters(['isAdmin', 'shopType', 'productsInfo', 'stockInfo', 'basketInfo', 'userRole', 'noPhoto', 'isEdited', 'isLoaded']),
+    ...mapGetters(['isAdmin', 'shopType', 'productsInfo', 'stockInfo', 'basketInfo', 'userRole', 'noPhoto', 'isEdited', 'isLoaded', 'apiServer']),
     basketItemQuantity: function() {
         //let index = this.basketInfo.findIndex(product => product.id === this.itemIndex)
         if (this.itemData.quantity == undefined) {return 1}
@@ -41,6 +41,14 @@ export default {
           return this.itemData.quantity
         }
     },
+    typeStr() {
+      if (this.shopType == 0) {
+        return 'stock'
+      }
+      else {
+        return 'store'
+      }
+    }
   },
   watch: {
     isEdited(){

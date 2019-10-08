@@ -18,7 +18,7 @@
       <button @click="$store.commit('basketFlush')" class="btn-default">Очистить</button>
     </div>
     <div v-if="basketInfo.length == 0">Корзина пуста. Пожалуйста, перейдите в <router-link to="/home/shop">магазин</router-link> для покупки.</div>
-    <div v-if="modal" @click="changeModal"  class="auth">
+    <div v-if="modal" @click="modal = !modal"  class="auth">
       <div class="auth-modal">
         <span class="close-modal" @click="closeModal"></span>
         <div class="auth-modal__title">
@@ -88,9 +88,6 @@ export default {
     removeRow(id) {
       this.itemsRow = this.basket.find(item => item.id == id)
       this.basket = this.basket.filter(item => item.id != id)
-    },
-    changeModal() {
-      this.modal = !this.modal
     },
     makeOrder(request) {
       this.modal = true

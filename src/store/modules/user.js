@@ -58,9 +58,10 @@ export default {
       basketCount: 0,
       basketSum: 0,
       isLoaded: 0,
-      noPhoto: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACNCAIAAADq/gXMAAAAA3NCSVQICAjb4U/gAAAFWklEQVR4nO3d61MTVwDG4ZPdhGxIbC4grToVRCkXMzCMtjqIdNRSpo6Obf/QjtO7DqUVixesAlG5WCiEi1YCSSTJkmTZ3X7Ysd1CRERY8jrv8yksZ89Z9sduFr7EZZqmoPIm7fUB0Ou5U6nUXh8DvYZbCOELvLfXh0GvtJpd4e0OACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEoB3JNJSIrH4/PleH8VucSiSmst9d/UbXdftGwfv3Jp8MrEj8y8tJRKLjkbSNK33+s8vXqQdWOsduZKc92RivLp6fzAYcmAttwNrbIVhGKOPHi7Mzwkhat7/INra5vF4fvj2qmEY9mGXv/x6475qLpfNZEzTWFVVX2Wlfc6x0ccLc7OapoXCkWhrazAYSiaXB/pv2Hevqt7f0Xm25OB1Cw3c7K+pqWlobNJ1fS4+c6rjzI79/Jsql0gT42Oqmus6d0GSpEex4djw0ImPP7l4+YoQ4vHDmGma0da2jXsVi8WRofvpdFqWZdM0f+//LRyJtLWf8Hg8QojxsdHU8nJHZ5dXUWbjM3dvDZzv7olEqi5d+UoI0f9rX0Nj44GDh6ypSg52u/93fmRZkt1uIcTy0pIsy+FwZLdPi8XRSNd+/N7+pWEYkUiV9WJ6avLchW6fzyeE+Kip+UbfL4ZhSJIkhHC5XKZpulyujRPGhockSb7Q3fNkYlxfW2s+Hn3wx+Cj2Ej7iZPWnB1nuwL79gkhjh5r+PvZs9n4TP3RY7apXNbrTQbblzvd0Wm9SKWSoXB4Z0/OJhyNdPbTc9Z5t4wMP7BerKqqrut9vdftgwv5vP3etZGmac+eLpz/7PN/55Qkqbkl2td7PdraVsjnDcOw37KCoVA2kyk5lZrLbX2wdcA+32bHtrMcjVTp98uy/N/aL28m1gcS91y8tO72sjlVzVlz2jf6AwGXy6WquY1XXokr8SXDNNZt2WSwEELX1xSfb+uH+pbK4umu0u+XJCmVTL7RXl6vIoQoFov2jZqmmabp9Sp+f0CWZfsjcjqd9gcCJad6o8FCCFl2r2naGx3t2yiLSJIk1R9reBgbTi4vaZq2svJifm72tXspihIKhedn4/aNs/GZYDCkKIosy7VH6h/HYtlMRtO0qck/s5mVw7V1Jafa4uB7d2//NTUphPAqSj6/ur0fdhvK5emusalZCHH/3mChUPAqyqvO5jqt7e2Dd25nMplCIW8YxsjQg8Ti85OnTlvfbTkeHR8bvT1ws1gshsKRUx1nrKe+krYyuJAvGLouhAiHI+t+OXaVK5lMQn9ic7FYfLowH5+eFkLU1dcfOHiooqJitxfVNK332k+nz3Q68BS+ml0plytp2yoqKuqO1OeyWSFEbd0RZxb1eDwfHq6NT08786dSWbwnIWpsbkkkFp353x38lbRXPB5Pd88XzqwF/570zlvNrvB2B4CRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASgH8A4wDbCRoU9yoAAAAASUVORK5CYII='    },
+      noPhoto: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACNCAIAAADq/gXMAAAAA3NCSVQICAjb4U/gAAAFWklEQVR4nO3d61MTVwDG4ZPdhGxIbC4grToVRCkXMzCMtjqIdNRSpo6Obf/QjtO7DqUVixesAlG5WCiEi1YCSSTJkmTZ3X7Ysd1CRERY8jrv8yksZ89Z9sduFr7EZZqmoPIm7fUB0Ou5U6nUXh8DvYZbCOELvLfXh0GvtJpd4e0OACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEoB3JNJSIrH4/PleH8VucSiSmst9d/UbXdftGwfv3Jp8MrEj8y8tJRKLjkbSNK33+s8vXqQdWOsduZKc92RivLp6fzAYcmAttwNrbIVhGKOPHi7Mzwkhat7/INra5vF4fvj2qmEY9mGXv/x6475qLpfNZEzTWFVVX2Wlfc6x0ccLc7OapoXCkWhrazAYSiaXB/pv2Hevqt7f0Xm25OB1Cw3c7K+pqWlobNJ1fS4+c6rjzI79/Jsql0gT42Oqmus6d0GSpEex4djw0ImPP7l4+YoQ4vHDmGma0da2jXsVi8WRofvpdFqWZdM0f+//LRyJtLWf8Hg8QojxsdHU8nJHZ5dXUWbjM3dvDZzv7olEqi5d+UoI0f9rX0Nj44GDh6ypSg52u/93fmRZkt1uIcTy0pIsy+FwZLdPi8XRSNd+/N7+pWEYkUiV9WJ6avLchW6fzyeE+Kip+UbfL4ZhSJIkhHC5XKZpulyujRPGhockSb7Q3fNkYlxfW2s+Hn3wx+Cj2Ej7iZPWnB1nuwL79gkhjh5r+PvZs9n4TP3RY7apXNbrTQbblzvd0Wm9SKWSoXB4Z0/OJhyNdPbTc9Z5t4wMP7BerKqqrut9vdftgwv5vP3etZGmac+eLpz/7PN/55Qkqbkl2td7PdraVsjnDcOw37KCoVA2kyk5lZrLbX2wdcA+32bHtrMcjVTp98uy/N/aL28m1gcS91y8tO72sjlVzVlz2jf6AwGXy6WquY1XXokr8SXDNNZt2WSwEELX1xSfb+uH+pbK4umu0u+XJCmVTL7RXl6vIoQoFov2jZqmmabp9Sp+f0CWZfsjcjqd9gcCJad6o8FCCFl2r2naGx3t2yiLSJIk1R9reBgbTi4vaZq2svJifm72tXspihIKhedn4/aNs/GZYDCkKIosy7VH6h/HYtlMRtO0qck/s5mVw7V1Jafa4uB7d2//NTUphPAqSj6/ur0fdhvK5emusalZCHH/3mChUPAqyqvO5jqt7e2Dd25nMplCIW8YxsjQg8Ti85OnTlvfbTkeHR8bvT1ws1gshsKRUx1nrKe+krYyuJAvGLouhAiHI+t+OXaVK5lMQn9ic7FYfLowH5+eFkLU1dcfOHiooqJitxfVNK332k+nz3Q68BS+ml0plytp2yoqKuqO1OeyWSFEbd0RZxb1eDwfHq6NT08786dSWbwnIWpsbkkkFp353x38lbRXPB5Pd88XzqwF/570zlvNrvB2B4CRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASgH8A4wDbCRoU9yoAAAAASUVORK5CYII=',
       apiServer: 'https://api.inbloomshop.ru/public'
-      },
+    }
+  },
 
   // getters
   getters: {
@@ -378,7 +379,11 @@ export default {
 
         })
         .catch(function (error) {
-          console.error(error)
+          console.error(error.response)
+          if (error.response.status == 422) {
+            alert(error.response.data)
+          }
+          else alert('Ошибка')
         })
 
     },
@@ -413,8 +418,11 @@ export default {
           }
         })
         .catch(function (error) {
-          console.log(error)
-          alert('Ошибка')
+          console.error(error.response.status)
+          if (error.response.status == 422) {
+            alert('Неправильный пароль')
+          }
+          else alert('Ошибка')
         })
     },
     checkAuth (ctx, id, key, role) {
@@ -462,7 +470,7 @@ export default {
     setInfo (ctx) {
       console.log('Action: setInfo: ' + ctx.state.user.id)
       let info = ctx.state.user.info
-      if (info.phone != '') info.phone = info.phone.replace(/\D+/g, "");
+      if (info.phone) info.phone = info.phone.replace(/\D+/g, "");
       axios
         .post(API_SERVER + '/api/user/info/' + ctx.state.user.id, info)
         .then(response => (console.log(response)))
@@ -505,7 +513,7 @@ export default {
     async getCoords (ctx) {
       let info = ctx.state.user.info
       if (info.street == null || typeof info.street == 'undefined') info.street = ''
-      if (info.building == null || typeof info.building == 'undefined') info.street = ''
+      if (info.building == null || typeof info.building == 'undefined') info.building = ''
       let request = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey=51dd1116-29b8-4a97-ac52-d4d1197d0d80&geocode=' + info.city + ', ' + info.street + ', ' + info.building
       axios
         .get(request)
@@ -906,57 +914,11 @@ export default {
           .get(API_SERVER + '/api/store/products/' + ctx.state.user.id  )
           .then(function (response) {
             console.log(response.data)
-            axios
-              .get(API_SERVER + '/api/file/all/stock')
-              .then(function (response) {
-                photo = response.data
-                console.log('Stock Products Photo LOADED: ' + photo.length)
-                //console.log(response.data)
-                photo.forEach(function(element) {
-                  ctx.commit('updateShopPhoto', [ element.id, element.value ])
-                })
-              })
-              .catch(function (error) { console.log(error) })
-            axios
-              .get(API_SERVER + '/api/file/userproducts/store/' + ctx.state.user.id )
-              .then(function (response) {
-                photo = response.data
-                console.log('Store Products Photo LOADED: ' + photo.length)
-                //console.log(response.data)
-                photo.forEach(function(element) {
-                  ctx.commit('updateShopPhoto', [ element.id, element.value ])
-                })
-
-              })
-              .catch(function (error) { console.log(error) })
-            console.log('Action: loadProducts')
-            /*
-            for (let x = 0; x < response.data.length; x++) {
-              axios
-                .get(API_SERVER + '/api/file/profile/' + id)
-                .then(function (response) { photo = response.data }).catch(function (error) { console.log(error) })
-              response.data[x].posInfo = JSON.parse(response.data[x].posInfo)
-            }*/
             ctx.commit('updateProducts', response.data)
           })
           .catch(function (error) {
             console.log(error)
           })
-
-      /*
-      if ((ctx.state.stocks == "") && (ctx.state.user.id != null)) {
-        axios
-          .get(API_SERVER + '/api/store/stock/' + ctx.state.user.id)
-          .then(function (response) {
-            console.log('Action: loadStock:' + ctx.state.user.id)
-            console.log(response.data)
-            ctx.commit('updateStocks', response.data)
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      }
-       */
     },
     editProduct (ctx, product) {
       let type = ctx.state.app.shopType
