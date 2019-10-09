@@ -3,7 +3,7 @@
     <div class="profile-card">
       <div class="profile-avatar">
         <div class="profile-avatar_container">
-          <img :src="userInfo.photo || noPhoto" alt="">
+          <img :src="userInfo.photo" alt="">
           <span class="profile-avatar__value">{{this.userInfo.points}}</span>
         </div>
       </div>
@@ -33,8 +33,13 @@ export default {
       points: 0
     }
   },
+  watch: {
+    isLoaded(){
+      this.$forceUpdate();
+    }
+  },
   props: ['tabname'],
-  computed: mapGetters(['userInfo', 'userId', 'noPhoto']),
+  computed: mapGetters(['userInfo', 'userId', 'noPhoto', 'isLoaded']),
   methods: {
     ...mapActions(['getCoords']),
     addTitle (title) {

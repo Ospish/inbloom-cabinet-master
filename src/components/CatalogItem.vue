@@ -15,7 +15,7 @@
           <button class="edit-item-btn add"  @click="addItem">+</button>
         </div>
       </div>
-      <img :class="[{notavailable: itemData.available == false}]" :src="apiServer + '/storage/' + typeStr + '/' + itemData.id + '.' + itemData.imgext" @error="'this.src = ' + noPhoto" alt="">
+      <img id="img" :class="[{notavailable: itemData.available == false}]" :src="itemData.photo" @error="imgUrl" alt="">
     </div>
 
     <p class="catalog-item__price">{{ itemData.name }}</p>
@@ -80,6 +80,9 @@ export default {
         this.$store.commit('openEditor', null)
       }
     },
+    imgUrl(event) {
+      event.target.src = this.noPhoto
+    }
   }
 }
 </script>

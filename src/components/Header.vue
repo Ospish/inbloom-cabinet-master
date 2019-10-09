@@ -13,11 +13,6 @@
         </ul>
       </p>
     </div>
-    <div class="header-menu-toggler" @click="toggleMenu" :class="{ active: openClass }">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
   </div>
 </template>
 
@@ -27,12 +22,14 @@ export default {
   name: "Header",
   props: ['openClass'],
   computed: {
-    ...mapGetters(['basketCount', 'userInfo', 'noPhoto'])
+    ...mapGetters(['basketCount', 'userInfo', 'noPhoto', 'isLoaded'])
+  },
+  watch: {
+    isLoaded(){
+      this.$forceUpdate();
+    }
   },
   methods: {
-    toggleMenu() {
-      this.$emit('toggleMenu', this.openClass)
-    },
     exitProfile() {
       this.$store.dispatch('logOut');
       this.$router.push('/auth')

@@ -28,8 +28,8 @@
       <div v-if="shopType == 0" class="catalog-header">
         <!-- The second row buttons controlling product type -->
         <h2 class="catalog-header__title" :class="{active: accordeonHeight.categories != '0px'}" @click="changeAccordion('categories')">Категории</h2>
-        <div class="report-buttons" :style="{height: accordeonHeight.categories}">
-            <ShopCategorie v-for="tab in categoriesInfo" :key="tab.id" :tab="tab" :currentTab="currentTab" :type="0"  @selectSubcategory="selectCategory" @changeSubcategory="changeCategory" @deleteSubcategory="deleteCategory"></ShopCategorie>
+        <div class="report-buttons" @click="currentTab2 = categoriesInfo[0].subs[0]" :style="{height: accordeonHeight.categories}">
+            <ShopCategorie v-for="tab in categoriesInfo" :key="tab.id" :tab="tab" :currentTab="currentTab" :type="0" @selectSubcategory="selectCategory" @changeSubcategory="changeCategory" @deleteSubcategory="deleteCategory"></ShopCategorie>
         </div>
         <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
         <!-- The third row buttons controlling product subtype -->
@@ -130,8 +130,11 @@ export default {
       }
     },
     showStock(item){
-      if (this.shopType == 0 && item.type == this.currentTab.id && item.sub == this.currentTab2.id) {
-        return true
+      if (this.shopType == 0 && item.type == this.currentTab.id) {
+        if (this.categoriesInfo[this.currentTab.id].subs.length == 0) {
+          return true
+        }
+        if (item.sub == this.currentTab2.id) return true
       }
       else return false
     },

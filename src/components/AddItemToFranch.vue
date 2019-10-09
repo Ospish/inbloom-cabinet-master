@@ -68,21 +68,12 @@ export default {
     },
     async create() {
       let item = this.itemData
-      let id = -1
-      this.stockInfo.forEach(function (element) {
-        if (element.id > id) id = element.id
-      })
-      item.id = id+1
-      console.log(item.id)
       item.type = this.selectedType
       if (typeof this.selectedSub != 'undefined') item.sub = this.selectedSub
-      if (this.addProduct(item) && upload.files[0]) {
-        item.photo = avatar.src
-        this.$store.commit('updateShopPhoto', [item.id, avatar.src])
-        this.$store.dispatch('uploadImage', { file: upload.files[0], type: 'stock', id: item.id })
-        this.$forceUpdate();
-      }
-
+      item.photo = upload.files[0]
+      item.photosrc = await toBase64(upload.files[0])
+      this.addProduct(item)
+      this.$forceUpdate();
     },
     async sync (e) {
       this.image = e.target.files[0]
