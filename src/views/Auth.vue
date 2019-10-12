@@ -78,16 +78,21 @@ export default {
     changeAction: function (action) {
       this.action = action;
     },
-    submit() {
+    async submit() {
       event.preventDefault()
       this.loading = true
-      var self = this
-      setTimeout(function (){
-        self.loading = false
-      }, 2000)
-      if (this.action == 'reg') this.reg()
-      if (this.action == 'auth') this.login()
-      if (this.action == 'restorePass') this.reset()
+      if (this.action == 'reg') {
+        await this.reg()
+        this.loading = false
+      }
+      else if (this.action == 'auth') {
+        await this.login()
+        this.loading = false
+      }
+      else if (this.action == 'restorePass') {
+        await this.reset()
+        this.loading = false
+      }
     },
     reset() {
       if (form.email.value != '') {

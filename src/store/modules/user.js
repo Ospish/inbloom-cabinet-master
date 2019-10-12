@@ -359,11 +359,11 @@ export default {
     isAdmin (ctx) {
       return parseInt(ctx.state.role) < 2
     },
-    reg (ctx, email, password, invite) {
+    async reg (ctx, email, password, invite) {
       email = document.getElementsByName('email')[0].value
       password = document.getElementsByName('pass')[0].value
       invite = document.getElementsByName('invite')[0].value
-      axios
+      await axios
         .post(API_SERVER + '/api/user/register', {
           email: email,
           password: password,
@@ -387,12 +387,12 @@ export default {
         })
 
     },
-    login (ctx, id, email, password) {
+    async login (ctx, id, email, password) {
       if (typeof document.getElementsByName('email')[0] != 'undefined') {email = document.getElementsByName('email')[0].value}
       if (typeof document.getElementsByName('pass')[0] != 'undefined') {password = document.getElementsByName('pass')[0].value}
       //console.log('Action: auth')
       //console.log(ctx + id + email + password)
-      axios
+      await axios
         .post(API_SERVER + '/api/user/login', {
           email: email,
           password: password,
@@ -992,10 +992,10 @@ export default {
     },
 
     // PASSWORDS
-    restorePass (email) {
+    async restorePass (email) {
       email = document.getElementsByName('email')[0].value
       console.log('resetPassword: ' + email)
-      axios
+      await axios
         .post(API_SERVER + '/api/password/email', {
           email: email
         })

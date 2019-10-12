@@ -7,7 +7,7 @@
       >
     </div>
     <ul class="left-sidebar__navigation">
-      <li @click="toggleMenu" v-for="item in links" :key="item.id"><router-link :to="item.link">{{ item.name }}</router-link></li>
+      <li @click="toggleMenu" v-for="item in links" :key="item.id"><router-link active-class="active" :to="item.link">{{ item.name }}</router-link></li>
     </ul>
   </section>
 </template>
