@@ -1,6 +1,6 @@
 import Vue from 'vue'
+import './assets/css/reset.min.css'
 import './assets/scss/main.scss'
-import './assets/css/reset.css'
 import './assets/sass/style.sass'
 import './assets/sass/interface.sass'
 import App from './App.vue'
