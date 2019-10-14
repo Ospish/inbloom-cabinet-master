@@ -28,14 +28,14 @@
       <div v-if="shopType == 0" class="catalog-header">
         <!-- The second row buttons controlling product type -->
         <h2 class="catalog-header__title" :class="{active: accordeonHeight.categories != '0px'}" @click="changeAccordion('categories')">Категории</h2>
-        <div class="report-buttons" @click="currentTab2 = categoriesInfo[0].subs[0]" :style="{height: accordeonHeight.categories}">
+        <div class="report-buttons" :style="{height: accordeonHeight.categories}">
             <ShopCategorie v-for="tab in categoriesInfo" :key="tab.id" :tab="tab" :currentTab="currentTab" :type="0" @selectSubcategory="selectCategory" @changeSubcategory="changeCategory" @deleteSubcategory="deleteCategory"></ShopCategorie>
         </div>
         <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
         <!-- The third row buttons controlling product subtype -->
-        <h2 class="catalog-header__title" :class="{active: accordeonHeight.subcategories != '0px'}" v-if="categoriesInfo[currentTab.id].subs.length != 0" @click="changeAccordion('subcategories')">Подкатегории</h2>
+        <h2 class="catalog-header__title" :class="{active: accordeonHeight.subcategories != '0px'}" v-if="currentTab.subs.length > 0" @click="changeAccordion('subcategories')">Подкатегории</h2>
         <div class="report-buttons subcategories" :style="{height: this.accordeonHeight.subcategories}">
-          <ShopCategorie v-for="tab in categoriesInfo[currentTab.id].subs" :key="tab.id" :tab="tab" :type="1" :currentTab="currentTab2" @selectSubcategory="selectSubcategory" @changeSubcategory="changeSubcategory" @deleteSubcategory="deleteSubcategory"></ShopCategorie>
+          <ShopCategorie v-for="tab in currentTab.subs" :key="tab.id" :tab="tab" :type="1" :currentTab="currentTab2" @selectSubcategory="selectSubcategory" @changeSubcategory="changeSubcategory" @deleteSubcategory="deleteSubcategory"></ShopCategorie>
         </div>
       </div>
       <CatalogItem v-if="shopType == 1 && item.userid == userId" v-for="(item, index) in shopInfo" :key="item.id" :itemIndex="index" :itemData="item"/>
@@ -131,7 +131,8 @@ export default {
     },
     showStock(item){
       if (this.shopType == 0 && item.type == this.currentTab.id) {
-        if (this.categoriesInfo[this.currentTab.id].subs.length == 0) {
+        let index = this.categoriesInfo.findIndex(cat => cat.id === this.currentTab.id)
+        if (this.categoriesInfo[index].subs.length == 0) {
           return true
         }
         if (item.sub == this.currentTab2.id) return true
@@ -148,10 +149,11 @@ export default {
     },
     selectCategory(tab){
       if (document.width < 600) this.accordeonHeight['categories'] = '0px'
+      tab.index = this.categoriesInfo.findIndex(cat => cat.id === tab.id)
       this.currentTab = tab
+      this.currentTab2 = this.currentTab.subs[0]
       this.$store.commit('openEditor', null)
-      console.log(this.currentTab.id)
-      if (this.currentTab.subs[0] != undefined) this.currentTab2 = this.currentTab.subs[0]
+      console.log(tab.index)
     },
     add(){
       let arr = this.categoriesInfo.map(function(o){ return o.id })

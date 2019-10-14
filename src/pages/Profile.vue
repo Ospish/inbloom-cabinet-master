@@ -48,6 +48,7 @@ export default {
   },
   mounted () {
     this.addTitle(this.title)
+    console.log(this.isLoaded)
   },
 }
 </script>

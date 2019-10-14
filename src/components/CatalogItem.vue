@@ -10,7 +10,7 @@
         <span v-if="userRole == 4 " class="catalog-item__full-price">{{ itemData.price * itemData.quantity || 0 }} р.</span>
         <span v-if="userRole == 3" class="catalog-item__full-price">{{ itemData.price_premium * itemData.quantity || 0 }} р.</span>
         <span v-if="userRole < 3" class="catalog-item__full-price">{{ itemData.price_vip * itemData.quantity || 0 }} р.</span>
-        <div v-if="itemData.available == false">
+        <div v-if="itemData.available == true">
           <button class="edit-item-btn off" @click="removeItem">-</button>
           <button class="edit-item-btn add"  @click="addItem">+</button>
         </div>

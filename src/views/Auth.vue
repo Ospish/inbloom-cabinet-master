@@ -99,7 +99,7 @@ export default {
         this.sendStatus = 'success'
         this.sendMessage = 'Пароль успешно сброшен!'
         reset.setAttribute("disabled", true);
-        this.restorePass();
+        this.restorePass(form.email.value);
       }
       else {
         this.sendStatus = 'error'

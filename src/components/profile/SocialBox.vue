@@ -5,7 +5,7 @@
       <div class="social-box__link">
         <span class="unactive-link">{{ socialURL() }}</span>
         <button @click="idEnter" class="social-box__link-btn" v-if="!socialEnter && !userSocials.ids[arraykey]">Введите ID</button>
-        <input v-model="userSocials.ids[arraykey]" @input="onInput(arraykey)" type="text" v-if="socialEnter || userSocials.ids[arraykey]">
+        <input :placeholder="placeholder()" v-model="userSocials.ids[arraykey]" @input="onInput(arraykey)" type="text" v-if="socialEnter || userSocials.ids[arraykey]">
       </div>
     </div>
     <div class="swither">
@@ -61,6 +61,14 @@ export default {
       if (this.arraykey == 'vk') return 'https://vk.com/'
       if (this.arraykey == 'ok') return 'https://ok.ru/'
       if (this.arraykey == 'whatsapp') return 'https://wa.me/'
+      if (this.arraykey == 'telegram') return 'https://t.me/'
+      if (this.arraykey == 'facebook') return 'https://facebook.com/'
+      if (this.arraykey == 'instagram') return 'https://instagram.com/'
+    },
+    placeholder () {
+      if (this.arraykey == 'vk') return 'https://vk.com/'
+      if (this.arraykey == 'ok') return 'https://ok.ru/'
+      if (this.arraykey == 'whatsapp') return '7xxxxxxxxxx'
       if (this.arraykey == 'telegram') return 'https://t.me/'
       if (this.arraykey == 'facebook') return 'https://facebook.com/'
       if (this.arraykey == 'instagram') return 'https://instagram.com/'

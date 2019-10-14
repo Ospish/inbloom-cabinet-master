@@ -91,6 +91,9 @@ export default {
   },
   // mutations
   mutations: {
+    appReset (state) {
+      state.app.isLoaded = 0
+    },
     basketCount (state, count) {
       state.app.basketCount = state.app.basketCount++
       //console.log('state.app.basketCount: ' + state.app.basketCount)
@@ -487,6 +490,7 @@ export default {
             //response.data[0].photo = await toBase64(API_SERVER + '/storage/profile/' + id + '.' + response.data[0].imgext)
             console.log('UserInfo LOADED')
             console.log(response.data[0])
+            ctx.commit('appReset')
             axios
               .get(API_SERVER + '/api/file/one/profile/' + id)
               .then(function (response) {
@@ -887,18 +891,20 @@ export default {
     addProduct (ctx, product) {
       product.userid = ctx.state.user.id
       let type = ctx.state.app.shopType
-
-      if (type == 0) {
-        if (product.price_premium == '') product.price_premium = product.price
-        if (product.price_vip == '') product.price_vip = product.price
-      }
-
       axios
         .post(API_SERVER + '/api/store/add/' + type, product)
         .then(function (response) {
+          if (type == 0) {
+            var typestr = 'stock'
+            if (product.price_premium == '') product.price_premium = product.price
+            if (product.price_vip == '') product.price_vip = product.price
+          }
+          else {
+            var typestr = 'store'
+          }
           product.id = response.data
           ctx.commit('addProduct', [product, type])
-          ctx.dispatch('uploadImage', { file: product.photo, type: 'stock', id: product.id })
+          ctx.dispatch('uploadImage', { file: product.photo, type: typestr, id: product.id })
           ctx.commit('updateShopPhoto', [product.id, product.photosrc])
           ctx.commit('openEditor', null)
         })
@@ -992,10 +998,20 @@ export default {
     },
 
     // PASSWORDS
-    async restorePass (email) {
+    restorePass (email) {
       email = document.getElementsByName('email')[0].value
       console.log('resetPassword: ' + email)
-      await axios
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(xhttp.responseText)
+        }
+      };
+      xhttp.open("POST",API_SERVER + '/api/password/email',true);
+      xhttp.setRequestHeader('Content-type', 'application/json')
+      xhttp.send(JSON.stringify({ email: email }));
+/*
+      axios
         .post(API_SERVER + '/api/password/email', {
           email: email
         })
@@ -1003,6 +1019,8 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
+
+ */
     },
 
     sendInvite (ctx, data) {

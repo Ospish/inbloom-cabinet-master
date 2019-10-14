@@ -162,6 +162,7 @@ export default {
         this.$store.dispatch('uploadImage', { file: upload.files[0], type: 'store', id: this.itemData.id })
       }
     },
+    /*
     async create() {
       let item = this.itemData
       let id = -1
@@ -176,6 +177,16 @@ export default {
         this.$store.dispatch('uploadImage', { file: upload.files[0], type: 'store', id: item.id })
         this.$forceUpdate();
       }
+    },
+     */
+    async create() {
+      let item = this.itemData
+      item.type = this.selectedType
+      if (typeof this.selectedSub != 'undefined') item.sub = this.selectedSub
+      item.photo = upload.files[0]
+      item.photosrc = await toBase64(upload.files[0])
+      this.addProduct(item)
+      this.$forceUpdate();
     },
     async sync (e) {
       avatar.src = await toBase64(e.target.files[0])
