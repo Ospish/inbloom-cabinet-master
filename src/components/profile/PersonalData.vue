@@ -3,7 +3,8 @@
     <input class="personal-data__input" type="text" v-model="userInfo.surname" name="surname" placeholder="Фамилия*">
     <input class="personal-data__input" type="text" v-model="userInfo.name" name="name" placeholder="Имя*">
     <input class="personal-data__input" type="text" v-model="userInfo.patronymic" name="patronymic" placeholder="Отчество*">
-    <input class="personal-data__input" type="tel" v-model="userInfo.phone" ref="phone" name="phone" placeholder="Телефон*">
+    <vue-phone-number-input class="personal-data__input" v-model="userInfo.phone"  no-validator-state :translations="translations"/>
+<!--    <input class="personal-data__input" type="tel" v-model="userInfo.phone" ref="phone" name="phone" placeholder="Телефон*">-->
     <input class="personal-data__input" type="email" v-model="userInfo.corp_email" name="email" placeholder="Корпоративный e-mail*">
     <div class="personal-data__small-inputs">
       <input class="personal-data__input small" type="text" v-model="userInfo.city" name="city" placeholder="Город*">
@@ -21,26 +22,27 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Inputmask from 'inputmask'
-// import '../../assets/js/counties'
-// import '../../assets/js/phonecode'
-
+import VuePhoneNumberInput from 'vue-phone-number-input'
 
 
 
 export default {
   name: 'PersonalData',
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['userInfo']),
   },
   mounted () {
-    const im = new Inputmask('(999)-999-9999')
-    im.mask(this.$refs.phone)
 
   },
   data(){
     return {
-      inputChanged: false
+      inputChanged: false,
+      translations: {
+        countrySelectorLabel: 'Код страны',
+        countrySelectorError: 'Выберите код',
+        phoneNumberLabel: 'Ваш номер телефона',
+        example: 'Пример :'
+      }
     }
   },
   methods: {
@@ -49,7 +51,17 @@ export default {
       this.$store.dispatch('setInfo')
       this.inputChanged = true
     }
+  },
+  components: {
+    VuePhoneNumberInput
   }
 
 }
 </script>
+
+<style>
+  @import '../../../node_modules/vue-phone-number-input/dist/vue-phone-number-input.css';
+  .vue-phone-number-input {
+    padding: 0;
+  }
+</style>

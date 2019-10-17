@@ -4,7 +4,7 @@
       <div class="social-table_row">
         <p>Отображать:</p>
       </div>
-      <SocialBox v-for="(item, index) in userSocials.ids" :arraydata="item" :arraykey="index" />
+      <SocialBox v-for="(item, index) in userSocials.ids" :key="index" :arraydata="item" :arraykey="index" />
     </div>
     <div class="profile_save-changes">
       <button type="button" class="btn-default big gray">Отмена</button>
