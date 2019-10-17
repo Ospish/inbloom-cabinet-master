@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import './assets/css/reset.min.css'
+import './assets/css/phonecode.css'
 import './assets/scss/main.scss'
 import './assets/sass/style.sass'
 import './assets/sass/interface.sass'
@@ -9,7 +10,7 @@ import store from './store/'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faVk, faInstagram, faTelegram, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import _ from 'lodash';
+import _ from 'lodash'
 
 Object.defineProperty(Vue.prototype, '$_', { value: _ });
 

@@ -13,5 +13,18 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="../src/assets/js/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="../src/assets/js/phonecode.js"></script>
+    <script src="../src/assets/js/counties.js"></script>
+    <script>
+      const phone = document.getElementById(#phone)
+      if (phone){
+        phone.phonecode({
+          preferCo: 'ru'
+        })
+      }
+    </script>
   </body>
+
 </html>
