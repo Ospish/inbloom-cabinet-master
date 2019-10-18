@@ -21,7 +21,8 @@ const router =  new Router({
     { path: '/home/:id', component: Home
     },
     { path: '/home/:id/:tab', component: Home },
-    { path: '/auth/:token/:id', component: Auth }
+    { path: '/auth/:action/:token', component: Auth },
+    { path: '/auth/:action/:token/:id', component: Auth }
   ],
 })
 router.beforeEach((to, from, next) => {
@@ -39,6 +40,9 @@ router.beforeEach((to, from, next) => {
         var result = to.fullPath.substring(n + 1);
 
         store.dispatch('login', result)
+      }
+      else if (to.fullPath.includes('reg')) {
+        next()
       }
       else next({ name: "auth" });
     }

@@ -27,7 +27,7 @@ export default {
     },
     stats: {},
     products: [],
-    categories: ["Руза", "Щакура", "Гертензия", "Горбера", "Гуоргин", "Пяон", "Хрюзантема", "Гвоздика"],
+    categories: [],
     stocks: [],
     history: [
       /*
@@ -362,11 +362,8 @@ export default {
     isAdmin (ctx) {
       return parseInt(ctx.state.role) < 2
     },
-    async reg (ctx, email, password, invite) {
-      email = document.getElementsByName('email')[0].value
-      password = document.getElementsByName('pass')[0].value
-      invite = document.getElementsByName('invite')[0].value
-      await axios
+    reg (ctx, [email, password, invite]) {
+      axios
         .post(API_SERVER + '/api/user/register', {
           email: email,
           password: password,
@@ -390,9 +387,7 @@ export default {
         })
 
     },
-    async login (ctx, id, email, password) {
-      if (typeof document.getElementsByName('email')[0] != 'undefined') {email = document.getElementsByName('email')[0].value}
-      if (typeof document.getElementsByName('pass')[0] != 'undefined') {password = document.getElementsByName('pass')[0].value}
+    async login (ctx, [id, email, password]) {
       //console.log('Action: auth')
       //console.log(ctx + id + email + password)
       await axios
@@ -416,7 +411,7 @@ export default {
             ctx.commit('updateRole', role)
             ctx.dispatch('getInfo', response.data.data.id)
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-            if (id) router.push('/home/profile/password')
+            if (id != null) router.push('/home/profile/password')
             else router.push('/home')
           }
         })
@@ -459,7 +454,7 @@ export default {
     },
 
     changePwd (ctx, pwd) {
-      console.log('Action: setInfo: ' + ctx.state.user.id)
+      console.log('Action: changePwd: ' + ctx.state.user.id)
       axios
         .post(API_SERVER + '/api/user/changePwd/' + ctx.state.user.id, {
           password: pwd
@@ -472,11 +467,14 @@ export default {
 
     setInfo (ctx) {
       console.log('Action: setInfo: ' + ctx.state.user.id)
-      let info = ctx.state.user.info
+      let info = Object.assign({}, ctx.state.user.info)
       if (info.phone) info.phone = info.phone.replace(/\D+/g, "");
       axios
         .post(API_SERVER + '/api/user/info/' + ctx.state.user.id, info)
-        .then(response => (console.log(response)))
+        .then(function (response) {
+          console.log(info)
+          console.log("OK")
+        })
         .catch(function (error) {
           console.log(error)
         })
@@ -998,9 +996,9 @@ export default {
     },
 
     // PASSWORDS
-    restorePass (email) {
-      email = document.getElementsByName('email')[0].value
-      console.log('resetPassword: ' + email)
+    restorePass (ctx, email) {
+      console.log('resetPassword: ')
+      console.log(email)
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {

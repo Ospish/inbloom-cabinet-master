@@ -28,7 +28,6 @@
         <p>Город: {{ itemData.city }}</p>
         <p>Тел.: {{ itemData.phone }}</p>
         <p>Дата получения: <br>{{ this.itemData.receiveDate.split(" ")[0] }}</p>
-        <p>Время получения: <br>{{ this.itemData.receiveDate.split(" ")[1] }}</p>
       </div>
       <!-- <div  class="requestion-box__col" v-if="itemData.photo != '' && itemData.type != 2">
         <h3 v-if="itemData.type != 1" class="requestion-title">Фото:</h3>

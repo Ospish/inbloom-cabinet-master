@@ -15,10 +15,10 @@
       </div>
       <form id="form" @submit="submit()" class="auth-modal__form">
         <div class="auth-modal_inputs">
-          <input required class="auth-modal__input" name="email" type="email" placeholder="E-mail">
-          <input :required="action == 'reg' || action == 'auth'" class="auth-modal__input" name="pass" type="password" placeholder="Пароль" v-if="action == 'reg' || action == 'auth'">
+          <input required class="auth-modal__input" v-model="email" type="email" placeholder="E-mail">
+          <input :required="action == 'reg' || action == 'auth'" class="auth-modal__input" v-model="password" type="password" placeholder="Пароль" v-if="action == 'reg' || action == 'auth'">
           <input :required="action == 'reg'" class="auth-modal__input" name="passConfirm" type="password" placeholder="Подтверждение пароля" v-if="action == 'reg'">
-          <input :required="action == 'reg'" class="auth-modal__input" name="invite" type="text" placeholder="Код приглашения" v-if="action == 'reg'">
+          <input :required="action == 'reg'" class="auth-modal__input" v-model="invite" type="text" placeholder="Код приглашения" v-if="action == 'reg'">
         </div>
         <div class="auth-links" v-if="action == 'auth'">
           <a @click="changeAction(link[1])" v-for="link in authStrings.links" :key="link.id">{{ link[0] }}</a>
@@ -51,6 +51,8 @@ export default {
   data () {
     return {
       email: null,
+      password: null,
+      invite: null,
       action: 'auth',
       info: null,
       info1: null,
@@ -78,28 +80,29 @@ export default {
     changeAction: function (action) {
       this.action = action;
     },
-    async submit() {
+    submit() {
       event.preventDefault()
       this.loading = true
+      var self = this
+      setTimeout(function (){
+        self.loading = false
+      }, 2000)
       if (this.action == 'reg') {
-        await this.reg()
-        this.loading = false
+        this.reg([this.email, this.password, this.invite])
       }
       else if (this.action == 'auth') {
-        await this.login()
-        this.loading = false
+        this.login([null, this.email, this.password])
       }
       else if (this.action == 'restorePass') {
-        await this.reset()
-        this.loading = false
+        this.reset()
       }
     },
     reset() {
-      if (form.email.value != '') {
+      if (this.email != '') {
         this.sendStatus = 'success'
         this.sendMessage = 'Пароль успешно сброшен!'
         reset.setAttribute("disabled", true);
-        this.restorePass(form.email.value);
+        this.restorePass(this.email);
       }
       else {
         this.sendStatus = 'error'
@@ -110,13 +113,14 @@ export default {
   computed: {
     ...mapGetters(['isLoggedIn']),
   },
-  created () {
-    /*
-    if (this.$route.params.token == '24ad13sf' ) {
-      this.$store.commit('updateEmail', this.$route.params.email)
-      this.login()
+  mounted () {
+
+    if (this.$route.params.action == 'reg' ) {
+      this.changeAction('reg')
+      this.email = this.$route.params.id
+      this.invite = this.$route.params.token
     }
-     */
+    console.log(this.$route.params)
     this.checkAuth()
   }
 }
