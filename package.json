@@ -16,7 +16,7 @@
     "core-js": "^2.6.5",
     "highcharts": "^7.1.2",
     "inputmask": "^4.0.8",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.0",
     "lodash": "^4.17.15",
     "vue": "^2.6.10",
     "vue-phone-number-input": "^0.2.4",
